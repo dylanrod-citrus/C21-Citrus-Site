@@ -33,7 +33,6 @@ import PrivacyRequest from "./pages/PrivacyRequest";
 import TermsOfUse from "./pages/TermsOfUse";
 import { CookieConsent } from "./components/CookieConsent";
 import SiteComplianceFooter from "./components/SiteComplianceFooter";
-
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (

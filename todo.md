@@ -6,4 +6,17 @@
 - [x] Save a checkpoint and push the rebuilt source to `dylanrod-citrus/C21-Citrus-Site` on `main`.
 - [x] Inspect the restored Google Maps loader and identify why it fails on the static homepage.
 - [x] Remove the failing map-script load from the homepage while preserving the uploaded search experience.
-- [ ] Verify the corrected page, checkpoint the repair, and push it to `dylanrod-citrus/C21-Citrus-Site`.
+- [x] Verify the corrected page, checkpoint the repair, and push it to `dylanrod-citrus/C21-Citrus-Site`.
+- [ ] Locate the original C21 Citrus logo and source visual assets supplied with the upload.
+- [ ] Restore original company branding and remove substitute asset behavior.
+- [ ] Verify the source-matched visual presentation, checkpoint it, and push to `dylanrod-citrus/C21-Citrus-Site`.
+- [ ] Inspect the original property, agent, contact, and testimonial API routes and their credentials.
+- [ ] Enable the compatible backend capability and restore the live source API routes.
+- [ ] Test live property, agent, contact, and media data flows without creating mock records.
+- [ ] Checkpoint and push the live API integration update to `dylanrod-citrus/C21-Citrus-Site`.
+- [x] Obtain and validate `MDM_CLIENT_ID`, `MDM_CLIENT_SECRET`, and `MDM_API_KEY` for the original Anywhere MDM integration.
+- [x] Restore the source MDM service, route handlers, and client API calls for real listings, photos, and agents.
+- [x] Test the MDM-backed home, agent, listing, and search flows against live data.
+- [x] Diagnose and correct the blank visitor search-results route after the full-stack upgrade.
+- [x] Verify the browser-rendered search-results page displays live MDM properties before final delivery.
+- [x] Confirm `/search-results?q=91773` renders the active 1622 Via Alegre listing with its live MLS photo, pricing, and facts in the browser.
