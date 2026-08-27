@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Disallow internal/utility paths
+Disallow: /api/
+Disallow: /404
+
+# Sitemap
+Sitemap: https://c21citrus.com/sitemap.xml

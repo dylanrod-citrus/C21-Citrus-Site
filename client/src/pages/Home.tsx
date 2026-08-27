@@ -1,150 +1,867 @@
 /*
-  SUNLIT CITRUS ATLAS — homepage.
-  A cinematic, low-key Southern California opening moves into tactile editorial routes and practical action paths.
+  CENTURY 21 CITRUS REALTY - HOME PAGE
+  Design: C21 brand-aligned luxury real estate portal
+  Layout: Utility bar → Sticky nav → Full-width hero → Search strip →
+          Featured listings → Services → Testimonials → About → Resources → CTA → Footer
+  Colors: C21 Gold #BEAF88, Near-Black #121212, White #FFFFFF, Off-White #F7F6F3
+  Typography: Playfair Display (headings) + Lato (body)
+  Rule: Never write "Century 21" in visible copy - always use the logo image
 */
-import { ArrowDown, ArrowRight, ArrowUpRight, Building2, ChevronRight, Compass, Home as HomeIcon, KeyRound, MapPin, Search, Sprout, TrendingUp } from "lucide-react";
-import { FormEvent, useState } from "react";
-import { Link } from "wouter";
-import { SiteShell } from "../components/SiteShell";
+import {
+  ArrowRight,
+  BedDouble,
+  BriefcaseBusiness,
+  Building2,
+  ChevronRight,
+  Home as HomeIcon,
+  KeyRound,
+  Loader2,
+  Mail,
+  MapPin,
+  Phone,
+  Quote,
+  Search,
+  ShieldCheck,
+  Star,
+  TrendingUp,
+  X,
+} from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { MapView } from "../components/Map";
+import SiteNav from "../components/SiteNav";
 
-const heroImage = "/manus-storage/c21-citrus-hero-estate_b43f73af.jpg";
-const interiorImage = "/manus-storage/c21-citrus-interior_dc2ded1c.jpg";
-const neighbourhoodImage = "/manus-storage/c21-citrus-neighbourhood_881ec5cd.jpg";
-const detailImage = "/manus-storage/c21-citrus-detail_b3fce7fb.jpg";
+/* ── Asset URLs ─────────────────────────────────────────────── */
+const logoUrl = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
+const heroImageUrl = "/manus-storage/hero-luxury-home_04c4fbf5.jpg";
+const interiorImageUrl = "/manus-storage/hero-luxury-interior_f79432c6.jpg";
+const neighborhoodImageUrl = "/manus-storage/hero-neighborhood_4a38234b.jpg";
 
-const pathways = [
-  { number: "01", icon: KeyRound, title: "Find a place", body: "Start with a search that reflects the way you want to live, not just the number of bedrooms.", href: "/buy", cta: "Explore buying" },
-  { number: "02", icon: TrendingUp, title: "Plan a sale", body: "Bring the right price, presentation, and timing into one informed launch plan.", href: "/sell", cta: "Explore selling" },
-  { number: "03", icon: Building2, title: "Build a career", body: "Make your next professional chapter more connected with a locally rooted brokerage.", href: "/careers", cta: "Explore careers" },
+/* ── External links ─────────────────────────────────────────── */
+const idxSearchUrl = "https://c21citrus.com/search/";
+const officeListingsUrl = "/our-listings";
+const valuationUrl = "https://cloudattract.com/7442b3";
+const contactUrl = "/contact";
+const buyingProcessUrl = "/home-buying-process";
+const sellingProcessUrl = "/home-selling-process";
+const phoneUrl = "tel:19095928500";
+const emailUrl = "mailto:oj@c21citrus.com";
+
+/* ── Fallback listing image ──────────────────────────────────── */
+const fallbackListingImg = "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80";
+
+/* ── Types ───────────────────────────────────────────────────── */
+interface MlsListing {
+  listingId: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  price: number;
+  beds: number | null;
+  baths: number | null;
+  sqft: number | null;
+  status: string;
+  photoUrl: string | null;
+  agentName: string | null;
+  listingDate: string | null;
+}
+
+const services = [
+  {
+    icon: KeyRound,
+    title: "Buy a Home",
+    copy: "Search current inventory, narrow your priorities, and move from online browsing to a real showing with a local Century 21 Citrus Realty guide.",
+    href: buyingProcessUrl,
+    cta: "Start Your Search",
+  },
+  {
+    icon: TrendingUp,
+    title: "Sell Your Home",
+    copy: "Understand your home's value, then prepare pricing, presentation, and launch strategy with a brokerage team focused on clear results.",
+    href: sellingProcessUrl,
+    cta: "Get a Home Value",
+  },
+  {
+    icon: Building2,
+    title: "Our Listings",
+    copy: "Browse properties actively presented by Century 21 Citrus Realty agents. Residential, commercial, and investment opportunities across Southern California.",
+    href: officeListingsUrl,
+    cta: "View All Listings",
+  },
+  {
+    icon: MapPin,
+    title: "Local Expertise",
+    copy: "Serving San Dimas, Glendora, La Verne, Pomona, and the greater San Gabriel Valley with deep neighborhood knowledge and market insight.",
+    href: contactUrl,
+    cta: "Connect With Us",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Trusted Guidance",
+    copy: "From first-time buyers to seasoned investors, our agents provide honest, experienced counsel at every step of your real estate journey.",
+    href: contactUrl,
+    cta: "Meet Our Team",
+  },
+  {
+    icon: BriefcaseBusiness,
+    title: "Join Our Team",
+    copy: "Experienced and new agents are welcome to connect with the office about brokerage culture, tools, and growth opportunities.",
+    href: contactUrl,
+    cta: "Explore Careers",
+  },
 ];
 
-const communities = [
-  { title: "San Dimas", copy: "Foothill views, connected neighborhoods, and a quietly active pace.", route: "Discover the area" },
-  { title: "Glendora", copy: "Tree-lined streets and an inviting historic village feel.", route: "Discover the area" },
-  { title: "La Verne", copy: "A distinctive blend of campus energy, heritage homes, and open skies.", route: "Discover the area" },
-  { title: "San Gabriel Valley", copy: "Many communities, many ways to find the right fit.", route: "Explore communities" },
+// Testimonials section removed — fabricated reviews violate FTC 16 CFR Part 255.
+// Replace with live RealSatisfied widget or verified client quotes when available.
+
+const resourceLinks = [
+  {
+    title: "Home Buying Process",
+    copy: "A clear buyer journey from search to offer, inspection, financing, and closing day.",
+    href: buyingProcessUrl,
+  },
+  {
+    title: "Home Selling Process",
+    copy: "A seller path that starts with value, then moves into preparation, marketing, and closing.",
+    href: sellingProcessUrl,
+  },
+  {
+    title: "Find an Agent",
+    copy: "Connect with Century 21 Citrus Realty agents for local guidance, showings, and pricing conversations.",
+    href: "#agents",
+  },
+  {
+    title: "MLS Property Search",
+    copy: "Search the full MLS for active listings across Southern California.",
+    href: idxSearchUrl,
+  },
+  {
+    title: "Home Valuation",
+    copy: "Get a professional estimate of your home's current market value.",
+    href: valuationUrl,
+  },
+  {
+    title: "Careers",
+    copy: "Explore opportunities to grow your real estate career with Century 21 Citrus Realty.",
+    href: contactUrl,
+  },
 ];
 
-function SearchPanel() {
-  const [query, setQuery] = useState("");
-  const [propertyType, setPropertyType] = useState("Any home type");
+const footerCols = [
+  {
+    title: "Buy",
+    links: [
+      { label: "Search Homes", href: idxSearchUrl },
+      { label: "Our Listings", href: officeListingsUrl },
+      { label: "Buying Process", href: buyingProcessUrl },
+    ],
+  },
+  {
+    title: "Sell",
+    links: [
+      { label: "Home Valuation", href: valuationUrl },
+      { label: "Selling Process", href: sellingProcessUrl },
+      { label: "Schedule Consultation", href: contactUrl },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "About Us", href: "/about" },
+      { label: "Our Agents", href: "/agents" },
+      { label: "Careers", href: "/careers" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+];
 
-  const submitSearch = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const target = new URL("https://c21citrus.com/search/");
-    if (query.trim()) target.searchParams.set("q", query.trim());
-    if (propertyType !== "Any home type") target.searchParams.set("type", propertyType);
-    window.location.assign(target.toString());
-  };
+/* ── RealSatisfied Testimonials Sub-component ───────────────── */
+interface Testimonial {
+  id: string;
+  quote: string;
+  author: string;
+  agentName: string | null;
+  rating: number | null;
+  date: string | null;
+}
+
+function RealSatisfiedTestimonials() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    fetch("/api/realsatisfied/testimonials")
+      .then((r) => r.json())
+      .then((data: { testimonials?: Testimonial[] }) => {
+        setTestimonials(data.testimonials || []);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Auto-rotate
+  useEffect(() => {
+    if (testimonials.length < 2) return;
+    const t = setInterval(() => setActiveIdx((i) => (i + 1) % testimonials.length), 7000);
+    return () => clearInterval(t);
+  }, [testimonials.length]);
+
+  // Don't render the section at all if no testimonials and not loading
+  if (!loading && testimonials.length === 0) return null;
+
+  const current = testimonials[activeIdx];
 
   return (
-    <form className="hero-search" onSubmit={submitSearch}>
-      <div className="search-field search-location">
-        <MapPin size={18} />
-        <label htmlFor="hero-location" className="sr-only">City, neighborhood, or ZIP</label>
-        <input id="hero-location" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="City, neighborhood, or ZIP" />
+    <section className="c21-testimonials-section">
+      <div className="c21-testimonials-inner">
+        <p className="c21-section-eyebrow" style={{ justifyContent: "center", color: "var(--c21-gold)" }}>
+          Client Stories
+        </p>
+        {loading ? (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", padding: "2rem 0", color: "rgba(255,255,255,0.5)" }}>
+            <Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} />
+            <span style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.85rem" }}>Loading client stories…</span>
+          </div>
+        ) : current ? (
+          <>
+            <Quote size={28} stroke="var(--c21-gold)" fill="none" strokeWidth={1.5} style={{ margin: "0 auto 1rem", display: "block", opacity: 0.7 }} />
+            <blockquote className="c21-testimonial-quote">
+              {current.quote}
+            </blockquote>
+            <p className="c21-testimonial-author">
+              {current.author}
+              {current.agentName && (
+                <>
+                  <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400, margin: "0 0.5rem" }}>·</span>
+                  <span style={{ color: "rgba(255,255,255,0.5)", fontWeight: 400, letterSpacing: "0.06em", fontSize: "0.85em" }}>Agent: {current.agentName}</span>
+                </>
+              )}
+              {current.rating !== null && (
+                <>
+                  <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400, margin: "0 0.5rem" }}>·</span>
+                  <span style={{ color: "var(--c21-gold)", fontSize: "0.85em" }}>
+                    {Array.from({ length: Math.round(current.rating) }).map((_, i) => (
+                      <Star key={i} size={12} fill="var(--c21-gold)" stroke="none" style={{ display: "inline", marginRight: "1px" }} />
+                    ))}
+                  </span>
+                </>
+              )}
+            </p>
+            {testimonials.length > 1 && (
+              <div className="c21-testimonial-dots">
+                {testimonials.map((_, i) => (
+                  <button
+                    key={i}
+                    className={`c21-testimonial-dot${i === activeIdx ? " active" : ""}`}
+                    onClick={() => setActiveIdx(i)}
+                    aria-label={`Testimonial ${i + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        ) : null}
+        <p style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.3)", marginTop: "1.5rem", textAlign: "center", fontFamily: "'Lato', sans-serif" }}>
+          Reviews collected and verified by{" "}
+          <a href="https://www.realsatisfied.com" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255,255,255,0.4)", textDecoration: "underline" }}>RealSatisfied</a>
+        </p>
       </div>
-      <div className="search-field search-select-wrap">
-        <label htmlFor="hero-property" className="sr-only">Property type</label>
-        <select id="hero-property" value={propertyType} onChange={(event) => setPropertyType(event.target.value)}>
-          <option>Any home type</option><option>House</option><option>Condominium</option><option>Townhome</option><option>Land</option>
-        </select>
-        <ChevronRight size={16} />
-      </div>
-      <button type="submit" className="search-submit"><Search size={17} /><span>Search homes</span></button>
-    </form>
+    </section>
   );
 }
 
+/* ── Component ───────────────────────────────────────────────── */
 export default function Home() {
+  // testimonialIdx state removed with testimonials section
+  const [searchQuery, setSearchQuery] = useState("");
+  const [priceRange, setPriceRange] = useState("");
+  const [propertyType, setPropertyType] = useState("");
+
+  // Recent sales (live from MLS API)
+  const [recentSales, setRecentSales] = useState<MlsListing[]>([]);
+  const [salesLoading, setSalesLoading] = useState(true);
+
+  // Search results dropdown
+  const [searchResults, setSearchResults] = useState<MlsListing[]>([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Google Places city/zip autocomplete
+  const [placeSuggestions, setPlaceSuggestions] = useState<string[]>([]);
+  const [showPlaceSuggestions, setShowPlaceSuggestions] = useState(false);
+  const autocompleteServiceRef = useRef<google.maps.places.AutocompleteService | null>(null);
+  const placesDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
+
+  const handleMapReady = useCallback((map: google.maps.Map) => {
+    // We only need the Places service, not the map itself
+    void map;
+    autocompleteServiceRef.current = new google.maps.places.AutocompleteService();
+    setMapLoaded(true);
+  }, []);
+
+  /* Load recent sales on mount */
+  useEffect(() => {
+    fetch("/api/mdm/recent-sales")
+      .then((r) => r.json())
+      .then((data) => {
+        setRecentSales((data.listings || []).slice(0, 4));
+      })
+      .catch(() => {})
+      .finally(() => setSalesLoading(false));
+  }, []);
+
+  /* Live MLS search + Places autocomplete as user types */
+  const handleSearchInput = useCallback((value: string) => {
+    setSearchQuery(value);
+    if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+    if (placesDebounceRef.current) clearTimeout(placesDebounceRef.current);
+
+    if (value.trim().length < 2) {
+      setSearchResults([]);
+      setPlaceSuggestions([]);
+      setShowResults(false);
+      setShowPlaceSuggestions(false);
+      return;
+    }
+
+    // Google Places city/zip suggestions
+    if (autocompleteServiceRef.current && value.trim().length >= 2) {
+      placesDebounceRef.current = setTimeout(() => {
+        autocompleteServiceRef.current!.getPlacePredictions(
+          {
+            input: value,
+            componentRestrictions: { country: "us" },
+            types: ["(regions)"],
+          },
+          (predictions, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+              const suggestions = predictions
+                .slice(0, 5)
+                .map((p) => p.description.replace(", USA", ""));
+              setPlaceSuggestions(suggestions);
+              setShowPlaceSuggestions(true);
+            } else {
+              setPlaceSuggestions([]);
+              setShowPlaceSuggestions(false);
+            }
+          }
+        );
+      }, 200);
+    }
+
+    if (value.trim().length < 3) {
+      setSearchResults([]);
+      setShowResults(false);
+      return;
+    }
+
+    // MLS listing search
+    searchDebounceRef.current = setTimeout(async () => {
+      setSearchLoading(true);
+      try {
+        const r = await fetch(`/api/mdm/search?q=${encodeURIComponent(value.trim())}`);
+        const data = await r.json();
+        setSearchResults((data.listings || []).slice(0, 8));
+        setShowResults(true);
+      } catch {
+        setSearchResults([]);
+      } finally {
+        setSearchLoading(false);
+      }
+    }, 400);
+  }, []);
+
+  const handlePlaceSuggestionClick = useCallback((suggestion: string) => {
+    // Extract just the city/zip part (before the first comma)
+    const cityPart = suggestion.split(",")[0].trim();
+    setSearchQuery(cityPart);
+    setShowPlaceSuggestions(false);
+    setPlaceSuggestions([]);
+    // Trigger MLS search with the selected city
+    setSearchLoading(true);
+    fetch(`/api/mdm/search?q=${encodeURIComponent(cityPart)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        setSearchResults((data.listings || []).slice(0, 8));
+        setShowResults(true);
+      })
+      .catch(() => setSearchResults([]))
+      .finally(() => setSearchLoading(false));
+  }, []);
+
+  /* Close dropdowns on outside click */
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setShowResults(false);
+        setShowPlaceSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Navigate to the internal search results page
+      const params = new URLSearchParams();
+      params.set("q", searchQuery);
+      if (priceRange) params.set("price", priceRange);
+      if (propertyType) params.set("type", propertyType);
+      window.location.href = `/search-results?${params.toString()}`;
+    }
+  };
+
+  // const current = testimonials[testimonialIdx]; // removed
+
   return (
-    <SiteShell tone="dark">
+    <div style={{ fontFamily: "'Lato', sans-serif" }}>
+      <SiteNav activeTab="Home" />
+
+      {/* Hidden MapView to initialize Google Places API */}
+      {!mapLoaded && (
+        <div style={{ position: "absolute", width: 0, height: 0, overflow: "hidden", pointerEvents: "none" }}>
+          <MapView
+            initialCenter={{ lat: 34.08, lng: -117.85 }}
+            initialZoom={10}
+            onMapReady={handleMapReady}
+          />
+        </div>
+      )}
+
       <main id="main-content">
-        <section className="hero-section">
-          <img className="hero-image" src={heroImage} alt="A modern Southern California residence in warm evening light" />
-          <div className="hero-shade" />
-          <div className="hero-route" aria-hidden="true"><span /><span /><span /></div>
-          <div className="hero-content">
-            <p className="eyebrow light"><span /> Southern California, considered</p>
-            <h1>Good moves<br /><em>begin close</em> to home.</h1>
-            <p className="hero-copy">Real estate guidance for the places and possibilities ahead.</p>
-            <div className="hero-actions">
-              <Link className="button button-gold" href="/buy">Start your search <ArrowRight size={17} /></Link>
-              <Link className="text-action inverse" href="/contact">Talk with a local guide <ArrowUpRight size={16} /></Link>
+        {/* ── Hero ──────────────────────────────────────────────── */}
+        <section className="c21-hero">
+          <img
+            src={heroImageUrl}
+            alt="Luxury Southern California estate"
+            className="c21-hero-bg"
+          />
+          <div className="c21-hero-overlay" />
+          {/* C21 Seal — top-center of hero photo */}
+          <div style={{
+            position: "absolute",
+            top: "2rem",
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 10,
+            pointerEvents: "none",
+          }}>
+            <img
+              src="/manus-storage/c21-seal-transparent_a00d7088.png"
+              alt="Century 21 Seal"
+              style={{ width: "110px", height: "110px", display: "block" }}
+            />
+          </div>
+          <div className="c21-hero-content">
+            <h1 className="c21-hero-title">
+              Find Your Place in<br />Southern California
+            </h1>
+            <p className="c21-hero-subtitle">
+              Rooted in San Dimas. Serving buyers and sellers from across Southern California.
+            </p>
+            <div className="c21-hero-actions">
+              <a href={idxSearchUrl} className="c21-btn-gold">
+                <Search size={15} /> Search Homes
+              </a>
+              <a href={valuationUrl} className="c21-btn-outline-white">
+                <HomeIcon size={15} /> Get Home Value
+              </a>
             </div>
           </div>
-          <div className="hero-search-wrap"><span className="search-kicker">Find your place</span><SearchPanel /></div>
-          <a className="scroll-cue" href="#your-way"><span>Scroll to explore</span><ArrowDown size={17} /></a>
         </section>
 
-        <section className="intro-section" id="your-way">
-          <div className="section-route-label"><span>01</span><p>Start with what matters</p></div>
-          <div className="intro-copy">
-            <p className="eyebrow"><span /> C21 Citrus Realty</p>
-            <h2>Make room for<br /><em>the right next move.</em></h2>
+        {/* ── Search Strip ──────────────────────────────────────── */}
+        <div className="c21-search-strip">
+          <form className="c21-search-strip-inner" onSubmit={handleSearch}>
+            <span className="c21-search-label">Quick Search</span>
+            <div ref={searchRef} style={{ position: "relative", flex: 1 }}>
+              <div style={{ display: "flex", alignItems: "center", position: "relative" }}>
+                <input
+                  type="text"
+                  className="c21-search-input"
+                  placeholder="City or ZIP code"
+                  value={searchQuery}
+                  onChange={(e) => handleSearchInput(e.target.value)}
+                  onFocus={() => searchResults.length > 0 && setShowResults(true)}
+                  style={{ width: "100%" }}
+                />
+                {searchLoading && (
+                  <Loader2 size={14} style={{ position: "absolute", right: "0.75rem", color: "#999", animation: "spin 1s linear infinite" }} />
+                )}
+                {searchQuery && !searchLoading && (
+                  <button
+                    type="button"
+                    onClick={() => { setSearchQuery(""); setSearchResults([]); setShowResults(false); }}
+                    style={{ position: "absolute", right: "0.75rem", background: "none", border: "none", cursor: "pointer", padding: 0, color: "#999" }}
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+              {/* Google Places city/zip autocomplete suggestions */}
+              {showPlaceSuggestions && placeSuggestions.length > 0 && !showResults && (
+                <div style={{
+                  position: "absolute",
+                  top: "calc(100% + 4px)",
+                  left: 0,
+                  right: 0,
+                  background: "#fff",
+                  border: "1px solid #e0d9c8",
+                  borderRadius: "6px",
+                  boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+                  zIndex: 9999,
+                  overflow: "hidden",
+                }}>
+                  <div style={{ padding: "0.5rem 0.75rem", borderBottom: "1px solid #f0ece0", fontSize: "0.7rem", color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600 }}>
+                    Suggested Locations
+                  </div>
+                  {placeSuggestions.map((s, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => handlePlaceSuggestionClick(s)}
+                      style={{
+                        display: "flex", alignItems: "center", gap: "0.6rem",
+                        width: "100%", padding: "0.6rem 0.75rem",
+                        borderBottom: i < placeSuggestions.length - 1 ? "1px solid #f7f5ef" : "none",
+                        background: "none", border: "none", cursor: "pointer",
+                        textAlign: "left", fontSize: "0.82rem", color: "#121212",
+                        transition: "background 0.15s",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "#faf7ef")}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                    >
+                      <MapPin size={13} style={{ color: "#BEAF88", flexShrink: 0 }} />
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Live MLS search results dropdown */}
+              {showResults && searchResults.length > 0 && (
+                <div style={{
+                  position: "absolute",
+                  top: "calc(100% + 4px)",
+                  left: 0,
+                  right: 0,
+                  background: "#fff",
+                  border: "1px solid #e0d9c8",
+                  borderRadius: "6px",
+                  boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+                  zIndex: 9999,
+                  maxHeight: "340px",
+                  overflowY: "auto",
+                }}>
+                  <div style={{ padding: "0.5rem 0.75rem", borderBottom: "1px solid #f0ece0", fontSize: "0.7rem", color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600 }}>
+                    MLS Results - {searchResults.length} properties
+                  </div>
+                  {searchResults.map((l) => {
+                    const slug = `${l.address} ${l.city} ${l.state} ${l.zip}`
+                      .toUpperCase()
+                      .replace(/[^A-Z0-9\s]/g, "")
+                      .replace(/\s+/g, "-");
+                    const detailUrl = `/listing/${l.listingId}`;
+                    return (
+                    <a
+                      key={l.listingId}
+                      href={detailUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setShowResults(false)}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.75rem",
+                        padding: "0.6rem 0.75rem",
+                        borderBottom: "1px solid #f7f5ef",
+                        textDecoration: "none",
+                        color: "#121212",
+                        transition: "background 0.15s",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "#faf7ef")}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                    >
+                      <div style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 4,
+                        overflow: "hidden",
+                        flexShrink: 0,
+                        background: "#f0ece0",
+                      }}>
+                        <img
+                          src={l.photoUrl || fallbackListingImg}
+                          alt={l.address}
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: "0.82rem", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {l.address}
+                        </div>
+                        <div style={{ fontSize: "0.75rem", color: "#666" }}>
+                          {l.city}, {l.state} {l.zip}
+                        </div>
+                      </div>
+                      <div style={{ textAlign: "right", flexShrink: 0 }}>
+                        <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#BEAF88" }}>
+                          ${l.price.toLocaleString()}
+                        </div>
+                        <div style={{ fontSize: "0.7rem", color: "#999" }}>
+                          {l.beds != null && l.beds > 0 ? `${l.beds}bd` : ""}{l.baths != null && l.baths > 0 ? ` · ${l.baths}ba` : ""}
+                        </div>
+                      </div>
+                    </a>
+                    );
+                  })}
+                  <a
+                    href={`/search-results?q=${encodeURIComponent(searchQuery)}`}
+                    style={{ display: "block", padding: "0.6rem 0.75rem", textAlign: "center", fontSize: "0.75rem", color: "#BEAF88", fontWeight: 600, textDecoration: "none", letterSpacing: "0.06em" }}
+                  >
+                    View all results →
+                  </a>
+                </div>
+              )}
+            </div>
+            <select
+              className="c21-search-select"
+              value={priceRange}
+              onChange={(e) => setPriceRange(e.target.value)}
+              aria-label="Price range"
+            >
+              <option value="">Any Price</option>
+              <option value="0-500000">Under $500K</option>
+              <option value="500000-1000000">$500K - $1M</option>
+              <option value="1000000-2000000">$1M - $2M</option>
+              <option value="2000000-999999999">$2M+</option>
+            </select>
+            <select
+              className="c21-search-select"
+              value={propertyType}
+              onChange={(e) => setPropertyType(e.target.value)}
+              aria-label="Property type"
+            >
+              <option value="">All Types</option>
+              <option value="residential">Residential</option>
+              <option value="commercial">Commercial</option>
+              <option value="land">Land</option>
+              <option value="multi">Multi-Unit</option>
+            </select>
+            <button type="submit" className="c21-search-btn">
+              <Search size={15} /> Search
+            </button>
+          </form>
+        </div>
+
+        {/* ── Featured Listings ─────────────────────────────────── */}
+        <section className="c21-listings-section" id="listings">
+          <div className="c21-listings-header">
+            <div>
+              <p className="c21-section-eyebrow">From Our Office</p>
+              <h2 className="c21-section-title">Featured Listings</h2>
+            </div>
+            <a
+              href={officeListingsUrl}
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontSize: "0.78rem",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "var(--c21-gold-dark)",
+                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.35rem",
+                whiteSpace: "nowrap",
+              }}
+            >
+              View All <ArrowRight size={14} />
+            </a>
           </div>
-          <div className="intro-side">
-            <p>There is no single route through real estate. Whether you are narrowing a search, preparing a sale, or growing a business, we make the path feel more informed and more human.</p>
-            <Link href="/about" className="text-action">How we work <ArrowUpRight size={16} /></Link>
+
+          {salesLoading ? (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 220, gap: "0.75rem", color: "#888" }}>
+              <Loader2 size={20} style={{ animation: "spin 1s linear infinite" }} />
+              <span style={{ fontFamily: "'Lato', sans-serif", fontSize: "0.9rem" }}>Loading featured listings…</span>
+            </div>
+          ) : recentSales.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "3rem 1rem", color: "#888", fontFamily: "'Lato', sans-serif" }}>
+              <p>Featured listings are temporarily unavailable.</p>
+              <a href={officeListingsUrl} style={{ color: "var(--c21-gold-dark)", textDecoration: "none", fontWeight: 600 }}>Browse our listings →</a>
+            </div>
+          ) : (
+            <div className="c21-listings-grid">
+              {recentSales.map((listing) => (
+                <a key={listing.listingId} href={`/listing/${listing.listingId}`} className="c21-listing-card">
+                  <div className="c21-listing-card-img">
+                    <img
+                      src={listing.photoUrl || fallbackListingImg}
+                      alt={listing.address}
+                      loading="lazy"
+                      onError={(e) => { (e.target as HTMLImageElement).src = fallbackListingImg; }}
+                    />
+                    <span className="c21-listing-badge">Active</span>
+                  </div>
+                  <div className="c21-listing-card-body">
+                    <span className="c21-listing-type-badge c21-listing-type-residential">
+                      Residential
+                    </span>
+                    <p className="c21-listing-price">${listing.price.toLocaleString()}</p>
+                    <p className="c21-listing-address">
+                      {listing.address}<br />{listing.city}, {listing.state} {listing.zip}
+                    </p>
+                    <div className="c21-listing-meta">
+                      {listing.beds != null && listing.beds > 0 && (
+                        <span><BedDouble size={13} /> {listing.beds} bd</span>
+                      )}
+                      {listing.baths != null && listing.baths > 0 && (
+                        <span>
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 22v-7M3 15V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7M3 15h18M3 22h18"/></svg>
+                          {listing.baths} ba
+                        </span>
+                      )}
+                      {listing.sqft != null && listing.sqft > 0 && (
+                        <span>
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>
+                          {listing.sqft.toLocaleString()} sf
+                        </span>
+                      )}
+                    </div>
+                    {listing.agentName && (
+                      <p style={{ fontSize: "0.72rem", color: "#888", marginTop: "0.4rem", fontFamily: "'Lato', sans-serif" }}>
+                        Listed by {listing.agentName}
+                      </p>
+                    )}
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* ── Services ──────────────────────────────────────────── */}
+        <section className="c21-services-section" id="services">
+          <div className="c21-services-inner">
+            <div className="c21-services-header">
+              <p className="c21-section-eyebrow">How We Help</p>
+              <h2 className="c21-section-title">Real Estate, Simplified</h2>
+              <p className="c21-section-subtitle" style={{ margin: "0 auto" }}>
+                Whether you're buying your first home, selling your home, or exploring the market, our team provides clear guidance at every step.
+              </p>
+            </div>
+            <div className="c21-services-grid">
+              {services.map((svc) => (
+                <a key={svc.title} href={svc.href} className="c21-service-card">
+                  <div className="c21-service-icon">
+                    <svc.icon size={22} />
+                  </div>
+                  <h3>{svc.title}</h3>
+                  <p>{svc.copy}</p>
+                  <span className="c21-service-link">
+                    {svc.cta} <ChevronRight size={13} />
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="pathway-section">
-          <div className="pathway-intro">
-            <p className="eyebrow"><span /> Choose your route</p>
-            <p>Practical starting points, shaped around real decisions.</p>
-          </div>
-          <div className="pathway-list">
-            {pathways.map((pathway) => {
-              const Icon = pathway.icon;
-              return <Link className="pathway" key={pathway.title} href={pathway.href}>
-                <span className="pathway-number">{pathway.number}</span>
-                <Icon className="pathway-icon" size={27} strokeWidth={1.35} />
-                <div><h3>{pathway.title}</h3><p>{pathway.body}</p></div>
-                <span className="pathway-link">{pathway.cta} <ArrowUpRight size={16} /></span>
-              </Link>;
-            })}
+        {/* ── RealSatisfied Testimonials ────────────────────── */}
+        <RealSatisfiedTestimonials />
+
+        {/* ── About / Stats ─────────────────────────────────────── */}
+        <section className="c21-about-section" id="about">
+          <div className="c21-about-inner">
+            <div className="c21-about-image">
+              <img src={neighborhoodImageUrl} alt="Southern California neighborhood aerial view" />
+              <span className="c21-about-image-badge">
+                <Star size={12} style={{ display: "inline", marginRight: "0.3rem" }} />
+                Serving SoCal Since 1972
+              </span>
+            </div>
+            <div>
+              <p className="c21-section-eyebrow">About Century 21 Citrus Realty</p>
+              <h2 className="c21-section-title">Local Knowledge.<br />Global Brand.</h2>
+              <p className="c21-section-subtitle">
+                Century 21 Citrus Realty combines the reach and resources of the world's most recognized real estate brand with the personal attention of a locally rooted team. We know Southern California, its neighborhoods, its market rhythms, and its people.
+              </p>
+              <div className="c21-about-stats">
+                <div className="c21-stat-item">
+                  <p className="c21-stat-number">53+</p>
+                  <p className="c21-stat-label">Years Serving SoCal</p>
+                </div>
+                <div className="c21-stat-item">
+                  <p className="c21-stat-number">Thousands</p>
+                  <p className="c21-stat-label">Of Homes Sold</p>
+                </div>
+                <div className="c21-stat-item">
+                  <p className="c21-stat-number">$Billions</p>
+                  <p className="c21-stat-label">In Sales Volume</p>
+                </div>
+                <div className="c21-stat-item">
+                  <p className="c21-stat-number">5★</p>
+                  <p className="c21-stat-label">Client Rating</p>
+                </div>
+              </div>
+              <div style={{ marginTop: "2rem" }}>
+                <a href={contactUrl} className="c21-btn-gold">
+                  Contact Our Team <ArrowRight size={15} />
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="feature-split">
-          <div className="feature-image-wrap"><img src={interiorImage} alt="Warm contemporary kitchen in a Southern California home" /><div className="image-note"><span>Inside the details</span><span>↗</span></div></div>
-          <div className="feature-copy">
-            <p className="eyebrow"><span /> A clearer way forward</p>
-            <h2>Space to ask<br />the <em>important questions.</em></h2>
-            <p>We bring market context, simple explanations, and enough breathing room to make decisions that stand up to the details.</p>
-            <div className="feature-links"><Link href="/buy"><HomeIcon size={18} /> A buyer’s wayfinder <ArrowRight size={16} /></Link><Link href="/sell"><TrendingUp size={18} /> A seller’s launch plan <ArrowRight size={16} /></Link></div>
+        {/* ── Resources ─────────────────────────────────────────── */}
+        <section className="c21-resources-section" id="resources">
+          <div className="c21-resources-inner">
+            <div className="c21-resources-header">
+              <p className="c21-section-eyebrow">Helpful Guides</p>
+              <h2 className="c21-section-title">Resources for Every Step</h2>
+            </div>
+            <div className="c21-resources-grid">
+              {resourceLinks.map((res) => (
+                <a key={res.title} href={res.href} className="c21-resource-card">
+                  <div className="c21-resource-card-content">
+                    <h3>{res.title}</h3>
+                    <p>{res.copy}</p>
+                  </div>
+                  <ArrowRight size={18} className="c21-resource-arrow" />
+                </a>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="communities-section">
-          <div className="community-heading">
-            <div><p className="eyebrow light"><span /> A local lens</p><h2>Explore the places<br />that <em>feel like yours.</em></h2></div>
-            <Link href="/communities" className="button button-outline-light">All communities <ArrowRight size={17} /></Link>
+        {/* ── CTA Banner ────────────────────────────────────────── */}
+        <section className="c21-cta-section">
+          <div className="c21-cta-inner">
+            <div className="c21-cta-text">
+              <h2>Ready to Make Your Move?</h2>
+              <p>Search homes, get a valuation, or connect with a local agent today.</p>
+            </div>
+            <div className="c21-cta-actions">
+              <a href={idxSearchUrl} className="c21-btn-black">
+                <Search size={15} /> Search Homes
+              </a>
+              <a href={contactUrl} className="c21-btn-outline-black">
+                <Phone size={15} /> Contact Us
+              </a>
+            </div>
           </div>
-          <div className="community-grid">
-            {communities.map((community, index) => <Link href="/communities" className="community-card" key={community.title}>
-              <span className="community-index">0{index + 1}</span><span className="community-marker"><Compass size={18} /></span><h3>{community.title}</h3><p>{community.copy}</p><span className="community-cta">{community.route} <ArrowUpRight size={15} /></span>
-            </Link>)}
-          </div>
-        </section>
-
-        <section className="portrait-section">
-          <div className="portrait-copy">
-            <p className="eyebrow"><span /> Rooted here</p>
-            <h2>Local knowledge<br />with a <em>long view.</em></h2>
-            <p>We know the conversation rarely stops at the front door. That is why we stay curious about neighborhoods, market shifts, and what comes next for the people who call this region home.</p>
-            <Link href="/resources" className="text-action">Open local resources <ArrowUpRight size={16} /></Link>
-          </div>
-          <figure className="portrait-image"><img src={neighbourhoodImage} alt="A leafy Southern California residential street" /><figcaption><span>Southern California</span><span>33.8° N, 117.9° W</span></figcaption></figure>
-          <div className="portrait-detail"><img src={detailImage} alt="Keys and citrus arranged on an architectural surface" /><p>Every move begins as a small, meaningful detail.</p></div>
-        </section>
-
-        <section className="contact-ribbon">
-          <div><p className="eyebrow light"><span /> Ready when you are</p><h2>Bring your next move<br />into <em>focus.</em></h2></div>
-          <div><p>Start with a conversation. We will help you find the most useful next step.</p><Link href="/contact" className="button button-gold">Contact C21 Citrus <ArrowRight size={17} /></Link></div>
         </section>
       </main>
-    </SiteShell>
+
+      {/* ── Footer ────────────────────────────────────────────── */}
+    </div>
   );
 }

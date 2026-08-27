@@ -1,37 +1,72 @@
-# C21 Citrus Site — Design Direction
+<response>
+<text>
+<idea>
+**Design Movement:** California Mission Modernism with restrained luxury brokerage cues.
 
-## Ground-Truth Reference
+**Core Principles:** Preserve local trust through warm architectural references; use asymmetry to create editorial momentum rather than a rigid grid; blend premium dark accents with sunlit neutrals; make every conversion action feel direct, calm, and professional.
 
-The supplied redesign package is the ground-truth specification for this build: an immersive, lifestyle-first Southern California real-estate website that pairs **C21 brand credibility** with a warmer, more editorial digital experience. The implementation retains its search-centered hero, clear practical navigation, local-market focus, and direct paths to live property search and valuation services while removing dependencies on unavailable backend endpoints.
+**Color Philosophy:** The palette should evoke San Dimas hillside homes, citrus groves, and Century 21's established prestige: parchment, warm limestone, deep espresso, muted olive, and disciplined gold. Gold is used as a signal of credibility rather than decoration; citrus/olive tones introduce locality without making the site feel casual.
 
-## Chosen Design Philosophy: Sunlit Citrus Atlas
+**Layout Paradigm:** A layered editorial layout with a left-anchored hero search rail, staggered service panels, overlapping cards, and section transitions that feel like moving through a refined local market guide. Avoid centered sameness; use offset columns, measured negative space, and architectural framing.
 
-**Design Movement.** Contemporary Californian editorial design with tactile, modernist real-estate publishing cues.
+**Signature Elements:** Thin gold rulework reminiscent of property plat lines; subtle citrus-topography background texture; elevated listing/search panels that feel like brokerage folders or concierge cards.
 
-**Core Principles.** The site privileges place before process, makes the next action immediately clear, avoids invented property and review data, and uses calm asymmetry rather than a generic card grid.
+**Interaction Philosophy:** Interactions should feel responsive but calm: search components lift slightly, navigation underlines draw like plotted boundary lines, and CTA hover states shift from quiet neutral to confident gold.
 
-**Color Philosophy.** Graphite establishes authority and contrast; parchment carries the warmth of lived-in architecture; muted citrus gold becomes a precise signal for opportunity, movement, and calls to action. Olive is used sparingly to connect the experience to Southern California landscape.
+**Animation:** Use slow entrance reveals from 12–18px offsets, 180–260ms hover transitions, restrained parallax on hero imagery, and line-drawing accents for separators. Avoid bouncy or playful motion.
 
-**Layout Paradigm.** Sections read as a scrollable field guide: a cinematic opening image, off-axis editorial columns, full-bleed image bands, numbered wayfinding, and varied directional content blocks.
+**Typography System:** Pair Cormorant Garamond or Playfair Display for expressive luxury headlines with Source Sans 3 or Public Sans for highly legible brokerage copy. Headlines use elegant contrast and tight leading; body copy stays practical and service-oriented.
+</idea>
+</text>
+<probability>0.07</probability>
+</response>
 
-**Signature Elements.** A circular citrus-arch symbol, fine map-line textures, and small gold route markers recur throughout the experience.
+<response>
+<text>
+<idea>
+**Design Movement:** New West Editorial, blending modern real-estate magazine design with Southern California relocation storytelling.
 
-**Interaction Philosophy.** Interfaces are direct and reassuring. Hover states trace and lift rather than flash, navigation remains visibly available on desktop, and forms disclose their static-site behavior honestly.
+**Core Principles:** Treat the brokerage as a curator of neighborhoods; build pages like feature spreads; use large photographic moments balanced by crisp information blocks; prioritize community intelligence and buyer/seller guidance over generic sales language.
 
-**Animation.** Use short 180–280 ms transform and opacity transitions, a gentle hero image scale, and a restrained route-line reveal. Respect reduced-motion preferences.
+**Color Philosophy:** Lean on off-white, ink black, canyon terracotta, muted sage, and occasional brass. The emotional intent is literate, grounded, and locally authoritative, positioning C21 Citrus as a mature guide through a complicated market.
 
-**Typography System.** Bodoni Moda supplies high-contrast editorial display type; DM Sans provides compact, legible utility typography. Headlines use considered line breaks and body copy remains comfortably sized.
+**Layout Paradigm:** Use magazine-style spreads: oversized headlines cut across columns, community cards stagger vertically, and utility panels sit in the margins like editor notes. Navigation can behave like a compact masthead rather than a typical SaaS header.
 
-**Brand Essence.** C21 Citrus Realty connects Southern California buyers, sellers, and agents to thoughtful next moves through grounded local guidance. **Warm, exacting, local.**
+**Signature Elements:** Pull-quote style trust statements; map-coordinate and neighborhood-label motifs; article-card treatments for guides, market updates, and relocation content.
 
-**Brand Voice.** Headlines are spacious and place-led; CTAs are specific and action-oriented. Example lines: “Start with a place you can picture.” and “Bring your next move into focus.”
+**Interaction Philosophy:** Interactions should reveal context: hover states expose neighborhood notes, cards slide enough to show depth, and search actions remain persistent as users scan buyer/seller content.
 
-**Wordmark & Logo.** The identity pairs a custom citrus-arch symbol with a deliberate C21 Citrus Realty wordmark, set in stacked editorial capitals rather than a default text treatment.
+**Animation:** Use editorial page-load sequencing, gentle horizontal card reveals, subtle image desaturation-to-color transitions, and scroll-triggered section labels. Motion should feel like turning pages in a market journal.
 
-**Signature Brand Color.** Citrus Route Gold — `#c2a46d`.
+**Typography System:** Pair Fraunces for personality-rich display type with IBM Plex Sans or Work Sans for utility. Headline hierarchy is bold and editorial; labels are all-caps but generously tracked.
+</idea>
+</text>
+<probability>0.05</probability>
+</response>
 
-## Style Decisions
+<response>
+<text>
+<idea>
+**Design Movement:** Concierge Minimalism with high-touch relocation-service sensibility.
 
-- Each primary route has a distinct visual role: **buying = discovery**, **selling = launch preparation**, **contact = a calm first step**, and **communities = a local field guide**.
-- Citrus Route Gold is reserved for calls to action, route markers, key numerals, and selected editorial emphasis rather than used as a default section background.
-- Repeated global phrases are avoided across route pages. Headline and transition copy should be specific to the visitor’s immediate decision while staying warm, exacting, and local.
+**Core Principles:** Reduce visual clutter aggressively; frame every visitor path around one of three intent tracks—buy, sell, or relocate; use premium service language; emphasize speed, clarity, and human follow-through.
+
+**Color Philosophy:** Use a high-contrast palette of ivory, graphite, soft black, cool stone, and a precise citrus-gold accent. The emotional intent is composed confidence: a brokerage that is modern, efficient, and personally attentive.
+
+**Layout Paradigm:** A split-screen service concierge: persistent vertical intent navigation, modular inquiry/search forms, and full-width property/market bands. The structure should feel like a private advisory desk rather than a marketing brochure.
+
+**Signature Elements:** Concierge cards with numbered intent paths; thin vertical progress markers; glassy search modules placed over low-key property imagery.
+
+**Interaction Philosophy:** Interactions must reduce friction: sticky search access, one-click routing to MLS search, fast contact prompts, and clear distinction between informational and transactional actions.
+
+**Animation:** Minimal fade-and-slide transitions, crisp focus states, restrained blur reveals for form panels, and no decorative motion unless it clarifies a path.
+
+**Typography System:** Pair Libre Baskerville for refined trust-building headlines with Manrope for contemporary operational clarity. Use strong sentence-case hierarchy rather than shouting with all caps.
+</idea>
+</text>
+<probability>0.08</probability>
+</response>
+
+## Selected Direction
+
+I will commit to **California Mission Modernism with restrained luxury brokerage cues**. This direction best fits C21 Citrus because it preserves the warmth of Southern California residential architecture, adds a credible premium brokerage feel, and supports a modern property-search experience without making the office look like a generic technology startup. Every CSS, page, and component file should reinforce this philosophy through warm architectural neutrals, disciplined Century 21-inspired gold accents, asymmetric layouts, subtle citrus/topographic texture, refined serif display typography, and clear IDX search access.
