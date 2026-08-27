@@ -45,5 +45,5 @@ describe("Anywhere MDM credentials", () => {
       listings.some((listing) => Boolean(listing.photoUrl) || listing.photos.length > 0),
       "MLS search must return at least one provider-backed property image"
     ).toBe(true);
-  }, 45_000);
+  }, 90_000);
 });

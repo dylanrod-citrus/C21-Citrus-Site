@@ -5,6 +5,10 @@ const CONSENT_VERSION = "1"; // Bump this to re-prompt users if policy changes
 
 type ConsentStatus = "granted" | "denied" | null;
 
+export function resolveConsentStatus(storedConsent: ConsentStatus, globalPrivacyControl: boolean): ConsentStatus {
+  return globalPrivacyControl ? "denied" : storedConsent;
+}
+
 function getStoredConsent(): ConsentStatus {
   try {
     const stored = localStorage.getItem(CONSENT_KEY);
@@ -39,17 +43,34 @@ function loadAnalytics() {
   document.body.appendChild(script);
 }
 
+function hasGlobalPrivacyControl(): boolean {
+  return typeof navigator !== "undefined" && (navigator as Navigator & { globalPrivacyControl?: boolean }).globalPrivacyControl === true;
+}
+
+function disableAnalytics() {
+  document.querySelectorAll('script[data-website-id], script[src*="/umami"]').forEach((script) => script.remove());
+}
+
+function persistOptOut(source: "banner" | "footer" | "gpc") {
+  void fetch("/api/privacy-opt-out", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ source }),
+    keepalive: true,
+  }).catch(() => undefined);
+}
+
 /**
  * Opt the current user out of tracking immediately.
  * Safe to call from any component — removes any existing analytics scripts,
  * stores the "denied" preference, and shows a brief confirmation toast.
- * This satisfies CPRA § 1798.120 "Do Not Sell or Share" opt-out.
+ * It governs optional website analytics for this browser. Broader privacy
+ * requests remain available through the dedicated privacy-request workflow.
  */
-export function triggerDoNotSellOptOut() {
+export function triggerDoNotSellOptOut(source: "banner" | "footer" = "footer") {
   setStoredConsent("denied");
-  // Remove any already-loaded analytics scripts
-  const existing = document.querySelector('script[data-website-id]');
-  if (existing) existing.remove();
+  disableAnalytics();
+  persistOptOut(source);
   // Show a brief confirmation toast
   const toast = document.createElement("div");
   toast.setAttribute("role", "status");
@@ -61,7 +82,7 @@ export function triggerDoNotSellOptOut() {
     "font-family:Lato,sans-serif", "z-index:99999", "box-shadow:0 4px 20px rgba(0,0,0,0.4)",
     "max-width:90vw", "text-align:center",
   ].join(";");
-  toast.textContent = "Your opt-out preference has been saved. We will not sell or share your personal information.";
+  toast.textContent = "Your privacy preference has been saved. Optional analytics are disabled on this device.";
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 5000);
 }
@@ -70,7 +91,14 @@ export function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const consent = getStoredConsent();
+    const globalPrivacyControl = hasGlobalPrivacyControl();
+    const consent = resolveConsentStatus(getStoredConsent(), globalPrivacyControl);
+    if (globalPrivacyControl) {
+      setStoredConsent("denied");
+      disableAnalytics();
+      persistOptOut("gpc");
+      return;
+    }
     if (consent === "granted") {
       loadAnalytics();
     } else if (consent === null) {
@@ -93,7 +121,7 @@ export function CookieConsent() {
 
   const handleDoNotSell = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
-    triggerDoNotSellOptOut();
+    triggerDoNotSellOptOut("banner");
     setVisible(false);
   }, []);
 
@@ -123,12 +151,19 @@ export function CookieConsent() {
                 Privacy Policy
               </a>
               {" | "}
-              <a
-                href="/privacy-request"
+              <button
+                type="button"
                 onClick={handleDoNotSell}
                 className="text-[#BEAF88] underline underline-offset-2 hover:text-[#e0c36a] transition-colors cursor-pointer"
               >
                 Do Not Sell or Share My Personal Information
+              </button>
+              {" | "}
+              <a
+                href="/privacy-request"
+                className="text-[#BEAF88] underline underline-offset-2 hover:text-[#e0c36a] transition-colors"
+              >
+                Submit a Privacy Request
               </a>
             </p>
           </div>

@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, privacyRequests, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,35 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export async function recordPrivacyRequest(input: {
+  requestType: string;
+  requesterEmail: string;
+  requesterFirstName: string;
+  requesterLastName: string;
+}): Promise<void> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[PrivacyRequest] Audit record was not written because the database is unavailable");
+    return;
+  }
+
+  try {
+    await db.insert(privacyRequests).values(input);
+  } catch (error) {
+    console.error("[PrivacyRequest] Failed to write audit record", error);
+  }
+}
+
+export async function recordPrivacyOptOut(source: "banner" | "footer" | "gpc"): Promise<void> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[PrivacyRequest] Opt-out audit record was not written because the database is unavailable");
+    return;
+  }
+
+  try {
+    await db.insert(privacyRequests).values({ requestType: "optout", source });
+  } catch (error) {
+    console.error("[PrivacyRequest] Failed to write opt-out audit record", error);
+  }
+}

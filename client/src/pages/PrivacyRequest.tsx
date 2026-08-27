@@ -73,6 +73,7 @@ export default function PrivacyRequest() {
   const [errorMsg, setErrorMsg] = useState("");
 
   const selectedType = REQUEST_TYPES.find((t) => t.value === form.requestType);
+  const requiresIdentityVerification = form.requestType !== "optout";
 
   function handleChange(
     e: React.ChangeEvent<
@@ -92,7 +93,7 @@ export default function PrivacyRequest() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.verified) {
+    if (requiresIdentityVerification && !form.verified) {
       setErrorMsg("Please confirm your identity by checking the verification box.");
       return;
     }
@@ -150,8 +151,8 @@ export default function PrivacyRequest() {
           >
             California residents have rights under the California Consumer
             Privacy Act (CCPA) and the California Privacy Rights Act (CPRA).
-            Use this form to exercise any of those rights. We will respond
-            within 45 days of receiving your verified request.
+            Use this form to exercise any of those rights. Processing and
+            response timing depend on the type of request submitted.
           </p>
         </div>
       </section>
@@ -216,7 +217,9 @@ export default function PrivacyRequest() {
                 </svg>
               </div>
               <p className="text-white/80 text-sm leading-relaxed" style={{ fontFamily: "Lato, sans-serif" }}>
-                To protect your privacy, we are required to verify your identity before processing your request. We will contact you using the email address you provide below. You may be asked to provide additional verification.
+                {requiresIdentityVerification
+                  ? "To protect your privacy, we may need to verify your identity before processing requests to know, delete, or correct information. We will contact you using the email address you provide below."
+                  : "You may submit an opt-out request without identity verification. We only use the contact information you provide to apply or confirm your privacy preference."}
               </p>
             </div>
 
@@ -418,13 +421,15 @@ export default function PrivacyRequest() {
                   className="text-lg font-bold text-[#121212] mb-1"
                   style={{ fontFamily: "Playfair Display, serif" }}
                 >
-                  4. Verify & Submit
+                  4. {requiresIdentityVerification ? "Verify & Submit" : "Submit Your Preference"}
                 </h2>
                 <p className="text-[#888] text-xs mb-6" style={{ fontFamily: "Lato, sans-serif" }}>
-                  By submitting this form, you confirm the information provided is accurate.
+                  {requiresIdentityVerification
+                    ? "By submitting this form, you confirm the information provided is accurate."
+                    : "Your opt-out request will be sent to the privacy team for processing."}
                 </p>
 
-                <label className="flex items-start gap-3 cursor-pointer mb-6">
+                {requiresIdentityVerification && <label className="flex items-start gap-3 cursor-pointer mb-6">
                   <input
                     type="checkbox"
                     name="verified"
@@ -435,7 +440,7 @@ export default function PrivacyRequest() {
                   <span className="text-sm text-[#444] leading-relaxed" style={{ fontFamily: "Lato, sans-serif" }}>
                     I confirm that the information provided in this form is accurate and that I am the consumer whose personal information is the subject of this request, or I am authorized to submit this request on behalf of that consumer. I understand that Century 21 Citrus Realty may need to verify my identity before processing this request.
                   </span>
-                </label>
+                </label>}
 
                 {errorMsg && (
                   <div className="mb-5 p-4 bg-red-50 border border-red-200 rounded-sm">
@@ -445,7 +450,9 @@ export default function PrivacyRequest() {
 
                 <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                   <p className="text-xs text-[#888] leading-relaxed max-w-sm" style={{ fontFamily: "Lato, sans-serif" }}>
-                    We will respond within <strong>45 days</strong>. You may also email{" "}
+                    {form.requestType === "optout" || form.requestType === "limit"
+                      ? "We will process this preference as soon as feasible."
+                      : <>We will respond within <strong>45 days</strong>. You may also email{" "}</>}
                     <a href="mailto:operations@c21citrus.com" className="text-[#BEAF88] hover:underline">
                       operations@c21citrus.com
                     </a>{" "}
@@ -472,7 +479,7 @@ export default function PrivacyRequest() {
         {/* Legal note */}
         <div className="mt-10 p-6 bg-white border border-[#E8E4DC] rounded-sm">
           <p className="text-xs text-[#888] leading-relaxed" style={{ fontFamily: "Lato, sans-serif" }}>
-            <strong className="text-[#121212]">Important:</strong> We are required to verify your identity before processing your request to protect your privacy. We will not discriminate against you for exercising your rights. For more information about your California privacy rights, please review our{" "}
+            <strong className="text-[#121212]">Important:</strong> We may need to verify identity before processing requests to know, delete, or correct personal information. Opt-out requests do not require identity verification. We will not discriminate against you for exercising your rights. For more information about your California privacy rights, please review our{" "}
             <Link href="/privacy-policy" className="text-[#BEAF88] hover:underline">
               Privacy Policy
             </Link>

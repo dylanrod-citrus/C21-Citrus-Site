@@ -1986,3 +1986,40 @@
   }
   .c21-mobile-nav-links a:hover { color: var(--c21-gold); }
 }
+
+/* Shared compliance footer: preserve readable privacy choices at every zoom level. */
+.c21-compliance-footer {
+  width: 100%;
+  overflow-x: clip;
+}
+.c21-compliance-footer-main {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.8fr) minmax(0, 1fr) !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+.c21-compliance-footer-column,
+.c21-compliance-footer-copy {
+  min-width: 0;
+}
+.c21-privacy-choice-button {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: left;
+  line-height: 1.45;
+}
+.c21-compliance-footer-bottom {
+  width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 780px) {
+  .c21-compliance-footer-main {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 2.25rem !important;
+    padding: 2.5rem 1.25rem 1.75rem !important;
+  }
+  .c21-compliance-footer-bottom {
+    padding: 1.25rem !important;
+    align-items: flex-start !important;
+  }
+}

@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { index, int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -25,4 +25,25 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/**
+ * Data-minimized staff audit trail for privacy requests. Form narratives and
+ * phone numbers are intentionally not persisted here; staff receive them by
+ * secure office email as part of the existing request workflow.
+ */
+export const privacyRequests = mysqlTable("privacy_requests", {
+  id: int("id").autoincrement().primaryKey(),
+  requestType: varchar("requestType", { length: 32 }).notNull(),
+  requesterEmail: varchar("requesterEmail", { length: 320 }),
+  requesterFirstName: varchar("requesterFirstName", { length: 100 }),
+  requesterLastName: varchar("requesterLastName", { length: 100 }),
+  source: varchar("source", { length: 32 }).notNull().default("privacy_request"),
+  status: mysqlEnum("status", ["received", "processing", "completed", "closed"]).default("received").notNull(),
+  receivedAt: timestamp("receivedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  requesterEmailIndex: index("privacy_request_requester_email_idx").on(table.requesterEmail),
+  statusReceivedIndex: index("privacy_request_status_received_idx").on(table.status, table.receivedAt),
+}));
+
+export type PrivacyRequest = typeof privacyRequests.$inferSelect;
+export type InsertPrivacyRequest = typeof privacyRequests.$inferInsert;

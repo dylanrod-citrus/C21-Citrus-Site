@@ -20,6 +20,7 @@ export default function SiteComplianceFooter() {
     <footer
       role="contentinfo"
       aria-label="Site footer"
+      className="c21-compliance-footer"
       style={{
         background: "#111",
         borderTop: "1px solid #2a2a2a",
@@ -27,7 +28,7 @@ export default function SiteComplianceFooter() {
       }}
     >
       {/* ── Main footer content ── */}
-      <div
+      <div className="c21-compliance-footer-main"
         style={{
           maxWidth: "1200px",
           margin: "0 auto",
@@ -38,7 +39,7 @@ export default function SiteComplianceFooter() {
         }}
       >
         {/* Brand column */}
-        <div>
+        <div className="c21-compliance-footer-column">
           <img
             src={LOGO_URL}
             alt="Century 21 Citrus Realty"
@@ -57,7 +58,7 @@ export default function SiteComplianceFooter() {
         </div>
 
         {/* Quick links */}
-        <nav aria-label="Footer navigation">
+        <nav className="c21-compliance-footer-column" aria-label="Footer navigation">
           <h3 style={{ color: "#BEAF88", fontSize: "0.75rem", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1rem" }}>
             Quick Links
           </h3>
@@ -79,7 +80,7 @@ export default function SiteComplianceFooter() {
         </nav>
 
         {/* Legal & privacy */}
-        <nav aria-label="Legal and privacy links">
+        <nav className="c21-compliance-footer-column" aria-label="Legal and privacy links">
           <h3 style={{ color: "#BEAF88", fontSize: "0.75rem", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1rem" }}>
             Legal & Privacy
           </h3>
@@ -97,7 +98,9 @@ export default function SiteComplianceFooter() {
             <li style={{ marginBottom: "0.5rem" }}>
               {/* CCPA/CPRA § 1798.120 - triggers immediate opt-out, not a form redirect */}
               <button
+                type="button"
                 onClick={(e) => { e.preventDefault(); triggerDoNotSellOptOut(); }}
+                className="c21-privacy-choice-button"
                 style={{
                   background: "none", border: "none", padding: 0, cursor: "pointer",
                   color: "#BEAF88", fontSize: "0.875rem", fontWeight: 600,
@@ -124,7 +127,7 @@ export default function SiteComplianceFooter() {
       </div>
 
       {/* ── Compliance bar ── */}
-      <div
+      <div className="c21-compliance-footer-bottom"
         style={{
           borderTop: "1px solid #2a2a2a",
           maxWidth: "1200px",
@@ -143,7 +146,7 @@ export default function SiteComplianceFooter() {
           style={{ height: "2.25rem", opacity: 0.75, filter: "invert(1)" }}
         />
 
-        <div style={{ flex: 1, minWidth: "200px" }}>
+        <div className="c21-compliance-footer-copy" style={{ flex: 1, minWidth: "0" }}>
           <p style={{ color: "#666", fontSize: "0.75rem", lineHeight: 1.6, margin: 0 }}>
             © {new Date().getFullYear()} Century 21 Citrus Realty, Inc. All rights reserved.
             Each office is independently owned and operated.{" "}

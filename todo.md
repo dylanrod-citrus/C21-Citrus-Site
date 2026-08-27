@@ -9,11 +9,11 @@
 - [x] Verify the corrected page, checkpoint the repair, and push it to `dylanrod-citrus/C21-Citrus-Site`.
 - [x] Locate the original C21 Citrus logo and source visual assets supplied with the upload.
 - [x] Restore original company branding and remove substitute asset behavior.
-- [ ] Verify the source-matched visual presentation, checkpoint it, and push to `dylanrod-citrus/C21-Citrus-Site`.
+- [x] Verify the source-matched visual presentation, checkpoint it, and push to `dylanrod-citrus/C21-Citrus-Site`.
 - [x] Inspect the original property, agent, contact, and testimonial API routes and their credentials.
 - [x] Enable the compatible backend capability and restore the live source API routes.
 - [x] Test live property, agent, contact, and media data flows without creating mock records.
-- [ ] Checkpoint and push the live API integration update to `dylanrod-citrus/C21-Citrus-Site`.
+- [x] Checkpoint and push the live API integration update to `dylanrod-citrus/C21-Citrus-Site`.
 - [x] Obtain and validate `MDM_CLIENT_ID`, `MDM_CLIENT_SECRET`, and `MDM_API_KEY` for the original Anywhere MDM integration.
 - [x] Restore the source MDM service, route handlers, and client API calls for real listings, photos, and agents.
 - [x] Test the MDM-backed home, agent, listing, and search flows against live data.
@@ -23,7 +23,7 @@
 - [x] Upload the supplied gold C21 Citrus Realty navigation logo as a permanent website asset.
 - [x] Restore the original navigation logo and remove substituted logo behavior.
 - [x] Preserve the uploaded source’s page-specific contact-recipient overrides in the contact-form API.
-- [ ] Validate navigation branding and page-specific contact submission routing, then checkpoint and push the update.
+- [x] Validate navigation branding and page-specific contact submission routing, then checkpoint and push the update.
 - [x] Securely configure the Google Workspace sender, app password, and default recipients for contact delivery.
 - [x] Verify a complete contact submission reaches the correct source-defined recipient and sends a visitor confirmation.
 - [x] Validate the working data, branding, and contact visitor paths before checkpointing and a user-approved repository update.
@@ -33,3 +33,12 @@
 - [x] Narrow remaining fallback substitutions to non-brand visual content and preserve the supplied navigation wordmark as the authoritative company logo.
 - [x] Obtain authorization for and verify one source-defined named-recipient contact route without exposing personal data.
 - [x] Add a server-start cache warm-up strategy and document its first-visit listing response time.
+- [ ] Obtain the original non-API hero and editorial image files that were absent from the uploaded source archive, then replace the remaining visual fallbacks and revalidate the presentation.
+- [x] Identify and correct the reported “Do Not Sell or Share” footer layout issue across responsive viewports.
+- [x] Review the technical behavior of the current privacy request, opt-out, consent, and record-handling flows against CPRA-oriented implementation requirements.
+- [x] Implement and test the feasible technical privacy-flow corrections without representing the site as legally certified.
+- [x] Persist privacy request and opt-out records with received timestamps and processing status for staff handling and auditability.
+- [x] Add automated Global Privacy Control decision coverage and document client-side opt-out validation.
+- [x] Revalidate the repaired footer at mobile, tablet, and desktop widths before checkpointing this privacy update.
+- [x] Persist direct footer and cookie-banner opt-outs to the privacy audit store without requiring identity verification.
+- [x] Include the client-side consent/GPC test in the project test suite and run it successfully.
