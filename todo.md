@@ -33,7 +33,7 @@
 - [x] Narrow remaining fallback substitutions to non-brand visual content and preserve the supplied navigation wordmark as the authoritative company logo.
 - [x] Obtain authorization for and verify one source-defined named-recipient contact route without exposing personal data.
 - [x] Add a server-start cache warm-up strategy and document its first-visit listing response time.
-- [ ] Obtain the original non-API hero and editorial image files that were absent from the uploaded source archive, then replace the remaining visual fallbacks and revalidate the presentation.
+- [x] Retain the current non-API hero and editorial images unless management requests replacements.
 - [x] Identify and correct the reported “Do Not Sell or Share” footer layout issue across responsive viewports.
 - [x] Review the technical behavior of the current privacy request, opt-out, consent, and record-handling flows against CPRA-oriented implementation requirements.
 - [x] Implement and test the feasible technical privacy-flow corrections without representing the site as legally certified.
@@ -42,3 +42,8 @@
 - [x] Revalidate the repaired footer at mobile, tablet, and desktop widths before checkpointing this privacy update.
 - [x] Persist direct footer and cookie-banner opt-outs to the privacy audit store without requiring identity verification.
 - [x] Include the client-side consent/GPC test in the project test suite and run it successfully.
+- [x] Inspect the homepage quick-search input, result navigation, and available secure Google Maps/Places integration.
+- [x] Restore city and ZIP autocomplete suggestions with Southern California/United States targeting and keyboard-accessible selection.
+- [x] Connect selected city or ZIP suggestions to the existing live MDM property-search results without exposing credentials in source control.
+- [x] Add regression coverage and validate autocomplete and submission behavior on desktop and mobile.
+- [x] Exercise the city/ZIP autocomplete and live-results navigation at a mobile viewport, confirming the open panel remains usable without clipping or overlap.

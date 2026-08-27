@@ -10,6 +10,7 @@ import { registerContactRoute } from "../contactRoute";
 import { registerMdmRoutes } from "../mdmRoute";
 import { registerPrivacyRequestRoute } from "../privacyRequestRoute";
 import { realSatisfiedRouter } from "../realSatisfiedRoute";
+import { registerGooglePlacesRoutes } from "../googlePlacesRoute";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 
@@ -43,6 +44,7 @@ async function startServer() {
   registerContactRoute(app);
   registerMdmRoutes(app);
   registerPrivacyRequestRoute(app);
+  registerGooglePlacesRoutes(app);
   app.use("/api/realsatisfied", realSatisfiedRouter);
   // tRPC API
   app.use(

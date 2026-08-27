@@ -399,6 +399,9 @@
   .c21-search-strip {
     background: var(--c21-black);
     padding: 1.5rem 2rem;
+    position: relative;
+    z-index: 30;
+    overflow: visible;
   }
   .c21-search-strip-inner {
     max-width: 1280px;

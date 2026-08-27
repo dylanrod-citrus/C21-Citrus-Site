@@ -27,7 +27,7 @@ import {
   X,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { MapView } from "../components/Map";
+import type { LocationSuggestion } from "@shared/locationSearch";
 import SiteNav from "../components/SiteNav";
 
 /* ── Asset URLs ─────────────────────────────────────────────── */
@@ -290,18 +290,12 @@ export default function Home() {
   const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Google Places city/zip autocomplete
-  const [placeSuggestions, setPlaceSuggestions] = useState<string[]>([]);
+  const [placeSuggestions, setPlaceSuggestions] = useState<LocationSuggestion[]>([]);
   const [showPlaceSuggestions, setShowPlaceSuggestions] = useState(false);
-  const autocompleteServiceRef = useRef<google.maps.places.AutocompleteService | null>(null);
   const placesDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [mapLoaded, setMapLoaded] = useState(false);
-
-  const handleMapReady = useCallback((map: google.maps.Map) => {
-    // We only need the Places service, not the map itself
-    void map;
-    autocompleteServiceRef.current = new google.maps.places.AutocompleteService();
-    setMapLoaded(true);
-  }, []);
+  const placesRequestRef = useRef(0);
+  const [activePlaceSuggestion, setActivePlaceSuggestion] = useState(-1);
+  const [locationSuggestionProvider, setLocationSuggestionProvider] = useState<"google" | "inventory" | "cache">("google");
 
   /* Load recent sales on mount */
   useEffect(() => {
@@ -317,6 +311,8 @@ export default function Home() {
   /* Live MLS search + Places autocomplete as user types */
   const handleSearchInput = useCallback((value: string) => {
     setSearchQuery(value);
+    setActivePlaceSuggestion(-1);
+    placesRequestRef.current += 1;
     if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
     if (placesDebounceRef.current) clearTimeout(placesDebounceRef.current);
 
@@ -329,27 +325,23 @@ export default function Home() {
     }
 
     // Google Places city/zip suggestions
-    if (autocompleteServiceRef.current && value.trim().length >= 2) {
-      placesDebounceRef.current = setTimeout(() => {
-        autocompleteServiceRef.current!.getPlacePredictions(
-          {
-            input: value,
-            componentRestrictions: { country: "us" },
-            types: ["(regions)"],
-          },
-          (predictions, status) => {
-            if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
-              const suggestions = predictions
-                .slice(0, 5)
-                .map((p) => p.description.replace(", USA", ""));
-              setPlaceSuggestions(suggestions);
-              setShowPlaceSuggestions(true);
-            } else {
-              setPlaceSuggestions([]);
-              setShowPlaceSuggestions(false);
-            }
-          }
-        );
+    if (value.trim().length >= 2) {
+      const requestId = placesRequestRef.current;
+      placesDebounceRef.current = setTimeout(async () => {
+        try {
+          const response = await fetch(`/api/maps/autocomplete?q=${encodeURIComponent(value.trim())}`);
+          if (!response.ok) throw new Error(`Autocomplete ${response.status}`);
+          const data = await response.json() as { suggestions?: LocationSuggestion[]; provider?: "google" | "inventory" | "cache" };
+          if (requestId !== placesRequestRef.current) return;
+          const suggestions = data.suggestions || [];
+          setLocationSuggestionProvider(data.provider || "google");
+          setPlaceSuggestions(suggestions);
+          setShowPlaceSuggestions(suggestions.length > 0);
+        } catch {
+          if (requestId !== placesRequestRef.current) return;
+          setPlaceSuggestions([]);
+          setShowPlaceSuggestions(false);
+        }
       }, 200);
     }
 
@@ -375,15 +367,13 @@ export default function Home() {
     }, 400);
   }, []);
 
-  const handlePlaceSuggestionClick = useCallback((suggestion: string) => {
-    // Extract just the city/zip part (before the first comma)
-    const cityPart = suggestion.split(",")[0].trim();
-    setSearchQuery(cityPart);
+  const handlePlaceSuggestionClick = useCallback((suggestion: LocationSuggestion) => {
+    setSearchQuery(suggestion.query);
     setShowPlaceSuggestions(false);
     setPlaceSuggestions([]);
-    // Trigger MLS search with the selected city
+    setActivePlaceSuggestion(-1);
     setSearchLoading(true);
-    fetch(`/api/mdm/search?q=${encodeURIComponent(cityPart)}`)
+    fetch(`/api/mdm/search?q=${encodeURIComponent(suggestion.query)}`)
       .then((r) => r.json())
       .then((data) => {
         setSearchResults((data.listings || []).slice(0, 8));
@@ -392,6 +382,29 @@ export default function Home() {
       .catch(() => setSearchResults([]))
       .finally(() => setSearchLoading(false));
   }, []);
+
+  const handleSearchKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!showPlaceSuggestions || placeSuggestions.length === 0) {
+      if (event.key === "Escape") {
+        setShowResults(false);
+        setShowPlaceSuggestions(false);
+      }
+      return;
+    }
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setActivePlaceSuggestion((current) => (current + 1) % placeSuggestions.length);
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setActivePlaceSuggestion((current) => current <= 0 ? placeSuggestions.length - 1 : current - 1);
+    } else if (event.key === "Enter" && activePlaceSuggestion >= 0) {
+      event.preventDefault();
+      handlePlaceSuggestionClick(placeSuggestions[activePlaceSuggestion]);
+    } else if (event.key === "Escape") {
+      setShowPlaceSuggestions(false);
+      setActivePlaceSuggestion(-1);
+    }
+  }, [activePlaceSuggestion, handlePlaceSuggestionClick, placeSuggestions, showPlaceSuggestions]);
 
   /* Close dropdowns on outside click */
   useEffect(() => {
@@ -423,17 +436,6 @@ export default function Home() {
   return (
     <div style={{ fontFamily: "'Lato', sans-serif" }}>
       <SiteNav activeTab="Home" />
-
-      {/* Hidden MapView to initialize Google Places API */}
-      {!mapLoaded && (
-        <div style={{ position: "absolute", width: 0, height: 0, overflow: "hidden", pointerEvents: "none" }}>
-          <MapView
-            initialCenter={{ lat: 34.08, lng: -117.85 }}
-            initialZoom={10}
-            onMapReady={handleMapReady}
-          />
-        </div>
-      )}
 
       <main id="main-content">
         {/* ── Hero ──────────────────────────────────────────────── */}
@@ -489,7 +491,17 @@ export default function Home() {
                   placeholder="City or ZIP code"
                   value={searchQuery}
                   onChange={(e) => handleSearchInput(e.target.value)}
-                  onFocus={() => searchResults.length > 0 && setShowResults(true)}
+                  onFocus={() => {
+                    if (placeSuggestions.length > 0) setShowPlaceSuggestions(true);
+                    else if (searchResults.length > 0) setShowResults(true);
+                  }}
+                  onKeyDown={handleSearchKeyDown}
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded={showPlaceSuggestions && placeSuggestions.length > 0}
+                  aria-controls="homepage-location-suggestions"
+                  aria-activedescendant={activePlaceSuggestion >= 0 ? `homepage-location-${activePlaceSuggestion}` : undefined}
+                  autoComplete="off"
                   style={{ width: "100%" }}
                 />
                 {searchLoading && (
@@ -498,7 +510,8 @@ export default function Home() {
                 {searchQuery && !searchLoading && (
                   <button
                     type="button"
-                    onClick={() => { setSearchQuery(""); setSearchResults([]); setShowResults(false); }}
+                    onClick={() => { setSearchQuery(""); setSearchResults([]); setPlaceSuggestions([]); setShowResults(false); setShowPlaceSuggestions(false); }}
+                    aria-label="Clear location search"
                     style={{ position: "absolute", right: "0.75rem", background: "none", border: "none", cursor: "pointer", padding: 0, color: "#999" }}
                   >
                     <X size={14} />
@@ -506,8 +519,8 @@ export default function Home() {
                 )}
               </div>
               {/* Google Places city/zip autocomplete suggestions */}
-              {showPlaceSuggestions && placeSuggestions.length > 0 && !showResults && (
-                <div style={{
+              {showPlaceSuggestions && placeSuggestions.length > 0 && (
+                <div id="homepage-location-suggestions" role="listbox" aria-label="Suggested cities and ZIP codes" style={{
                   position: "absolute",
                   top: "calc(100% + 4px)",
                   left: 0,
@@ -522,16 +535,19 @@ export default function Home() {
                   <div style={{ padding: "0.5rem 0.75rem", borderBottom: "1px solid #f0ece0", fontSize: "0.7rem", color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600 }}>
                     Suggested Locations
                   </div>
-                  {placeSuggestions.map((s, i) => (
+                  {placeSuggestions.map((suggestion, i) => (
                     <button
-                      key={i}
+                      id={`homepage-location-${i}`}
+                      key={suggestion.id}
                       type="button"
-                      onClick={() => handlePlaceSuggestionClick(s)}
+                      role="option"
+                      aria-selected={i === activePlaceSuggestion}
+                      onClick={() => handlePlaceSuggestionClick(suggestion)}
                       style={{
                         display: "flex", alignItems: "center", gap: "0.6rem",
                         width: "100%", padding: "0.6rem 0.75rem",
                         borderBottom: i < placeSuggestions.length - 1 ? "1px solid #f7f5ef" : "none",
-                        background: "none", border: "none", cursor: "pointer",
+                        background: i === activePlaceSuggestion ? "#faf7ef" : "none", border: "none", cursor: "pointer",
                         textAlign: "left", fontSize: "0.82rem", color: "#121212",
                         transition: "background 0.15s",
                       }}
@@ -539,14 +555,20 @@ export default function Home() {
                       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                     >
                       <MapPin size={13} style={{ color: "#BEAF88", flexShrink: 0 }} />
-                      {s}
+                      <span style={{ flex: 1 }}>{suggestion.label}</span>
+                      <span style={{ fontSize: "0.65rem", color: "#8C7D55", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                        {suggestion.type === "zip" ? "ZIP" : "City"}
+                      </span>
                     </button>
                   ))}
+                  <div style={{ padding: "0.4rem 0.75rem", textAlign: "right", borderTop: "1px solid #f0ece0", fontSize: "0.65rem", color: "#888" }}>
+                    {locationSuggestionProvider === "google" ? "Powered by Google" : "Based on current listings"}
+                  </div>
                 </div>
               )}
 
               {/* Live MLS search results dropdown */}
-              {showResults && searchResults.length > 0 && (
+              {showResults && !showPlaceSuggestions && searchResults.length > 0 && (
                 <div style={{
                   position: "absolute",
                   top: "calc(100% + 4px)",
@@ -638,10 +660,10 @@ export default function Home() {
               aria-label="Price range"
             >
               <option value="">Any Price</option>
-              <option value="0-500000">Under $500K</option>
-              <option value="500000-1000000">$500K - $1M</option>
-              <option value="1000000-2000000">$1M - $2M</option>
-              <option value="2000000-999999999">$2M+</option>
+              <option value="under500">Under $500K</option>
+              <option value="500to1m">$500K - $1M</option>
+              <option value="1mto2m">$1M - $2M</option>
+              <option value="over2m">$2M+</option>
             </select>
             <select
               className="c21-search-select"
@@ -650,10 +672,10 @@ export default function Home() {
               aria-label="Property type"
             >
               <option value="">All Types</option>
-              <option value="residential">Residential</option>
-              <option value="commercial">Commercial</option>
-              <option value="land">Land</option>
-              <option value="multi">Multi-Unit</option>
+              <option value="Residential">Residential</option>
+              <option value="Commercial">Commercial</option>
+              <option value="Land">Land</option>
+              <option value="Multi-Unit">Multi-Unit</option>
             </select>
             <button type="submit" className="c21-search-btn">
               <Search size={15} /> Search

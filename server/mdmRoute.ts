@@ -14,7 +14,7 @@ function apiError(res: Response, error: unknown, fallback: string) {
   return res.status(502).json({ error: fallback });
 }
 
-async function getActiveListings(): Promise<Awaited<ReturnType<typeof fetchCitrusRecentSales>>> {
+export async function getActiveListings(): Promise<Awaited<ReturnType<typeof fetchCitrusRecentSales>>> {
   if (listingCache && Date.now() - listingCache.cachedAt < listingsTtl) return listingCache.data;
   if (!listingFetch) {
     listingFetch = fetchCitrusRecentSales()

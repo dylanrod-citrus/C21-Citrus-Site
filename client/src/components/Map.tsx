@@ -94,7 +94,7 @@ const MAPS_PROXY_URL = `${FORGE_BASE_URL}/v1/maps/proxy`;
 
 let mapScriptPromise: Promise<boolean> | null = null;
 
-function loadMapScript(): Promise<boolean> {
+export function loadGoogleMapsScript(): Promise<boolean> {
   if (window.google?.maps) return Promise.resolve(true);
   if (mapScriptPromise) return mapScriptPromise;
   if (!API_KEY) return Promise.resolve(false);
@@ -110,6 +110,7 @@ function loadMapScript(): Promise<boolean> {
     };
     script.onerror = () => {
       script.remove();
+      mapScriptPromise = null;
       resolve(false);
     };
     document.head.appendChild(script);
@@ -135,7 +136,7 @@ export function MapView({
   const map = useRef<google.maps.Map | null>(null);
 
   const init = usePersistFn(async () => {
-    const loaded = await loadMapScript();
+    const loaded = await loadGoogleMapsScript();
     if (!loaded || !window.google?.maps || !mapContainer.current) return;
     map.current = new window.google.maps.Map(mapContainer.current, {
       zoom: initialZoom,
