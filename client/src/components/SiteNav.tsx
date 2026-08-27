@@ -11,7 +11,7 @@ import { Heart, Menu, Phone, Search, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
 /* ── Asset URLs ─────────────────────────────────────────────── */
-const logoUrl = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
+const logoUrl = "/manus-storage/c21-citrus-realty-gold-logo_c9c0b17e.png";
 
 /* ── External links ─────────────────────────────────────────── */
 const idxSearchUrl = "https://c21citrus.com/search/";

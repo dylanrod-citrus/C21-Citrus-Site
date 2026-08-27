@@ -7,12 +7,12 @@
 - [x] Inspect the restored Google Maps loader and identify why it fails on the static homepage.
 - [x] Remove the failing map-script load from the homepage while preserving the uploaded search experience.
 - [x] Verify the corrected page, checkpoint the repair, and push it to `dylanrod-citrus/C21-Citrus-Site`.
-- [ ] Locate the original C21 Citrus logo and source visual assets supplied with the upload.
-- [ ] Restore original company branding and remove substitute asset behavior.
+- [x] Locate the original C21 Citrus logo and source visual assets supplied with the upload.
+- [x] Restore original company branding and remove substitute asset behavior.
 - [ ] Verify the source-matched visual presentation, checkpoint it, and push to `dylanrod-citrus/C21-Citrus-Site`.
-- [ ] Inspect the original property, agent, contact, and testimonial API routes and their credentials.
-- [ ] Enable the compatible backend capability and restore the live source API routes.
-- [ ] Test live property, agent, contact, and media data flows without creating mock records.
+- [x] Inspect the original property, agent, contact, and testimonial API routes and their credentials.
+- [x] Enable the compatible backend capability and restore the live source API routes.
+- [x] Test live property, agent, contact, and media data flows without creating mock records.
 - [ ] Checkpoint and push the live API integration update to `dylanrod-citrus/C21-Citrus-Site`.
 - [x] Obtain and validate `MDM_CLIENT_ID`, `MDM_CLIENT_SECRET`, and `MDM_API_KEY` for the original Anywhere MDM integration.
 - [x] Restore the source MDM service, route handlers, and client API calls for real listings, photos, and agents.
@@ -20,3 +20,16 @@
 - [x] Diagnose and correct the blank visitor search-results route after the full-stack upgrade.
 - [x] Verify the browser-rendered search-results page displays live MDM properties before final delivery.
 - [x] Confirm `/search-results?q=91773` renders the active 1622 Via Alegre listing with its live MLS photo, pricing, and facts in the browser.
+- [x] Upload the supplied gold C21 Citrus Realty navigation logo as a permanent website asset.
+- [x] Restore the original navigation logo and remove substituted logo behavior.
+- [x] Preserve the uploaded source’s page-specific contact-recipient overrides in the contact-form API.
+- [ ] Validate navigation branding and page-specific contact submission routing, then checkpoint and push the update.
+- [x] Securely configure the Google Workspace sender, app password, and default recipients for contact delivery.
+- [x] Verify a complete contact submission reaches the correct source-defined recipient and sends a visitor confirmation.
+- [x] Validate the working data, branding, and contact visitor paths before checkpointing and a user-approved repository update.
+- [x] Add `dylan@c21citrus.com` to the secure default contact recipient list.
+- [x] Revalidate sender authentication and send the user-authorized live contact-form test to the configured recipients.
+- [x] Reduce first-visit live-listing load time while preserving the restored active MDM inventory behavior.
+- [x] Narrow remaining fallback substitutions to non-brand visual content and preserve the supplied navigation wordmark as the authoritative company logo.
+- [x] Obtain authorization for and verify one source-defined named-recipient contact route without exposing personal data.
+- [x] Add a server-start cache warm-up strategy and document its first-visit listing response time.

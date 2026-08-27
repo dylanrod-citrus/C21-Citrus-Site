@@ -191,8 +191,9 @@ async function fetchListingById(listingId: string): Promise<MdmListing | null> {
 
 export async function fetchCitrusRecentSales(): Promise<MdmListing[]> {
   const listings: MdmListing[] = [];
-  for (let start = 0; start < activeListingIds.length; start += 10) {
-    const batch = await Promise.all(activeListingIds.slice(start, start + 10).map(fetchListingById));
+  const batchSize = 30;
+  for (let start = 0; start < activeListingIds.length; start += batchSize) {
+    const batch = await Promise.all(activeListingIds.slice(start, start + batchSize).map(fetchListingById));
     listings.push(...batch.filter((listing): listing is MdmListing => Boolean(listing)));
   }
   return listings.filter((listing) => /active/i.test(listing.status)).sort((a, b) => b.price - a.price);
