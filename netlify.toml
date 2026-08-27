@@ -1,0 +1,25 @@
+[build]
+  command = "pnpm build"
+  publish = "dist/public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["express", "serverless-http", "nodemailer", "mysql2"]
+
+[dev]
+  command = "PORT=3001 pnpm dev"
+  targetPort = 3001
+  port = 8888
+  autoLaunch = false
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

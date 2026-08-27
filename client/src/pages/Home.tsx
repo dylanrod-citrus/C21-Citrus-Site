@@ -290,13 +290,13 @@ export default function Home() {
   const searchRef = useRef<HTMLDivElement>(null);
   const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Google Places city/zip autocomplete
+  // Live local-inventory city/ZIP autocomplete
   const [placeSuggestions, setPlaceSuggestions] = useState<LocationSuggestion[]>([]);
   const [showPlaceSuggestions, setShowPlaceSuggestions] = useState(false);
   const placesDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const placesRequestRef = useRef(0);
   const [activePlaceSuggestion, setActivePlaceSuggestion] = useState(-1);
-  const [locationSuggestionProvider, setLocationSuggestionProvider] = useState<"google" | "inventory" | "cache">("google");
+  const [locationSuggestionProvider, setLocationSuggestionProvider] = useState<"inventory" | "cache">("inventory");
 
   /* Load recent sales on mount */
   useEffect(() => {
@@ -325,17 +325,17 @@ export default function Home() {
       return;
     }
 
-    // Google Places city/zip suggestions
+    // Current live-inventory city/ZIP suggestions
     if (value.trim().length >= 2) {
       const requestId = placesRequestRef.current;
       placesDebounceRef.current = setTimeout(async () => {
         try {
           const response = await fetch(`/api/maps/autocomplete?q=${encodeURIComponent(value.trim())}`);
           if (!response.ok) throw new Error(`Autocomplete ${response.status}`);
-          const data = await response.json() as { suggestions?: LocationSuggestion[]; provider?: "google" | "inventory" | "cache" };
+          const data = await response.json() as { suggestions?: LocationSuggestion[]; provider?: "inventory" | "cache" };
           if (requestId !== placesRequestRef.current) return;
           const suggestions = data.suggestions || [];
-          setLocationSuggestionProvider(data.provider || "google");
+          setLocationSuggestionProvider(data.provider || "inventory");
           setPlaceSuggestions(suggestions);
           setShowPlaceSuggestions(suggestions.length > 0);
         } catch {
@@ -564,7 +564,7 @@ export default function Home() {
                     </button>
                   ))}
                   <div style={{ padding: "0.4rem 0.75rem", textAlign: "right", borderTop: "1px solid #f0ece0", fontSize: "0.65rem", color: "#888" }}>
-                    {locationSuggestionProvider === "google" ? "Powered by Google" : "Based on current listings"}
+                    {locationSuggestionProvider === "cache" ? "Recently updated local suggestions" : "Based on current listings"}
                   </div>
                 </div>
               )}

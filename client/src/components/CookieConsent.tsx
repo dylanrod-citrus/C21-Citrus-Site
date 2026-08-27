@@ -34,16 +34,16 @@ function setStoredConsent(status: "granted" | "denied") {
 }
 
 function loadAnalytics() {
-  // Only load Umami if env vars are available and script isn't already loaded
-  const endpoint = import.meta.env.VITE_ANALYTICS_ENDPOINT;
-  const websiteId = import.meta.env.VITE_ANALYTICS_WEBSITE_ID;
+  // Only load the office-owned Umami tracker after explicit consent.
+  const endpoint = import.meta.env.VITE_UMAMI_ENDPOINT;
+  const websiteId = import.meta.env.VITE_UMAMI_WEBSITE_ID;
 
   if (!endpoint || !websiteId) return;
   if (document.querySelector('script[data-website-id]')) return;
 
   const script = document.createElement("script");
   script.defer = true;
-  script.src = `${endpoint}/umami`;
+  script.src = `${endpoint.replace(/\/$/, "")}/script.js`;
   script.setAttribute("data-website-id", websiteId);
   document.body.appendChild(script);
 }
@@ -53,7 +53,7 @@ function hasGlobalPrivacyControl(): boolean {
 }
 
 function disableAnalytics() {
-  document.querySelectorAll('script[data-website-id], script[src*="/umami"]').forEach((script) => script.remove());
+  document.querySelectorAll('script[data-website-id], script[src*="/umami"], script[src*="/script.js"]').forEach((script) => script.remove());
 }
 
 function persistOptOut(source: "banner" | "footer" | "gpc") {

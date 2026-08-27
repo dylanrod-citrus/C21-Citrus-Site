@@ -51,3 +51,35 @@
 - [x] Reduce city/ZIP suggestion latency with a cache-first lookup path that avoids duplicate upstream requests.
 - [x] Record consent-gated, privacy-aware aggregate location search selections for operational analytics.
 - [x] Add tests and validate performance, aggregate analytics, and user-visible search behavior before checkpointing and pushing the update.
+- [x] Defer site-owned aggregate analytics in favor of the office-owned Umami option requested by the user.
+- [x] Defer the staff-facing internal metrics view in favor of Umami’s office dashboard.
+- [x] Prepare and evaluate the Google Workspace/Google Cloud Maps Platform setup path; the user deferred subscription-based Places API use.
+- [x] Document the managed-proxy quota limitation and retain the live MDM fallback as the operational no-subscription search path.
+- [x] Identify the Places API (New), billing, and key-restriction requirements for a future office-managed option.
+- [x] Prepare an Umami account and website-configuration checklist for consent-gated aggregate property-search insight.
+- [x] Assess and implement the serverless migration required for the full-stack site to run on Netlify without losing its API paths.
+- [ ] Configure the consent-gated existing site events with an office-owned Umami website once the account and website ID are supplied.
+- [x] Record the user’s decision to defer an office Google Cloud Maps Platform switch.
+- [x] Record the user’s approval to prepare the Netlify Functions migration.
+- [x] Remove Google Places proxy calls and use the live MDM inventory as the sole city/ZIP autocomplete provider.
+- [ ] Configure the existing consent-gated location-selection event after the office supplies an Umami tracking endpoint and Website ID.
+- [x] Create and validate a Netlify Functions adapter, redirect rules, and environment-variable guide so GitHub deployments retain the site’s live backend behavior.
+- [x] Exercise the listener-free Netlify function handler locally against the API health route without creating or linking a Netlify site.
+- [ ] Exercise representative MDM, privacy, testimonials, contact, and tRPC routes through the Netlify function adapter with safe test inputs.
+- [ ] Validate Netlify redirect and function behavior in a local Netlify runtime without creating a public deployment.
+- [ ] Eliminate the Netlify function timeout on an uncached live MDM search while preserving current active-listing results.
+- [ ] Verify the source-defined RealSatisfied API path through the Netlify rewrite rather than an assumed endpoint.
+- [ ] Confirm Netlify Postgres connection requirements and migrate the privacy-audit data layer from MySQL/TiDB to PostgreSQL.
+- [ ] Configure the office-owned Umami tracker after `operations@c21citrus.com` creates the account and provides its Website ID and endpoint.
+- [ ] Complete a Netlify preview verification of MDM listings, emails, privacy controls, testimonials, and autocomplete before directing production cutover from Agent Image.
+- [ ] Configure `https://cloud.umami.is` and the supplied C21 Citrus Website ID through secure project settings, then validate the consent-gated tracker load.
+- [ ] Wait for the separate C21 Citrus Netlify site and Database provisioning, then obtain its connection configuration through the user-approved hosting setup.
+- [ ] Reproduce the Netlify preview 404 and inspect the deployed build-output and publish-directory configuration.
+- [ ] Add a redundant static-host SPA fallback file and verify it cooperates with API function redirects.
+- [ ] Validate the corrected Netlify preview root and representative client routes once the preview URL is available.
+- [ ] Inspect `https://c21citrus.netlify.app/` and compare its response with the currently deployed GitHub commit.
+- [ ] Commit and push the Netlify configuration, serverless adapter, Google-free autocomplete, and Umami setup after the user approves the repository update.
+- [ ] Remove or configure Netlify Edge Access for the C21 Citrus preview so the deployed root and routes can be verified publicly.
+- [ ] Push the already prepared Netlify configuration and app changes to `main`, then trigger a new Netlify deploy from that revision.
+- [ ] Confirm the redeployed `c21citrus.netlify.app` root returns the site rather than Netlify’s generic 404 page.
+- [ ] Save the Netlify 404 correction checkpoint and push the user-approved commit to `main`.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildInventoryLocationSuggestions, normalizeAutocompleteQuery, shouldTryGooglePlaces } from "./googlePlacesRoute";
+import { buildInventoryLocationSuggestions, normalizeAutocompleteQuery } from "./googlePlacesRoute";
 
 describe("Google Places autocomplete route input", () => {
   it("normalizes city and ZIP queries", () => {
@@ -31,11 +31,5 @@ describe("live-inventory location fallback", () => {
     expect(buildInventoryLocationSuggestions(listings, "917")).toEqual([
       { id: "inventory-zip:91773", label: "91773, San Dimas, CA", query: "91773", type: "zip" },
     ]);
-  });
-});
-
-describe("Google Places quota circuit", () => {
-  it("permits a provider lookup when no quota cooldown is active", () => {
-    expect(shouldTryGooglePlaces(Date.now())).toBe(true);
   });
 });

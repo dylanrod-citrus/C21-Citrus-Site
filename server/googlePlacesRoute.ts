@@ -1,29 +1,9 @@
 import { type Express, Router } from "express";
-import { normalizeLocationSuggestions, type GooglePlacePrediction, type LocationSuggestion } from "@shared/locationSearch";
-import { makeRequest } from "./_core/map";
+import { type LocationSuggestion } from "@shared/locationSearch";
 import { getActiveListings } from "./mdmRoute";
-
-interface GoogleAutocompleteResponse {
-  predictions?: GooglePlacePrediction[];
-  status?: string;
-  error_message?: string;
-}
 
 const CACHE_TTL_MS = 5 * 60 * 1000;
 const cache = new Map<string, { expiresAt: number; suggestions: LocationSuggestion[] }>();
-const GOOGLE_QUOTA_RETRY_MS = 15 * 60 * 1000;
-let googleQuotaUnavailableUntil = 0;
-
-export function shouldTryGooglePlaces(now = Date.now()): boolean {
-  return now >= googleQuotaUnavailableUntil;
-}
-
-function noteGoogleAvailabilityError(error: unknown): void {
-  const message = error instanceof Error ? error.message : String(error);
-  if (message.includes("usage exhausted") || message.includes("412 Precondition Failed")) {
-    googleQuotaUnavailableUntil = Date.now() + GOOGLE_QUOTA_RETRY_MS;
-  }
-}
 
 export function buildInventoryLocationSuggestions(
   listings: Array<{ city?: string | null; state?: string | null; zip?: string | null }>,
@@ -75,34 +55,12 @@ export function registerGooglePlacesRoutes(app: Express): void {
     }
 
     try {
-      if (!shouldTryGooglePlaces()) throw new Error("Google Places quota retry window is active");
-      const response = await makeRequest<GoogleAutocompleteResponse>("/maps/api/place/autocomplete/json", {
-        input: query,
-        components: "country:us",
-        types: "(regions)",
-        location: "34.08,-117.85",
-        radius: 250000,
-        language: "en",
-      });
-
-      if (response.status && response.status !== "OK" && response.status !== "ZERO_RESULTS") {
-        throw new Error(`Places autocomplete returned ${response.status}`);
-      }
-
-      const suggestions = normalizeLocationSuggestions(response.predictions || []).slice(0, 5);
+      const listings = await getActiveListings();
+      const suggestions = buildInventoryLocationSuggestions(listings, query);
       cache.set(cacheKey, { expiresAt: Date.now() + CACHE_TTL_MS, suggestions });
-      return res.json({ suggestions, provider: "google" });
-    } catch (error) {
-      noteGoogleAvailabilityError(error);
-      console.warn("[Google Places] Autocomplete unavailable", error instanceof Error ? error.message : error);
-      try {
-        const listings = await getActiveListings();
-        const suggestions = buildInventoryLocationSuggestions(listings, query);
-        cache.set(cacheKey, { expiresAt: Date.now() + CACHE_TTL_MS, suggestions });
-        return res.json({ suggestions, provider: "inventory" });
-      } catch {
-        return res.status(503).json({ error: "Location suggestions are temporarily unavailable.", suggestions: [] });
-      }
+      return res.json({ suggestions, provider: "inventory" });
+    } catch {
+      return res.status(503).json({ error: "Location suggestions are temporarily unavailable.", suggestions: [] });
     }
   });
 
