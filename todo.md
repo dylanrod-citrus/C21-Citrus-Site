@@ -47,3 +47,7 @@
 - [x] Connect selected city or ZIP suggestions to the existing live MDM property-search results without exposing credentials in source control.
 - [x] Add regression coverage and validate autocomplete and submission behavior on desktop and mobile.
 - [x] Exercise the city/ZIP autocomplete and live-results navigation at a mobile viewport, confirming the open panel remains usable without clipping or overlap.
+- [x] Inspect Google Places quota ownership and current autocomplete response timing.
+- [x] Reduce city/ZIP suggestion latency with a cache-first lookup path that avoids duplicate upstream requests.
+- [x] Record consent-gated, privacy-aware aggregate location search selections for operational analytics.
+- [x] Add tests and validate performance, aggregate analytics, and user-visible search behavior before checkpointing and pushing the update.

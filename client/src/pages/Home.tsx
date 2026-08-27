@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { LocationSuggestion } from "@shared/locationSearch";
+import { trackSelectedLocation } from "../lib/searchAnalytics";
 import SiteNav from "../components/SiteNav";
 
 /* ── Asset URLs ─────────────────────────────────────────────── */
@@ -342,7 +343,7 @@ export default function Home() {
           setPlaceSuggestions([]);
           setShowPlaceSuggestions(false);
         }
-      }, 200);
+      }, 100);
     }
 
     if (value.trim().length < 3) {
@@ -368,6 +369,7 @@ export default function Home() {
   }, []);
 
   const handlePlaceSuggestionClick = useCallback((suggestion: LocationSuggestion) => {
+    trackSelectedLocation(suggestion);
     setSearchQuery(suggestion.query);
     setShowPlaceSuggestions(false);
     setPlaceSuggestions([]);

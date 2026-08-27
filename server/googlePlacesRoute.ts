@@ -11,6 +11,19 @@ interface GoogleAutocompleteResponse {
 
 const CACHE_TTL_MS = 5 * 60 * 1000;
 const cache = new Map<string, { expiresAt: number; suggestions: LocationSuggestion[] }>();
+const GOOGLE_QUOTA_RETRY_MS = 15 * 60 * 1000;
+let googleQuotaUnavailableUntil = 0;
+
+export function shouldTryGooglePlaces(now = Date.now()): boolean {
+  return now >= googleQuotaUnavailableUntil;
+}
+
+function noteGoogleAvailabilityError(error: unknown): void {
+  const message = error instanceof Error ? error.message : String(error);
+  if (message.includes("usage exhausted") || message.includes("412 Precondition Failed")) {
+    googleQuotaUnavailableUntil = Date.now() + GOOGLE_QUOTA_RETRY_MS;
+  }
+}
 
 export function buildInventoryLocationSuggestions(
   listings: Array<{ city?: string | null; state?: string | null; zip?: string | null }>,
@@ -62,6 +75,7 @@ export function registerGooglePlacesRoutes(app: Express): void {
     }
 
     try {
+      if (!shouldTryGooglePlaces()) throw new Error("Google Places quota retry window is active");
       const response = await makeRequest<GoogleAutocompleteResponse>("/maps/api/place/autocomplete/json", {
         input: query,
         components: "country:us",
@@ -79,6 +93,7 @@ export function registerGooglePlacesRoutes(app: Express): void {
       cache.set(cacheKey, { expiresAt: Date.now() + CACHE_TTL_MS, suggestions });
       return res.json({ suggestions, provider: "google" });
     } catch (error) {
+      noteGoogleAvailabilityError(error);
       console.warn("[Google Places] Autocomplete unavailable", error instanceof Error ? error.message : error);
       try {
         const listings = await getActiveListings();

@@ -21,6 +21,11 @@ function getStoredConsent(): ConsentStatus {
   }
 }
 
+/** Returns true only when optional analytics are explicitly allowed and GPC is not set. */
+export function hasAnalyticsConsent(): boolean {
+  return resolveConsentStatus(getStoredConsent(), hasGlobalPrivacyControl()) === "granted";
+}
+
 function setStoredConsent(status: "granted" | "denied") {
   localStorage.setItem(
     CONSENT_KEY,

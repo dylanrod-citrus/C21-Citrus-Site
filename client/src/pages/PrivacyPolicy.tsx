@@ -61,6 +61,13 @@ export default function PrivacyPolicy() {
               click "Accept" on our consent banner.</strong> If you decline or do not interact
               with the banner, no analytics data is collected from your visit.
             </p>
+            <p>
+              If you choose optional analytics and select a suggested city or ZIP code, the
+              completed selection may be recorded as an aggregate property-search event to
+              help us understand local search demand. This feature does not record partial
+              search text, and the application does not add an IP address or visitor identifier
+              to these search-selection events.
+            </p>
 
             <h2 className="font-['Playfair_Display',serif] text-2xl font-bold text-[#121212] mt-10 mb-4">
               3. How We Use Your Information
