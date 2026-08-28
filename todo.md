@@ -71,7 +71,7 @@
 - [x] Verify the source-defined RealSatisfied API path through the Netlify rewrite rather than an assumed endpoint.
 - [x] Confirm Netlify Postgres connection requirements and migrate the privacy-audit data layer from MySQL/TiDB to PostgreSQL.
 - [x] Configure the office-owned Umami tracker after `operations@c21citrus.com` creates the account and provides its Website ID and endpoint.
-- [ ] Complete a Netlify preview verification of MDM listings, emails, privacy controls, testimonials, and autocomplete before directing production cutover from Agent Image.
+- [x] Complete a Netlify preview verification of MDM listings, emails, privacy controls, testimonials, and autocomplete before directing production cutover from Agent Image.
 - [x] Configure `https://cloud.umami.is` and the supplied C21 Citrus Website ID through secure project settings, then validate the consent-gated tracker load.
 - [x] Wait for the separate C21 Citrus Netlify site and Database provisioning, then obtain its connection configuration through the user-approved hosting setup.
 - [x] Reproduce the Netlify preview 404 and inspect the deployed build-output and publish-directory configuration.
@@ -104,7 +104,7 @@
 - [x] Push the reviewed Netlify Postgres cache migration now that the user has confirmed the required environment variables are configured.
 - [x] Manually invoke `refresh-inventory` once from the Netlify Functions page after the deploy; completion logs remain subject to the corrected function-bundle deploy.
 - [x] Verify the user-invoked production `refresh-inventory` run populated current active listings before exercising public API routes.
-- [ ] Verify the published C21 Citrus homepage, city/ZIP autocomplete, live search results, portable assets, Umami consent gate, contact form, and privacy request route.
+- [x] Verify the published C21 Citrus homepage, city/ZIP autocomplete, live search results, portable assets, Umami consent gate, contact form, and privacy request route.
 - [x] Correct the Netlify Function bundle so `express` and serverless runtime dependencies are included in the deployed API package.
 - [x] Redeploy and verify the hosted API no longer returns `Runtime.ImportModuleError: Cannot find module 'express'`.
 - [x] Redeploy the corrected function bundle, then confirm `refresh-inventory` completes successfully in Netlify logs rather than only showing an invocation acknowledgement.
@@ -114,8 +114,8 @@
 - [x] Push the corrected cache write, rerun `refresh-inventory`, and verify a completed successful log plus cached listings/search responses.
 - [x] Keep live third-party credential and analytics reachability checks opt-in so the deterministic deployment test suite cannot stall on an external service timeout.
 - [x] Prevent the two noncritical decorative legacy storage image URLs from being requested on the hosted homepage.
-- [ ] Push the decorative asset cleanup, allow Netlify to redeploy, and confirm the hosted homepage no longer requests the C21 seal or Equal Housing legacy storage URLs.
-- [ ] Recheck the published homepage after the asset-cleanup deployment for any remaining `/manus-storage/` requests.
+- [x] Push the decorative asset cleanup, allow Netlify to redeploy, and confirm the hosted homepage no longer requests the C21 seal or Equal Housing legacy storage URLs.
+- [x] Recheck the published homepage after the asset-cleanup deployment for any remaining `/manus-storage/` requests.
 - [x] Determine that Netlify Analytics is collected independently at the server/CDN layer and cannot be selectively suppressed by a site-level decline choice while it is enabled.
 - [x] Clarify in the cookie/privacy interface that declining blocks optional Umami browser analytics and location events, while Netlify’s enabled server-side hosting analytics cannot be suppressed by a page-level preference.
 - [x] Restore the uploaded staff headshots to the real-estate-school “Hear From Our Team” and scholarship-inquiries sections in the user-supplied name order.
@@ -126,6 +126,8 @@
 - [x] Replace the privacy-banner provider name with standard neutral language describing necessary server-side logs for site operations.
 - [x] Push the user-approved complete staged update to GitHub and verify the Netlify deployment.
 - [x] Remove location-selection language from the privacy banner while preserving clear neutral optional-analytics and necessary-server-log wording.
-- [ ] Remove the remaining legacy C21 seal storage request found on the published Real Estate School page and confirm no `/manus-storage/` requests remain after a follow-up deployment.
+- [x] Remove the remaining legacy C21 seal storage request found on the published Real Estate School page and confirm no `/manus-storage/` requests remain after a follow-up deployment.
 - [x] Upload the supplied gold C21 seal as a portable public site asset and display it centered near the top of both the homepage and Real Estate School page.
-- [ ] Push the user-approved seal placement update and verify both hosted pages request the supplied portable seal rather than legacy storage.
+- [x] Push the user-approved seal placement update and verify both hosted pages request the supplied portable seal rather than legacy storage.
+- [x] Submit the user-authorized standard contact test using `dylan@c21citrus.com` and verify delivery to the default office recipients plus the visitor confirmation.
+- [x] Submit the user-authorized privacy-request test using `dylan@c21citrus.com` and verify staff routing plus the visitor confirmation.
