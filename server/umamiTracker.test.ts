@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 
+const liveIt = process.env.RUN_LIVE_INTEGRATION_TESTS === "true" ? it : it.skip;
+
 describe("office-owned Umami tracker configuration", () => {
-  it("uses a configured Umami Cloud website identifier and reachable tracker script", async () => {
+  liveIt("uses a configured Umami Cloud website identifier and reachable tracker script", async () => {
     const endpoint = process.env.VITE_UMAMI_ENDPOINT;
     const websiteId = process.env.VITE_UMAMI_WEBSITE_ID;
 

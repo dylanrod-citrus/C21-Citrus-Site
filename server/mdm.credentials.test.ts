@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 const tokenUrl = "https://realogy.okta.com/oauth2/aus7i8b1taFyPOEGc1t7/v1/token";
 const scope = "https://dataservices.eap.com/eaplistingsapi";
+const liveIt = process.env.RUN_LIVE_INTEGRATION_TESTS === "true" ? it : it.skip;
 
 describe("Anywhere MDM credentials", () => {
-  it("obtains a short-lived access token for the original MDM scope", async () => {
+  liveIt("obtains a short-lived access token for the original MDM scope", async () => {
     const clientId = process.env.MDM_CLIENT_ID;
     const clientSecret = process.env.MDM_CLIENT_SECRET;
     const apiKey = process.env.MDM_API_KEY;
@@ -26,6 +27,6 @@ describe("Anywhere MDM credentials", () => {
     const payload = await response.json() as { access_token?: string; expires_in?: number };
     expect(payload.access_token, "OAuth response must include an access token").toBeTruthy();
     expect(payload.expires_in, "OAuth response must include token expiry").toBeGreaterThan(0);
-  }, 30_000);
+  }, 15_000);
 
 });

@@ -110,3 +110,6 @@
 - [ ] Redeploy the corrected function bundle, then confirm `refresh-inventory` completes successfully in Netlify logs rather than only showing an invocation acknowledgement.
 - [ ] Verify post-refresh `/api/mdm/listings` and `/api/mdm/search` return cached live data without import or cache-missing errors.
 - [ ] Recheck the published root and API routes after the user enables public Netlify access, then distinguish any remaining function or cache failure from access control.
+- [x] Replace the Netlify Database-incompatible prepared-statement cache write with a supported serverless Postgres write path.
+- [ ] Push the corrected cache write, rerun `refresh-inventory`, and verify a completed successful log plus cached listings/search responses.
+- [x] Keep live third-party credential and analytics reachability checks opt-in so the deterministic deployment test suite cannot stall on an external service timeout.
