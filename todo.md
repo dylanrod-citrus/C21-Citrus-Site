@@ -101,3 +101,5 @@
 - [x] Correct the Postgres cache upsert so refreshed listing payloads replace existing cached payloads, then add regression coverage.
 - [ ] Run the deployed scheduled refresh against the active C21 Citrus Netlify database and verify stored active-listing cache rows.
 - [ ] Verify the hosted listing and autocomplete APIs read the primed cache without cold-start timeout or cache-missing errors.
+- [ ] Push the reviewed Netlify Postgres cache migration now that the user has confirmed the required environment variables are configured.
+- [ ] Manually invoke `refresh-inventory` once from the Netlify Functions page after the deploy, then verify its successful status and logs.
