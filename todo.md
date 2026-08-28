@@ -125,3 +125,4 @@
 - [x] Preserve required Netlify server-side analytics while making the optional analytics choice and privacy disclosure technically accurate.
 - [x] Replace the privacy-banner provider name with standard neutral language describing necessary server-side logs for site operations.
 - [ ] Push the user-approved complete staged update to GitHub and verify the Netlify deployment.
+- [x] Remove location-selection language from the privacy banner while preserving clear neutral optional-analytics and necessary-server-log wording.
