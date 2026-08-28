@@ -58,17 +58,17 @@
 - [x] Identify the Places API (New), billing, and key-restriction requirements for a future office-managed option.
 - [x] Prepare an Umami account and website-configuration checklist for consent-gated aggregate property-search insight.
 - [x] Assess and implement the serverless migration required for the full-stack site to run on Netlify without losing its API paths.
-- [ ] Configure the consent-gated existing site events with an office-owned Umami website once the account and website ID are supplied.
+- [x] Configure the consent-gated existing site events with an office-owned Umami website once the account and website ID are supplied.
 - [x] Record the user’s decision to defer an office Google Cloud Maps Platform switch.
 - [x] Record the user’s approval to prepare the Netlify Functions migration.
 - [x] Remove Google Places proxy calls and use the live MDM inventory as the sole city/ZIP autocomplete provider.
-- [ ] Configure the existing consent-gated location-selection event after the office supplies an Umami tracking endpoint and Website ID.
+- [x] Configure the existing consent-gated location-selection event after the office supplies an Umami tracking endpoint and Website ID.
 - [x] Create and validate a Netlify Functions adapter, redirect rules, and environment-variable guide so GitHub deployments retain the site’s live backend behavior.
 - [x] Exercise the listener-free Netlify function handler locally against the API health route without creating or linking a Netlify site.
 - [ ] Exercise representative MDM, privacy, testimonials, contact, and tRPC routes through the Netlify function adapter with safe test inputs.
 - [x] Validate Netlify redirect and function behavior in a local Netlify runtime without creating a public deployment.
 - [ ] Eliminate the Netlify function timeout on an uncached live MDM search while preserving current active-listing results.
-- [ ] Verify the source-defined RealSatisfied API path through the Netlify rewrite rather than an assumed endpoint.
+- [x] Verify the source-defined RealSatisfied API path through the Netlify rewrite rather than an assumed endpoint.
 - [x] Confirm Netlify Postgres connection requirements and migrate the privacy-audit data layer from MySQL/TiDB to PostgreSQL.
 - [x] Configure the office-owned Umami tracker after `operations@c21citrus.com` creates the account and provides its Website ID and endpoint.
 - [ ] Complete a Netlify preview verification of MDM listings, emails, privacy controls, testimonials, and autocomplete before directing production cutover from Agent Image.
@@ -76,40 +76,47 @@
 - [x] Wait for the separate C21 Citrus Netlify site and Database provisioning, then obtain its connection configuration through the user-approved hosting setup.
 - [x] Reproduce the Netlify preview 404 and inspect the deployed build-output and publish-directory configuration.
 - [x] Add a redundant static-host SPA fallback file and verify it cooperates with API function redirects.
-- [ ] Validate the corrected Netlify preview root and representative client routes once the preview URL is available.
+- [x] Validate the corrected Netlify preview root and representative client routes once the preview URL is available.
 - [x] Inspect `https://c21citrus.netlify.app/` and compare its response with the currently deployed GitHub commit.
 - [x] Commit and push the Netlify configuration, serverless adapter, Google-free autocomplete, and Umami setup after the user approves the repository update.
 - [x] Determine that Netlify Edge Access is not the cause of the user-visible generic 404.
 - [x] Push the already prepared Netlify configuration and app changes to `main`, then trigger a new Netlify deploy from that revision.
-- [ ] Confirm the redeployed `c21citrus.netlify.app` root returns the site rather than Netlify’s generic 404 page.
+- [x] Confirm the redeployed `c21citrus.netlify.app` root returns the site rather than Netlify’s generic 404 page.
 - [x] Save the Netlify 404 correction checkpoint and push the user-approved commit to `main`.
 - [x] Move `api.test.ts` outside `netlify/functions` so Netlify deploys only the valid `api` function.
 - [x] Validate the deployed-function directory contains only deployment-safe function names before the clean redeploy.
-- [ ] Confirm a new Netlify deploy runs from the corrected post-`37de1ad` GitHub commit and reaches a successful deploy status.
-- [ ] Inspect the public Netlify root, a client route, and an API route after the corrected deploy to verify SPA and API redirects together.
+- [x] Confirm a new Netlify deploy runs from the corrected post-`37de1ad` GitHub commit and reaches a successful deploy status.
+- [x] Inspect the public Netlify root, a client route, and an API route after the corrected deploy to verify SPA and API redirects together.
 - [x] Replace project-scoped `/manus-storage/` visual asset URLs with portable public CDN assets so the hosted hero and company logo render independently.
 - [x] Provide the exact Netlify Database activation and secure environment-variable setup steps for the C21 Citrus project before the data migration.
-- [ ] Push the portable asset update, redeploy Netlify, and verify the hosted hero plus navigation and footer wordmarks render successfully.
-- [ ] Inspect the redeployed site for any remaining `/manus-storage/` asset request and replace or remap it before finalizing hosted asset portability.
+- [x] Push the portable asset update, redeploy Netlify, and verify the hosted hero plus navigation and footer wordmarks render successfully.
+- [x] Inspect the redeployed site for any remaining `/manus-storage/` asset request and replace or remap it before finalizing hosted asset portability.
 - [x] Migrate the database schema and access helpers to Netlify Postgres while preserving the data-minimized privacy and opt-out audit records.
 - [x] Document the exact Netlify variable scopes and required existing credentials for Functions, including the database connection contract.
-- [ ] Validate the migration using the active Netlify production database after the user supplies secure connection configuration through Netlify.
+- [x] Validate the migration using the active Netlify production database after the user supplies secure connection configuration through Netlify.
 - [x] Persist a data-minimized active-listing cache in Netlify Postgres so Netlify Functions do not rebuild the full provider inventory for a cold visitor search.
 - [x] Add a safe cache-refresh path and Netlify schedule configuration for the live MDM inventory, then validate response behavior without provider timeout.
 - [x] Add a 15-minute Netlify scheduled inventory refresh that writes only active listing cache records to the C21 Citrus Postgres database.
 - [x] Confirm the user has added all required Netlify Function and build variable names before the hosted end-to-end validation.
 - [x] Correct the Postgres cache upsert so refreshed listing payloads replace existing cached payloads, then add regression coverage.
-- [ ] Run the deployed scheduled refresh against the active C21 Citrus Netlify database and verify stored active-listing cache rows.
-- [ ] Verify the hosted listing and autocomplete APIs read the primed cache without cold-start timeout or cache-missing errors.
-- [ ] Push the reviewed Netlify Postgres cache migration now that the user has confirmed the required environment variables are configured.
+- [x] Run the deployed scheduled refresh against the active C21 Citrus Netlify database and verify stored active-listing cache rows.
+- [x] Verify the hosted listing and autocomplete APIs read the primed cache without cold-start timeout or cache-missing errors.
+- [x] Push the reviewed Netlify Postgres cache migration now that the user has confirmed the required environment variables are configured.
 - [x] Manually invoke `refresh-inventory` once from the Netlify Functions page after the deploy; completion logs remain subject to the corrected function-bundle deploy.
-- [ ] Verify the user-invoked production `refresh-inventory` run populated current active listings before exercising public API routes.
+- [x] Verify the user-invoked production `refresh-inventory` run populated current active listings before exercising public API routes.
 - [ ] Verify the published C21 Citrus homepage, city/ZIP autocomplete, live search results, portable assets, Umami consent gate, contact form, and privacy request route.
 - [x] Correct the Netlify Function bundle so `express` and serverless runtime dependencies are included in the deployed API package.
-- [ ] Redeploy and verify the hosted API no longer returns `Runtime.ImportModuleError: Cannot find module 'express'`.
-- [ ] Redeploy the corrected function bundle, then confirm `refresh-inventory` completes successfully in Netlify logs rather than only showing an invocation acknowledgement.
-- [ ] Verify post-refresh `/api/mdm/listings` and `/api/mdm/search` return cached live data without import or cache-missing errors.
-- [ ] Recheck the published root and API routes after the user enables public Netlify access, then distinguish any remaining function or cache failure from access control.
+- [x] Redeploy and verify the hosted API no longer returns `Runtime.ImportModuleError: Cannot find module 'express'`.
+- [x] Redeploy the corrected function bundle, then confirm `refresh-inventory` completes successfully in Netlify logs rather than only showing an invocation acknowledgement.
+- [x] Verify post-refresh `/api/mdm/listings` and `/api/mdm/search` return cached live data without import or cache-missing errors.
+- [x] Recheck the published root and API routes after the user enables public Netlify access, then distinguish any remaining function or cache failure from access control.
 - [x] Replace the Netlify Database-incompatible prepared-statement cache write with a supported serverless Postgres write path.
-- [ ] Push the corrected cache write, rerun `refresh-inventory`, and verify a completed successful log plus cached listings/search responses.
+- [x] Push the corrected cache write, rerun `refresh-inventory`, and verify a completed successful log plus cached listings/search responses.
 - [x] Keep live third-party credential and analytics reachability checks opt-in so the deterministic deployment test suite cannot stall on an external service timeout.
+- [x] Prevent the two noncritical decorative legacy storage image URLs from being requested on the hosted homepage.
+- [ ] Push the decorative asset cleanup, allow Netlify to redeploy, and confirm the hosted homepage no longer requests the C21 seal or Equal Housing legacy storage URLs.
+- [ ] Recheck the published homepage after the asset-cleanup deployment for any remaining `/manus-storage/` requests.
+- [x] Determine that Netlify Analytics is collected independently at the server/CDN layer and cannot be selectively suppressed by a site-level decline choice while it is enabled.
+- [x] Clarify in the cookie/privacy interface that declining blocks optional Umami browser analytics and location events, while Netlify’s enabled server-side hosting analytics cannot be suppressed by a page-level preference.
+- [x] Restore the uploaded staff headshots to the real-estate-school “Hear From Our Team” and scholarship-inquiries sections in the user-supplied name order.
+- [x] Prepare consistent portrait display crops that preserve faces and use a uniform card presentation on the real-estate-school page.

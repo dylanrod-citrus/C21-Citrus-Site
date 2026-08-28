@@ -12,7 +12,6 @@
 import { Link } from "wouter";
 import { triggerDoNotSellOptOut } from "./CookieConsent";
 
-const EHO_LOGO = "/manus-storage/eho-logo_945dfdbe.png";
 const LOGO_URL = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/FmgRAuAhcizSMKMD.png";
 
 export default function SiteComplianceFooter() {
@@ -139,12 +138,19 @@ export default function SiteComplianceFooter() {
           gap: "1rem",
         }}
       >
-        {/* Equal Housing Opportunity logo */}
-        <img
-          src={EHO_LOGO}
-          alt="Equal Housing Opportunity"
-          style={{ height: "2.25rem", opacity: 0.75, filter: "invert(1)" }}
-        />
+        <span
+          aria-label="Equal Housing Opportunity"
+          style={{
+            color: "#aaa",
+            fontSize: "0.68rem",
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            lineHeight: 1.25,
+            textTransform: "uppercase",
+          }}
+        >
+          Equal Housing Opportunity
+        </span>
 
         <div className="c21-compliance-footer-copy" style={{ flex: 1, minWidth: "0" }}>
           <p style={{ color: "#666", fontSize: "0.75rem", lineHeight: 1.6, margin: 0 }}>

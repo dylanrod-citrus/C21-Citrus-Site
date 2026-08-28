@@ -13,7 +13,7 @@ export default function PrivacyPolicy() {
             Privacy Policy
           </h1>
           <p className="text-white/70 text-lg">
-            Last updated: July 6, 2026
+            Last updated: August 28, 2026
           </p>
         </div>
       </section>
@@ -47,19 +47,18 @@ export default function PrivacyPolicy() {
               content.
             </p>
             <h3 className="text-xl font-bold text-[#121212] mt-6 mb-3">
-              Automatically Collected Information (Only With Your Consent)
+              Optional Browser Analytics (Only With Your Consent)
             </h3>
             <p>
-              With your explicit consent, we use Umami Analytics, a privacy-focused analytics
-              tool, to collect anonymous usage data such as pages visited, time on site, and
-              general geographic region. Umami does not use cookies, does not track users across
-              websites, and does not collect personally identifiable information. This data
-              helps us improve our website experience.
+              With your explicit consent, we use Umami Analytics, a privacy-focused, browser-based
+              analytics tool to collect website usage data such as pages visited and general
+              geographic region. This optional tool helps us improve the website experience.
             </p>
             <p>
-              <strong>No analytics or tracking scripts are loaded until you affirmatively
-              click "Accept" on our consent banner.</strong> If you decline or do not interact
-              with the banner, no analytics data is collected from your visit.
+              <strong>No optional browser-based analytics script is loaded until you affirmatively
+              click "Accept" on our consent banner.</strong> If you decline, do not interact with
+              the banner, or use Global Privacy Control, Umami and the associated property-search
+              location event remain disabled for that browser.
             </p>
             <p>
               If you choose optional analytics and select a suggested city or ZIP code, the
@@ -67,6 +66,18 @@ export default function PrivacyPolicy() {
               help us understand local search demand. This feature does not record partial
               search text, and the application does not add an IP address or visitor identifier
               to these search-selection events.
+            </p>
+            <h3 className="text-xl font-bold text-[#121212] mt-6 mb-3">
+              Hosting and Server-Side Analytics
+            </h3>
+            <p>
+              Our hosting provider, Netlify, may process standard content-delivery-network request
+              logs to operate and secure the site. If Netlify Web Analytics is enabled, Netlify
+              derives aggregate site analytics from those server-side logs, rather than from a
+              script added to this website. A browser-level consent choice cannot prevent the host
+              from receiving a request needed to serve the page or selectively turn off that
+              server-side measurement. Netlify’s processing is described in its own privacy and
+              data-processing documentation.
             </p>
 
             <h2 className="font-['Playfair_Display',serif] text-2xl font-bold text-[#121212] mt-10 mb-4">
@@ -90,7 +101,8 @@ export default function PrivacyPolicy() {
             </p>
             <p>
               We may share information with service providers who assist us in operating our
-              website (such as email delivery services) under strict confidentiality agreements.
+              website, such as hosting, email delivery, and privacy-respecting analytics services,
+              under applicable service agreements and contractual safeguards.
             </p>
 
             <h2 className="font-['Playfair_Display',serif] text-2xl font-bold text-[#121212] mt-10 mb-4">
@@ -103,8 +115,12 @@ export default function PrivacyPolicy() {
               technologies.
             </p>
             <p>
-              The only analytics tool we use (Umami) is cookieless and privacy-respecting. It
-              is loaded only after you provide affirmative consent via our consent banner.
+              Umami is the optional browser-based analytics tool used on this site and it is loaded
+              only after you provide affirmative consent via our consent banner. Netlify Web
+              Analytics, when enabled for the hosting project, is server-side request-log analytics
+              and does not rely on a browser cookie or this site’s consent script. Declining
+              optional analytics therefore disables Umami and its custom events, but does not
+              switch off Netlify’s server-side hosting analytics for an individual page request.
             </p>
 
             <h2 className="font-['Playfair_Display',serif] text-2xl font-bold text-[#121212] mt-10 mb-4">

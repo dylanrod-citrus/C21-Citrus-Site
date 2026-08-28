@@ -448,21 +448,6 @@ export default function Home() {
             className="c21-hero-bg"
           />
           <div className="c21-hero-overlay" />
-          {/* C21 Seal — top-center of hero photo */}
-          <div style={{
-            position: "absolute",
-            top: "2rem",
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 10,
-            pointerEvents: "none",
-          }}>
-            <img
-              src="/manus-storage/c21-seal-transparent_a00d7088.png"
-              alt="Century 21 Seal"
-              style={{ width: "110px", height: "110px", display: "block" }}
-            />
-          </div>
           <div className="c21-hero-content">
             <h1 className="c21-hero-title">
               Find Your Place in<br />Southern California

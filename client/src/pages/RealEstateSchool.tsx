@@ -33,6 +33,17 @@ const JANETH_EMAIL = "janeth@c21citrus.com";
 const CHARCOAL = "#252526";       // Obsessed Grey
 const CHARCOAL_LIGHT = "#2e2e2f"; // Slightly lighter Obsessed Grey
 const CHARCOAL_DARK = "#121212";  // Digital Black
+const SCHOOL_PORTRAITS = {
+  mireya: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/gFBFhIRYgINMPIoN.webp",
+  denise: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/rHZoCHuPriXOvBDP.webp",
+  michelle: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/JEDfRNhlWWHntqxb.webp",
+  stella: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/MOAWoQFvivUAmaDn.webp",
+  sharyn: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/HztxOEJXvgfTwJVu.webp",
+  kimberly: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/XVkpkRlHEnzVdFkZ.webp",
+  gabriela: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/DFHKLTItGwaBJqzC.webp",
+  aaron: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/HBnsAHzUYCTpxqcS.webp",
+  janeth: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/DWhxZLoHqXXeleBP.webp",
+} as const;
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -138,50 +149,50 @@ const testimonials = [
     quote: "I chose Century 21 Citrus Realty in 2012 because of the reputation and the support system they offered. I got my license through their course, and in my first full year as an agent I became one of the top producers in the office. The training, the mentorship, and the culture here are unlike anything I have experienced anywhere else. Century 21 Citrus Realty did not just give me a license - they gave me a career.",
     name: "Mireya Chavarria",
     award: "",
-    photo: "/manus-storage/mireya-new_bdc7844f.png",
+    photo: SCHOOL_PORTRAITS.mireya,
   },
   {
     quote: "From the moment I walked through the door I felt welcomed. The training here is powerful and practical - not just theory, but real-world tools you can use immediately. What I tell everyone who asks me about getting into real estate is this: it is not just an office, it is a family, and it is a launchpad. Century 21 Citrus Realty gave me everything I needed to build a business I am proud of.",
     name: "Denise Vargas",
     award: "",
-    photo: "/manus-storage/denise-new_3aa49996.png",
+    photo: SCHOOL_PORTRAITS.denise,
   },
   {
     quote: "I tried three other offices before landing at Century 21 Citrus Realty, and the difference was immediate. The tools, the training, and the collaboration between agents here are on a completely different level. Everyone genuinely wants to see you succeed. Having everything under one roof - from licensing support to marketing resources to a broker who is actually available - made all the difference in my career.",
     name: "Michelle Del Muro",
     award: "",
-    photo: "/manus-storage/michelle-new_3c2868f9.png",
+    photo: SCHOOL_PORTRAITS.michelle,
   },
   {
     quote:
       "Starting a new chapter in my life with a real estate career has been exciting and humbling. I really enjoy working at Century 21 Citrus and I appreciate the support, training, and guidance this office has provided for me. I am grateful to be in an environment where people are willing to help and share their knowledge as this support has made it easier to excel in real estate. Thank you to all the staff, management and my colleagues for the encouragement and for creating a place where I can continue to learn, improve, and serve my clients well. I'm looking forward to what's ahead in this journey!",
     name: "Stella McCauley",
     award: "",
-    photo: "/manus-storage/stella_0ecefb99.webp",
+    photo: SCHOOL_PORTRAITS.stella,
   },
   {
     quote: "After spending my entire adult life working in high-end restaurants, I knew I needed a change, something more stable and meaningful where I could truly build a career. I joined Citrus in 2008, right as the market crashed, and I've never looked back. In fact, Citrus is the only company I've ever worked with in real estate. OJ and his team provide incredible tools and support that set you up for success. And he makes it fun too! Our attitude is, \"We work hard but we play harder!\" I still remember him saying, \"You can fail in this industry, but it's not going to be here. The only reason you would fail is if you don't do what we teach you. Every activity we assign is designed to help you succeed.\" That mindset and the structure behind it made all the difference for me. Since joining Citrus, I've earned more than I ever imagined possible. But more than that, I've had the privilege of helping people achieve the American Dream of homeownership. Through goal-setting, discipline, and being part of a supportive real estate family, I've built a life and a career I'm incredibly proud of. If you're serious about growth and looking for a company that will invest in your success, you need to join our team. At Citrus, we're not just colleagues...we're family.",
     name: "Sharyn Jung",
     award: "",
-    photo: "/manus-storage/sharyn_jung_head_d5cb895b.jpg",
+    photo: SCHOOL_PORTRAITS.sharyn,
   },
   {
     quote: "It's truly an honor to reflect on being the number one agent for seven consecutive years and an award-winning agent since 2015. Achieving this level of success wouldn't have been possible without the incredible support, resources, and training I've received from my brokerage. From day one, I've been part of a team that's more like a family - everyone here is genuinely invested in each other's growth, and it's that sense of community that has played a pivotal role in my success. My broker has built a culture that emphasizes teamwork, personal development, and constant improvement, and that's been the cornerstone of my journey in real estate. The tools and resources available to me have been game-changers, helping me stay ahead of the curve and better serve my clients. From cutting-edge technology to in-depth training programs, I've been empowered to expand my skills and adapt to the ever-changing market. Being able to thrive in such a supportive environment makes all the hard work worth it, and I am deeply grateful for the opportunities I've had to grow both personally and professionally. Here's to many more years of success and collaboration!",
     name: "Kimberly Olbrich",
     award: "",
-    photo: "/manus-storage/kimberlyoblrich_40b3d6d9.webp",
+    photo: SCHOOL_PORTRAITS.kimberly,
   },
   {
     quote: "When I made the leap from my job at Bank of America during the height of COVID, I knew I was chasing something more meaningful, but I had no idea just how life-changing that decision would be. Joining Century 21 Citrus was truly the best move I could've made — from day one, I felt surrounded by a team that genuinely wants you to succeed. The training is top-notch, the support from management is unmatched, and the resources they provide to help you find clients are incredibly effective. On top of that, the office culture is inspiring, energetic, and full of agents who uplift one another. Whether you're brand new or a seasoned pro, Century 21 Citrus gives you the tools, mentorship, and environment to truly thrive. Thank you to my Coach Andrew Mendez for pushing me to pursue this career! I'm so proud to be part of a brokerage that not only believes in your potential but helps you unlock it every step of the way!",
     name: "Gabriela Sandoval",
     award: "",
-    photo: "/manus-storage/gabby_sandoval_012c04db.webp",
+    photo: SCHOOL_PORTRAITS.gabriela,
   },
   {
     quote: "The environment here truly promotes and supports growth. Agents at all levels openly share ideas and strategies, creating a collaborative and motivating atmosphere. The broker provides high-level training, skill building, and personalized sales coaching that has made a real difference in my career. I feel empowered and prepared to go out and find business, knowing I have a strong support system behind me every step of the way.",
     name: "Aaron Rivas",
     award: "",
-    photo: "/manus-storage/aaronrivasoriginal_d403a339.webp",
+    photo: SCHOOL_PORTRAITS.aaron,
   },
 ];
 
@@ -654,11 +665,11 @@ export default function RealEstateSchool() {
                   {testimonials.map((t) => (
                     <div key={t.name} style={{ background: CHARCOAL_LIGHT, border: "1px solid rgba(190,175,136,0.2)", borderRadius: "3px", overflow: "hidden", borderTop: "3px solid var(--c21-gold)", display: "flex", flexDirection: "column" }}>
                       {t.photo && (
-                        <div style={{ width: "100%", height: "260px", overflow: "hidden", flexShrink: 0 }}>
+                        <div style={{ width: "100%", aspectRatio: "4 / 5", overflow: "hidden", flexShrink: 0 }}>
                           <img
                             src={t.photo}
                             alt={t.name}
-                            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
+                            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 32%", display: "block" }}
                           />
                         </div>
                       )}
@@ -723,7 +734,7 @@ export default function RealEstateSchool() {
                 </div>
                 <div style={{ background: "rgba(190,175,136,0.08)", border: "1px solid rgba(190,175,136,0.25)", borderRadius: "3px", padding: "2rem", minWidth: "220px", textAlign: "center" }}>
                   <div style={{ width: "120px", height: "120px", borderRadius: "50%", overflow: "hidden", margin: "0 auto 1rem", border: "3px solid var(--c21-gold)" }}>
-                    <img src="/manus-storage/janeth_new_8ac788c9.png" alt="Janeth Vega" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+                    <img src={SCHOOL_PORTRAITS.janeth} alt="Janeth Vega" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 32%" }} />
                   </div>
                   <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.15rem", fontWeight: 700, color: "#fff", marginBottom: "0.3rem" }}>Janeth Vega</p>
                   <p style={{ fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--c21-gold)", marginBottom: "1rem" }}>Director of Career Development</p>

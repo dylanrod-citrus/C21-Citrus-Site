@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 
 const CONSENT_KEY = "c21_tracking_consent";
-const CONSENT_VERSION = "1"; // Bump this to re-prompt users if policy changes
+const CONSENT_VERSION = "2"; // Bump this to re-prompt users if policy changes
 
 type ConsentStatus = "granted" | "denied" | null;
 
@@ -147,8 +147,10 @@ export function CookieConsent() {
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex-1">
             <p className="text-sm text-white/90 leading-relaxed font-['Lato',sans-serif]">
-              We use privacy-respecting analytics to understand how visitors use our site.
-              We <strong>do not sell or share your personal information</strong> with advertisers.{" "}
+              Accepting enables optional, privacy-respecting on-page analytics; declining keeps
+              Umami and location-selection events off. Netlify hosting may still process
+              server-side request logs independently of this choice. We <strong>do not sell or
+              share your personal information</strong> with advertisers.{" "}
               <a
                 href="/privacy-policy"
                 className="text-[#BEAF88] underline underline-offset-2 hover:text-[#e0c36a] transition-colors"
