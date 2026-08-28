@@ -123,3 +123,5 @@
 - [x] Reduce the Real Estate School “Hear from Our Team” portrait display frames to half their current size while retaining centered face framing.
 - [x] Replace provider-specific optional-analytics wording in the privacy banner with neutral visitor-facing terminology.
 - [x] Preserve required Netlify server-side analytics while making the optional analytics choice and privacy disclosure technically accurate.
+- [x] Replace the privacy-banner provider name with standard neutral language describing necessary server-side logs for site operations.
+- [ ] Push the user-approved complete staged update to GitHub and verify the Netlify deployment.

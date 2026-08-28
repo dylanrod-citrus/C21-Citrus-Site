@@ -6,7 +6,8 @@ describe("CookieConsent disclosure", () => {
     const source = await readFile(new URL("./CookieConsent.tsx", import.meta.url), "utf8");
 
     expect(source).toContain("optional analytics service and location-selection events off");
-    expect(source).toContain("necessary server-side request logs");
+    expect(source).toContain("Necessary server-side");
+    expect(source).toContain("logs may still be processed to operate and secure this site");
     expect(source).not.toContain("Umami and location-selection events off");
   });
 });
