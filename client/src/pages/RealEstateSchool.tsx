@@ -665,7 +665,7 @@ export default function RealEstateSchool() {
                   {testimonials.map((t) => (
                     <div key={t.name} style={{ background: CHARCOAL_LIGHT, border: "1px solid rgba(190,175,136,0.2)", borderRadius: "3px", overflow: "hidden", borderTop: "3px solid var(--c21-gold)", display: "flex", flexDirection: "column" }}>
                       {t.photo && (
-                        <div style={{ width: "100%", aspectRatio: "4 / 5", overflow: "hidden", flexShrink: 0 }}>
+                        <div style={{ width: "50%", maxWidth: "160px", aspectRatio: "4 / 5", overflow: "hidden", flexShrink: 0, margin: "1.5rem auto 0" }}>
                           <img
                             src={t.photo}
                             alt={t.name}

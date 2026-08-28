@@ -16,6 +16,8 @@ describe("RealEstateSchool staff portraits", () => {
     expect(source).toContain("SCHOOL_PORTRAITS.aaron");
     expect(source).toContain("SCHOOL_PORTRAITS.janeth");
     expect(source).toContain('aspectRatio: "4 / 5"');
+    expect(source).toContain('width: "50%"');
+    expect(source).toContain('maxWidth: "160px"');
     expect(source).toContain('objectPosition: "center 32%"');
   });
 });

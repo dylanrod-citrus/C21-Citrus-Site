@@ -120,3 +120,6 @@
 - [x] Clarify in the cookie/privacy interface that declining blocks optional Umami browser analytics and location events, while Netlify’s enabled server-side hosting analytics cannot be suppressed by a page-level preference.
 - [x] Restore the uploaded staff headshots to the real-estate-school “Hear From Our Team” and scholarship-inquiries sections in the user-supplied name order.
 - [x] Prepare consistent portrait display crops that preserve faces and use a uniform card presentation on the real-estate-school page.
+- [x] Reduce the Real Estate School “Hear from Our Team” portrait display frames to half their current size while retaining centered face framing.
+- [x] Replace provider-specific optional-analytics wording in the privacy banner with neutral visitor-facing terminology.
+- [x] Preserve required Netlify server-side analytics while making the optional analytics choice and privacy disclosure technically accurate.

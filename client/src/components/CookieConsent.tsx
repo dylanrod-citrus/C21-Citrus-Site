@@ -147,10 +147,10 @@ export function CookieConsent() {
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex-1">
             <p className="text-sm text-white/90 leading-relaxed font-['Lato',sans-serif]">
-              Accepting enables optional, privacy-respecting on-page analytics; declining keeps
-              Umami and location-selection events off. Netlify hosting may still process
-              server-side request logs independently of this choice. We <strong>do not sell or
-              share your personal information</strong> with advertisers.{" "}
+              Accepting enables optional, privacy-respecting analytics; declining keeps the
+              optional analytics service and location-selection events off. Netlify hosting may
+              still process necessary server-side request logs independently of this choice. We
+              <strong> do not sell or share your personal information</strong> with advertisers.{" "}
               <a
                 href="/privacy-policy"
                 className="text-[#BEAF88] underline underline-offset-2 hover:text-[#e0c36a] transition-colors"
