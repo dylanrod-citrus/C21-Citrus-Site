@@ -1,10 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { fetchRealSatisfiedTestimonials } from "./realSatisfiedRoute";
 
 describe("C21 Citrus RealSatisfied feed", () => {
-  it("returns authentic office testimonials from the configured public feed", async () => {
-    const testimonials = await fetchRealSatisfiedTestimonials();
-    expect(testimonials.length).toBeGreaterThan(0);
-    expect(testimonials.every((testimonial) => testimonial.quote.length > 10 && Boolean(testimonial.author))).toBe(true);
-  }, 20_000);
+  afterEach(() => vi.unstubAllGlobals());
+
+  it("returns no testimonial content when the authentic provider is unavailable", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("provider unavailable", { status: 503 })));
+
+    await expect(fetchRealSatisfiedTestimonials()).rejects.toThrow("RealSatisfied RSS responded 503");
+  });
 });

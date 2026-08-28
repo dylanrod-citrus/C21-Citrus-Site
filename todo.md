@@ -97,9 +97,16 @@
 - [x] Persist a data-minimized active-listing cache in Netlify Postgres so Netlify Functions do not rebuild the full provider inventory for a cold visitor search.
 - [x] Add a safe cache-refresh path and Netlify schedule configuration for the live MDM inventory, then validate response behavior without provider timeout.
 - [x] Add a 15-minute Netlify scheduled inventory refresh that writes only active listing cache records to the C21 Citrus Postgres database.
-- [ ] Confirm the user has added all required Netlify Function and build variable names before the hosted end-to-end validation.
+- [x] Confirm the user has added all required Netlify Function and build variable names before the hosted end-to-end validation.
 - [x] Correct the Postgres cache upsert so refreshed listing payloads replace existing cached payloads, then add regression coverage.
 - [ ] Run the deployed scheduled refresh against the active C21 Citrus Netlify database and verify stored active-listing cache rows.
 - [ ] Verify the hosted listing and autocomplete APIs read the primed cache without cold-start timeout or cache-missing errors.
 - [ ] Push the reviewed Netlify Postgres cache migration now that the user has confirmed the required environment variables are configured.
-- [ ] Manually invoke `refresh-inventory` once from the Netlify Functions page after the deploy, then verify its successful status and logs.
+- [x] Manually invoke `refresh-inventory` once from the Netlify Functions page after the deploy; completion logs remain subject to the corrected function-bundle deploy.
+- [ ] Verify the user-invoked production `refresh-inventory` run populated current active listings before exercising public API routes.
+- [ ] Verify the published C21 Citrus homepage, city/ZIP autocomplete, live search results, portable assets, Umami consent gate, contact form, and privacy request route.
+- [x] Correct the Netlify Function bundle so `express` and serverless runtime dependencies are included in the deployed API package.
+- [ ] Redeploy and verify the hosted API no longer returns `Runtime.ImportModuleError: Cannot find module 'express'`.
+- [ ] Redeploy the corrected function bundle, then confirm `refresh-inventory` completes successfully in Netlify logs rather than only showing an invocation acknowledgement.
+- [ ] Verify post-refresh `/api/mdm/listings` and `/api/mdm/search` return cached live data without import or cache-missing errors.
+- [ ] Recheck the published root and API routes after the user enables public Netlify access, then distinguish any remaining function or cache failure from access control.
