@@ -6,25 +6,48 @@ import { createRoot } from "react-dom/client";
 import superjson from "superjson";
 import App from "./App";
 import { startLogin } from "./const";
+import { portableAssetFor, replacePortableAssetPath } from "./lib/portableAssets";
 import "./index.css";
 
 /**
- * Uploaded source asset URLs were scoped to its original project and no longer
- * resolve in this managed project. Preserve the original component references,
- * while substituting an equivalent available project asset only on image error.
+ * Uploaded source asset URLs were scoped to its original project. Replace only
+ * the known branding and editorial paths with public CDN copies so Netlify can
+ * render them independently of the original project storage proxy.
  */
-const uploadedAssetFallbacks: Record<string, string> = {
-  "century21-citrus-realty-gold-logo_f3913815.png": "/manus-storage/c21-citrus-realty-gold-logo_c9c0b17e.png",
-  "hero-luxury-home_04c4fbf5.jpg": "/manus-storage/c21-citrus-hero-estate_b43f73af.jpg",
-  "hero-luxury-interior_f79432c6.jpg": "/manus-storage/c21-citrus-interior_dc2ded1c.jpg",
-  "hero-neighborhood_4a38234b.jpg": "/manus-storage/c21-citrus-neighbourhood_881ec5cd.jpg",
-};
+function replacePortableAssetOnElement(element: Element): void {
+  if (element instanceof HTMLImageElement) {
+    const replacement = portableAssetFor(element.src);
+    if (replacement && element.src !== replacement) element.src = replacement;
+  }
+
+  if (element instanceof HTMLElement) {
+    const style = element.getAttribute("style");
+    if (style?.includes("/manus-storage/")) {
+      const replacement = replacePortableAssetPath(style);
+      if (replacement !== style) element.setAttribute("style", replacement);
+    }
+  }
+}
+
+function replacePortableAssetsIn(node: Node): void {
+  if (!(node instanceof Element)) return;
+  replacePortableAssetOnElement(node);
+  node.querySelectorAll("img, [style*='/manus-storage/']").forEach(replacePortableAssetOnElement);
+}
+
+const portableAssetObserver = new MutationObserver((records) => {
+  records.forEach((record) => {
+    if (record.type === "attributes" && record.target instanceof Element) replacePortableAssetOnElement(record.target);
+    record.addedNodes.forEach(replacePortableAssetsIn);
+  });
+});
+
+portableAssetObserver.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ["src", "style"] });
 
 document.addEventListener("error", (event) => {
   const target = event.target;
   if (!(target instanceof HTMLImageElement)) return;
-  const originalKey = Object.keys(uploadedAssetFallbacks).find((key) => target.src.includes(key));
-  const fallback = originalKey ? uploadedAssetFallbacks[originalKey] : undefined;
+  const fallback = portableAssetFor(target.src);
   if (fallback && target.src !== fallback) {
     target.src = fallback;
   } else if (!fallback && target.src.includes("/manus-storage/")) {

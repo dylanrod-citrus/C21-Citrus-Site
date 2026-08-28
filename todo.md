@@ -87,3 +87,7 @@
 - [x] Validate the deployed-function directory contains only deployment-safe function names before the clean redeploy.
 - [ ] Confirm a new Netlify deploy runs from the corrected post-`37de1ad` GitHub commit and reaches a successful deploy status.
 - [ ] Inspect the public Netlify root, a client route, and an API route after the corrected deploy to verify SPA and API redirects together.
+- [x] Replace project-scoped `/manus-storage/` visual asset URLs with portable public CDN assets so the hosted hero and company logo render independently.
+- [ ] Provide the exact Netlify Database activation and secure environment-variable setup steps for the C21 Citrus project before the data migration.
+- [ ] Push the portable asset update, redeploy Netlify, and verify the hosted hero plus navigation and footer wordmarks render successfully.
+- [ ] Inspect the redeployed site for any remaining `/manus-storage/` asset request and replace or remap it before finalizing hosted asset portability.

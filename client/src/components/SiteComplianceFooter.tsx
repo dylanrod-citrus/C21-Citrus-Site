@@ -13,7 +13,7 @@ import { Link } from "wouter";
 import { triggerDoNotSellOptOut } from "./CookieConsent";
 
 const EHO_LOGO = "/manus-storage/eho-logo_945dfdbe.png";
-const LOGO_URL = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
+const LOGO_URL = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/FmgRAuAhcizSMKMD.png";
 
 export default function SiteComplianceFooter() {
   return (
