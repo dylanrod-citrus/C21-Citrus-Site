@@ -36,6 +36,7 @@ const logoUrl = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
 const heroImageUrl = "/manus-storage/hero-luxury-home_04c4fbf5.jpg";
 const interiorImageUrl = "/manus-storage/hero-luxury-interior_f79432c6.jpg";
 const neighborhoodImageUrl = "/manus-storage/hero-neighborhood_4a38234b.jpg";
+const c21SealImageUrl = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/CxthhmtiPvidFKwc.png";
 
 /* ── External links ─────────────────────────────────────────── */
 const idxSearchUrl = "https://c21citrus.com/search/";
@@ -448,6 +449,20 @@ export default function Home() {
             className="c21-hero-bg"
           />
           <div className="c21-hero-overlay" />
+          <img
+            src={c21SealImageUrl}
+            alt="Century 21 Citrus Realty"
+            style={{
+              position: "absolute",
+              top: "1.25rem",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 10,
+              width: "clamp(68px, 8vw, 104px)",
+              height: "auto",
+              pointerEvents: "none",
+            }}
+          />
           <div className="c21-hero-content">
             <h1 className="c21-hero-title">
               Find Your Place in<br />Southern California

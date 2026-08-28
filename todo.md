@@ -127,3 +127,5 @@
 - [x] Push the user-approved complete staged update to GitHub and verify the Netlify deployment.
 - [x] Remove location-selection language from the privacy banner while preserving clear neutral optional-analytics and necessary-server-log wording.
 - [ ] Remove the remaining legacy C21 seal storage request found on the published Real Estate School page and confirm no `/manus-storage/` requests remain after a follow-up deployment.
+- [x] Upload the supplied gold C21 seal as a portable public site asset and display it centered near the top of both the homepage and Real Estate School page.
+- [ ] Push the user-approved seal placement update and verify both hosted pages request the supplied portable seal rather than legacy storage.

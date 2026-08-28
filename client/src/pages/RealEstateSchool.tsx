@@ -27,6 +27,7 @@ import { useEffect, useRef, useState } from "react";
 import SiteNav from "../components/SiteNav";
 
 const heroImage = "/manus-storage/hero-luxury-interior_f79432c6.jpg";
+const c21SealImageUrl = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/CxthhmtiPvidFKwc.png";
 const JANETH_EMAIL = "janeth@c21citrus.com";
 
 // Dark charcoal color used throughout, matching c21realtyschool.com
@@ -524,6 +525,20 @@ export default function RealEstateSchool() {
           <section className="c21-inner-hero">
             <img src={heroImage} alt="Real estate licensing course" className="c21-inner-hero-bg" />
             <div className="c21-inner-hero-overlay" />
+            <img
+              src={c21SealImageUrl}
+              alt="Century 21 Citrus Realty"
+              style={{
+                position: "absolute",
+                top: "1.25rem",
+                left: "50%",
+                transform: "translateX(-50%)",
+                zIndex: 10,
+                width: "clamp(64px, 7vw, 96px)",
+                height: "auto",
+                pointerEvents: "none",
+              }}
+            />
             <div className="c21-inner-hero-content">
               <h1 className="c21-inner-hero-title">Live Real Estate<br />Licensing Course!</h1>
               <p className="c21-inner-hero-subtitle">

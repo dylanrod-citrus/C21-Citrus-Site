@@ -10,7 +10,9 @@ describe("hosted decorative asset markup", () => {
     ]);
 
     expect(home).not.toContain("c21-seal-transparent_a00d7088.png");
+    expect(home).toContain("CxthhmtiPvidFKwc.png");
     expect(footer).not.toContain("eho-logo_945dfdbe.png");
     expect(school).not.toContain("c21-seal-black_a202c272.png");
+    expect(school).toContain("CxthhmtiPvidFKwc.png");
   });
 });
