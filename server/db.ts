@@ -1,15 +1,22 @@
-import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, privacyRequests, users } from "../drizzle/schema";
+import { eq, inArray, notInArray, sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/netlify-db";
+import { activeListingCache, activeListingCacheMeta, InsertUser, privacyRequests, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
+import type { MdmListing } from "./mdmService";
 
-let _db: ReturnType<typeof drizzle> | null = null;
+function createNetlifyDatabase() {
+  return drizzle();
+}
 
-// Lazily create the drizzle instance so local tooling can run without a DB.
+let _db: ReturnType<typeof createNetlifyDatabase> | null = null;
+
+// Netlify Database injects NETLIFY_DB_URL and the adapter selects the optimal
+// HTTP or persistent Postgres driver for its runtime. Local tooling may run
+// without that variable, in which case persistence remains safely unavailable.
 export async function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
+  if (!_db && process.env.NETLIFY_DB_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      _db = createNetlifyDatabase();
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -68,8 +75,9 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       updateSet.lastSignedIn = new Date();
     }
 
-    await db.insert(users).values(values).onDuplicateKeyUpdate({
-      set: updateSet,
+    await db.insert(users).values(values).onConflictDoUpdate({
+      target: users.openId,
+      set: { ...updateSet, updatedAt: new Date() },
     });
   } catch (error) {
     console.error("[Database] Failed to upsert user:", error);
@@ -119,5 +127,70 @@ export async function recordPrivacyOptOut(source: "banner" | "footer" | "gpc"): 
     await db.insert(privacyRequests).values({ requestType: "optout", source });
   } catch (error) {
     console.error("[PrivacyRequest] Failed to write opt-out audit record", error);
+  }
+}
+
+const ACTIVE_LISTINGS_CACHE_KEY = "active_listings";
+
+export async function getCachedActiveListings(): Promise<{ listings: MdmListing[]; refreshedAt: Date } | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    const [meta] = await db.select().from(activeListingCacheMeta)
+      .where(eq(activeListingCacheMeta.cacheKey, ACTIVE_LISTINGS_CACHE_KEY)).limit(1);
+    if (!meta) return null;
+
+    const rows = await db.select().from(activeListingCache);
+    const listings = rows.flatMap((row) => {
+      try {
+        return [JSON.parse(row.payload) as MdmListing];
+      } catch {
+        return [];
+      }
+    });
+    return listings.length > 0 ? { listings, refreshedAt: meta.refreshedAt } : null;
+  } catch (error) {
+    console.error("[InventoryCache] Failed to read cached listings", error);
+    return null;
+  }
+}
+
+export async function replaceCachedActiveListings(listings: MdmListing[]): Promise<void> {
+  if (listings.length === 0) throw new Error("Refusing to replace the active listing cache with no listings");
+  const db = await getDb();
+  if (!db) throw new Error("Netlify Database is unavailable for the active listing cache");
+
+  const refreshedAt = new Date();
+  const listingIds = listings.map((listing) => listing.listingId);
+  const rows = listings.map((listing) => ({
+    listingId: listing.listingId,
+    payload: JSON.stringify(listing),
+    refreshedAt,
+  }));
+
+  try {
+    for (let start = 0; start < rows.length; start += 25) {
+      const batch = rows.slice(start, start + 25);
+      await db.insert(activeListingCache).values(batch).onConflictDoUpdate({
+        target: activeListingCache.listingId,
+        set: {
+          payload: sql`excluded."payload"`,
+          refreshedAt: sql`excluded."refreshedAt"`,
+        },
+      });
+    }
+    await db.delete(activeListingCache).where(notInArray(activeListingCache.listingId, listingIds));
+    await db.insert(activeListingCacheMeta).values({
+      cacheKey: ACTIVE_LISTINGS_CACHE_KEY,
+      refreshedAt,
+      listingCount: listings.length,
+    }).onConflictDoUpdate({
+      target: activeListingCacheMeta.cacheKey,
+      set: { refreshedAt, listingCount: listings.length },
+    });
+  } catch (error) {
+    console.error("[InventoryCache] Failed to persist active listings", error);
+    throw error;
   }
 }

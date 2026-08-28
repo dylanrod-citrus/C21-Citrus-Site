@@ -69,11 +69,11 @@
 - [x] Validate Netlify redirect and function behavior in a local Netlify runtime without creating a public deployment.
 - [ ] Eliminate the Netlify function timeout on an uncached live MDM search while preserving current active-listing results.
 - [ ] Verify the source-defined RealSatisfied API path through the Netlify rewrite rather than an assumed endpoint.
-- [ ] Confirm Netlify Postgres connection requirements and migrate the privacy-audit data layer from MySQL/TiDB to PostgreSQL.
-- [ ] Configure the office-owned Umami tracker after `operations@c21citrus.com` creates the account and provides its Website ID and endpoint.
+- [x] Confirm Netlify Postgres connection requirements and migrate the privacy-audit data layer from MySQL/TiDB to PostgreSQL.
+- [x] Configure the office-owned Umami tracker after `operations@c21citrus.com` creates the account and provides its Website ID and endpoint.
 - [ ] Complete a Netlify preview verification of MDM listings, emails, privacy controls, testimonials, and autocomplete before directing production cutover from Agent Image.
-- [ ] Configure `https://cloud.umami.is` and the supplied C21 Citrus Website ID through secure project settings, then validate the consent-gated tracker load.
-- [ ] Wait for the separate C21 Citrus Netlify site and Database provisioning, then obtain its connection configuration through the user-approved hosting setup.
+- [x] Configure `https://cloud.umami.is` and the supplied C21 Citrus Website ID through secure project settings, then validate the consent-gated tracker load.
+- [x] Wait for the separate C21 Citrus Netlify site and Database provisioning, then obtain its connection configuration through the user-approved hosting setup.
 - [x] Reproduce the Netlify preview 404 and inspect the deployed build-output and publish-directory configuration.
 - [x] Add a redundant static-host SPA fallback file and verify it cooperates with API function redirects.
 - [ ] Validate the corrected Netlify preview root and representative client routes once the preview URL is available.
@@ -88,6 +88,16 @@
 - [ ] Confirm a new Netlify deploy runs from the corrected post-`37de1ad` GitHub commit and reaches a successful deploy status.
 - [ ] Inspect the public Netlify root, a client route, and an API route after the corrected deploy to verify SPA and API redirects together.
 - [x] Replace project-scoped `/manus-storage/` visual asset URLs with portable public CDN assets so the hosted hero and company logo render independently.
-- [ ] Provide the exact Netlify Database activation and secure environment-variable setup steps for the C21 Citrus project before the data migration.
+- [x] Provide the exact Netlify Database activation and secure environment-variable setup steps for the C21 Citrus project before the data migration.
 - [ ] Push the portable asset update, redeploy Netlify, and verify the hosted hero plus navigation and footer wordmarks render successfully.
 - [ ] Inspect the redeployed site for any remaining `/manus-storage/` asset request and replace or remap it before finalizing hosted asset portability.
+- [x] Migrate the database schema and access helpers to Netlify Postgres while preserving the data-minimized privacy and opt-out audit records.
+- [x] Document the exact Netlify variable scopes and required existing credentials for Functions, including the database connection contract.
+- [ ] Validate the migration using the active Netlify production database after the user supplies secure connection configuration through Netlify.
+- [x] Persist a data-minimized active-listing cache in Netlify Postgres so Netlify Functions do not rebuild the full provider inventory for a cold visitor search.
+- [x] Add a safe cache-refresh path and Netlify schedule configuration for the live MDM inventory, then validate response behavior without provider timeout.
+- [x] Add a 15-minute Netlify scheduled inventory refresh that writes only active listing cache records to the C21 Citrus Postgres database.
+- [ ] Confirm the user has added all required Netlify Function and build variable names before the hosted end-to-end validation.
+- [x] Correct the Postgres cache upsert so refreshed listing payloads replace existing cached payloads, then add regression coverage.
+- [ ] Run the deployed scheduled refresh against the active C21 Citrus Netlify database and verify stored active-listing cache rows.
+- [ ] Verify the hosted listing and autocomplete APIs read the primed cache without cold-start timeout or cache-missing errors.

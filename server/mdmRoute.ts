@@ -1,6 +1,7 @@
 /** Public REST routes preserved for the uploaded C21 Citrus frontend. */
 import type { Express, Request, Response } from "express";
 import { fetchCitrusAgents, fetchCitrusRecentSales } from "./mdmService";
+import { getCachedActiveListings, replaceCachedActiveListings } from "./db";
 
 interface CacheEntry<T> { data: T; cachedAt: number; }
 const agentTtl = 15 * 60 * 1_000;
@@ -16,6 +17,14 @@ function apiError(res: Response, error: unknown, fallback: string) {
 
 export async function getActiveListings(): Promise<Awaited<ReturnType<typeof fetchCitrusRecentSales>>> {
   if (listingCache && Date.now() - listingCache.cachedAt < listingsTtl) return listingCache.data;
+  const persisted = await getCachedActiveListings();
+  if (persisted) {
+    listingCache = { data: persisted.listings, cachedAt: persisted.refreshedAt.getTime() };
+    return persisted.listings;
+  }
+  if (process.env.NETLIFY_DB_URL) {
+    throw new Error("Active listing cache is not ready; run the scheduled inventory refresh before serving production search traffic");
+  }
   if (!listingFetch) {
     listingFetch = fetchCitrusRecentSales()
       .then((listings) => {
@@ -27,10 +36,21 @@ export async function getActiveListings(): Promise<Awaited<ReturnType<typeof fet
   return listingFetch;
 }
 
+export async function refreshActiveListingCache(): Promise<{ listingCount: number; refreshedAt: Date }> {
+  const listings = await fetchCitrusRecentSales();
+  await replaceCachedActiveListings(listings);
+  const refreshedAt = new Date();
+  listingCache = { data: listings, cachedAt: refreshedAt.getTime() };
+  return { listingCount: listings.length, refreshedAt };
+}
+
 export function registerMdmRoutes(app: Express): void {
   // Warm the source inventory after startup. This is intentionally non-blocking:
-  // API routes remain available while the first refresh is in progress.
-  void getActiveListings().catch((error) => console.warn("[MDM] initial listing warm-up failed", error));
+  // API routes remain available while the first refresh is in progress. Production
+  // Netlify functions use the scheduled Postgres cache instead of this fallback.
+  if (!process.env.NETLIFY_DB_URL) {
+    void getActiveListings().catch((error) => console.warn("[MDM] initial listing warm-up failed", error));
+  }
 
   app.get("/api/mdm/agents", async (req: Request, res: Response) => {
     try {

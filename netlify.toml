@@ -5,7 +5,7 @@
 
 [functions]
   node_bundler = "esbuild"
-  external_node_modules = ["express", "serverless-http", "nodemailer", "mysql2"]
+  external_node_modules = ["express", "serverless-http", "nodemailer", "@netlify/database"]
 
 [dev]
   command = "PORT=3001 pnpm dev"
