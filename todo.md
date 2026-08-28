@@ -66,7 +66,7 @@
 - [x] Create and validate a Netlify Functions adapter, redirect rules, and environment-variable guide so GitHub deployments retain the site’s live backend behavior.
 - [x] Exercise the listener-free Netlify function handler locally against the API health route without creating or linking a Netlify site.
 - [ ] Exercise representative MDM, privacy, testimonials, contact, and tRPC routes through the Netlify function adapter with safe test inputs.
-- [ ] Validate Netlify redirect and function behavior in a local Netlify runtime without creating a public deployment.
+- [x] Validate Netlify redirect and function behavior in a local Netlify runtime without creating a public deployment.
 - [ ] Eliminate the Netlify function timeout on an uncached live MDM search while preserving current active-listing results.
 - [ ] Verify the source-defined RealSatisfied API path through the Netlify rewrite rather than an assumed endpoint.
 - [ ] Confirm Netlify Postgres connection requirements and migrate the privacy-audit data layer from MySQL/TiDB to PostgreSQL.
@@ -74,12 +74,16 @@
 - [ ] Complete a Netlify preview verification of MDM listings, emails, privacy controls, testimonials, and autocomplete before directing production cutover from Agent Image.
 - [ ] Configure `https://cloud.umami.is` and the supplied C21 Citrus Website ID through secure project settings, then validate the consent-gated tracker load.
 - [ ] Wait for the separate C21 Citrus Netlify site and Database provisioning, then obtain its connection configuration through the user-approved hosting setup.
-- [ ] Reproduce the Netlify preview 404 and inspect the deployed build-output and publish-directory configuration.
-- [ ] Add a redundant static-host SPA fallback file and verify it cooperates with API function redirects.
+- [x] Reproduce the Netlify preview 404 and inspect the deployed build-output and publish-directory configuration.
+- [x] Add a redundant static-host SPA fallback file and verify it cooperates with API function redirects.
 - [ ] Validate the corrected Netlify preview root and representative client routes once the preview URL is available.
-- [ ] Inspect `https://c21citrus.netlify.app/` and compare its response with the currently deployed GitHub commit.
-- [ ] Commit and push the Netlify configuration, serverless adapter, Google-free autocomplete, and Umami setup after the user approves the repository update.
-- [ ] Remove or configure Netlify Edge Access for the C21 Citrus preview so the deployed root and routes can be verified publicly.
-- [ ] Push the already prepared Netlify configuration and app changes to `main`, then trigger a new Netlify deploy from that revision.
+- [x] Inspect `https://c21citrus.netlify.app/` and compare its response with the currently deployed GitHub commit.
+- [x] Commit and push the Netlify configuration, serverless adapter, Google-free autocomplete, and Umami setup after the user approves the repository update.
+- [x] Determine that Netlify Edge Access is not the cause of the user-visible generic 404.
+- [x] Push the already prepared Netlify configuration and app changes to `main`, then trigger a new Netlify deploy from that revision.
 - [ ] Confirm the redeployed `c21citrus.netlify.app` root returns the site rather than Netlify’s generic 404 page.
-- [ ] Save the Netlify 404 correction checkpoint and push the user-approved commit to `main`.
+- [x] Save the Netlify 404 correction checkpoint and push the user-approved commit to `main`.
+- [x] Move `api.test.ts` outside `netlify/functions` so Netlify deploys only the valid `api` function.
+- [x] Validate the deployed-function directory contains only deployment-safe function names before the clean redeploy.
+- [ ] Confirm a new Netlify deploy runs from the corrected post-`37de1ad` GitHub commit and reaches a successful deploy status.
+- [ ] Inspect the public Netlify root, a client route, and an API route after the corrected deploy to verify SPA and API redirects together.

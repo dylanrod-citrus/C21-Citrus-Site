@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { handler } from "./api";
+import { handler } from "../netlify/functions/api";
 
 describe("Netlify API function", () => {
   it("serves the health route through the serverless adapter", async () => {
