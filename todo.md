@@ -124,5 +124,6 @@
 - [x] Replace provider-specific optional-analytics wording in the privacy banner with neutral visitor-facing terminology.
 - [x] Preserve required Netlify server-side analytics while making the optional analytics choice and privacy disclosure technically accurate.
 - [x] Replace the privacy-banner provider name with standard neutral language describing necessary server-side logs for site operations.
-- [ ] Push the user-approved complete staged update to GitHub and verify the Netlify deployment.
+- [x] Push the user-approved complete staged update to GitHub and verify the Netlify deployment.
 - [x] Remove location-selection language from the privacy banner while preserving clear neutral optional-analytics and necessary-server-log wording.
+- [ ] Remove the remaining legacy C21 seal storage request found on the published Real Estate School page and confirm no `/manus-storage/` requests remain after a follow-up deployment.

@@ -524,21 +524,6 @@ export default function RealEstateSchool() {
           <section className="c21-inner-hero">
             <img src={heroImage} alt="Real estate licensing course" className="c21-inner-hero-bg" />
             <div className="c21-inner-hero-overlay" />
-            {/* C21 Seal — top-center of hero photo */}
-            <div style={{
-              position: "absolute",
-              top: "2rem",
-              left: "50%",
-              transform: "translateX(-50%)",
-              zIndex: 10,
-              pointerEvents: "none",
-            }}>
-              <img
-                src="/manus-storage/c21-seal-black_a202c272.png"
-                alt="Century 21 Seal"
-                style={{ width: "110px", height: "110px", display: "block" }}
-              />
-            </div>
             <div className="c21-inner-hero-content">
               <h1 className="c21-inner-hero-title">Live Real Estate<br />Licensing Course!</h1>
               <p className="c21-inner-hero-subtitle">
