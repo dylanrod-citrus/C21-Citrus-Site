@@ -56,6 +56,14 @@ describe("Netlify active listing cache", () => {
     expect(fetchCitrusRecentSales).not.toHaveBeenCalled();
   });
 
+  it("refuses an unprimed Netlify request without traversing the MDM provider", async () => {
+    getCachedActiveListings.mockResolvedValue(null);
+    const { getActiveListings } = await import("./mdmRoute");
+
+    await expect(getActiveListings()).rejects.toThrow("Active listing cache is not ready");
+    expect(fetchCitrusRecentSales).not.toHaveBeenCalled();
+  });
+
   it("persists current provider inventory when the scheduled refresh runs", async () => {
     fetchCitrusRecentSales.mockResolvedValue([listing]);
     const { refreshActiveListingCache } = await import("./mdmRoute");

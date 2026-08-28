@@ -65,9 +65,9 @@
 - [x] Configure the existing consent-gated location-selection event after the office supplies an Umami tracking endpoint and Website ID.
 - [x] Create and validate a Netlify Functions adapter, redirect rules, and environment-variable guide so GitHub deployments retain the site’s live backend behavior.
 - [x] Exercise the listener-free Netlify function handler locally against the API health route without creating or linking a Netlify site.
-- [ ] Exercise representative MDM, privacy, testimonials, contact, and tRPC routes through the Netlify function adapter with safe test inputs.
+- [x] Exercise representative MDM, privacy, testimonials, contact, and tRPC routes through the Netlify function adapter with safe test inputs.
 - [x] Validate Netlify redirect and function behavior in a local Netlify runtime without creating a public deployment.
-- [ ] Eliminate the Netlify function timeout on an uncached live MDM search while preserving current active-listing results.
+- [x] Eliminate the Netlify function timeout on an uncached live MDM search while preserving current active-listing results.
 - [x] Verify the source-defined RealSatisfied API path through the Netlify rewrite rather than an assumed endpoint.
 - [x] Confirm Netlify Postgres connection requirements and migrate the privacy-audit data layer from MySQL/TiDB to PostgreSQL.
 - [x] Configure the office-owned Umami tracker after `operations@c21citrus.com` creates the account and provides its Website ID and endpoint.
