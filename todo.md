@@ -131,3 +131,8 @@
 - [x] Push the user-approved seal placement update and verify both hosted pages request the supplied portable seal rather than legacy storage.
 - [x] Submit the user-authorized standard contact test using `dylan@c21citrus.com` and verify delivery to the default office recipients plus the visitor confirmation.
 - [x] Submit the user-authorized privacy-request test using `dylan@c21citrus.com` and verify staff routing plus the visitor confirmation.
+- [x] Capture the publicly published c21citrus.com DNS records before Agent Image’s DNS handoff.
+- [x] Produce a GoDaddy-ready DNS preservation and Netlify cutover checklist for same-day domain launch.
+- [x] Restore the Google Workspace mail records missing from the active GoDaddy-default DNS zone before completing the Netlify web cutover.
+- [x] Replace GoDaddy’s parked root-domain web record and default `www` alias with the exact Netlify custom-domain records once those values are available.
+- [x] Confirm Netlify’s automatically issued TLS certificate becomes active for both c21citrus.com and www.c21citrus.com after DNS verification.
