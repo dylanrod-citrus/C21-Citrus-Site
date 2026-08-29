@@ -148,4 +148,6 @@
 - [x] Verify whether the current deployed C21 Citrus pages still reference legacy `/manus-storage/` asset paths and explain their historical analytics entries.
 - [x] Explain Netlify Real User Monitoring, its relationship to Web Analytics, and its privacy-relevant behavior for the live site.
 - [x] Update the privacy banner to disclose necessary performance measurement while retaining the optional analytics choice.
+- [x] Push the user-approved necessary-performance privacy-banner disclosure and verify the deployed notice without altering custom-domain DNS or certificate settings.
+- [x] Draft a management-friendly email summarizing the C21 Citrus launch, restored services, analytics, privacy controls, and remaining routine follow-ups.
 - [x] Verify and checkpoint the Relocation page copy update: “Certified Relocation Specialist” and Relocation Department inquiry language.
