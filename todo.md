@@ -136,3 +136,9 @@
 - [x] Restore the Google Workspace mail records missing from the active GoDaddy-default DNS zone before completing the Netlify web cutover.
 - [x] Replace GoDaddy’s parked root-domain web record and default `www` alias with the exact Netlify custom-domain records once those values are available.
 - [x] Confirm Netlify’s automatically issued TLS certificate becomes active for both c21citrus.com and www.c21citrus.com after DNS verification.
+- [x] Provide the owner’s manual inbound/outbound Google Workspace email test sequence after the DNS migration.
+- [x] Provide the current Google Workspace DKIM generation and GoDaddy DNS publication steps.
+- [x] Provide the current Umami Cloud domain configuration steps for the C21 Citrus custom domains.
+- [x] Set www.c21citrus.com as the Netlify primary domain and retain c21citrus.com as its secure redirecting alias.
+- [ ] Obtain the Google Workspace DKIM TXT host and value from the authorized administrator, publish it in GoDaddy, and have the administrator enable authentication.
+- [x] Verify and checkpoint the Relocation page copy update: “Certified Relocation Specialist” and Relocation Department inquiry language.

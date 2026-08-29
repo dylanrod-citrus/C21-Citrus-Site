@@ -210,7 +210,7 @@ export default function Relocation() {
                 />
                 <div style={{ padding: "1.5rem" }}>
                   <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.35rem", fontWeight: 700, color: "var(--c21-black)", marginBottom: "0.25rem" }}>Andrew Mendez</h3>
-                  <p style={{ fontSize: "0.82rem", color: "var(--c21-gold)", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "1rem" }}>Relocation Specialist</p>
+                  <p style={{ fontSize: "0.82rem", color: "var(--c21-gold)", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "1rem" }}>Certified Relocation Specialist</p>
                   <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
                     <a href="tel:16267333366" style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.9rem", color: "var(--c21-black)", textDecoration: "none", fontWeight: 500 }}>
                       <Phone size={15} color="var(--c21-gold)" /> 626-733-3366
@@ -227,7 +227,7 @@ export default function Relocation() {
               {/* Inquiry form */}
               <div>
                 <p style={{ fontSize: "0.95rem", color: "rgba(0,0,0,0.65)", lineHeight: 1.85, marginBottom: "2rem" }}>
-                  Whether you are relocating for work, family, or a fresh start, Andrew Mendez is here to guide you every step of the way. Fill out the form below and he will be in touch within one business day.
+                  Whether you are relocating for work, family, or a fresh start, our Relocation Department is here to guide you every step of the way. Fill out the form below and he will be in touch within one business day.
                 </p>
                 <AndrewInquiryForm />
               </div>
