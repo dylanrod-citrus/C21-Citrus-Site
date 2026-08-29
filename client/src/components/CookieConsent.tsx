@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 
 const CONSENT_KEY = "c21_tracking_consent";
-const CONSENT_VERSION = "2"; // Bump this to re-prompt users if policy changes
+const CONSENT_VERSION = "3"; // Bump this to re-prompt users if policy changes
 
 type ConsentStatus = "granted" | "denied" | null;
 
@@ -148,8 +148,8 @@ export function CookieConsent() {
           <div className="flex-1">
             <p className="text-sm text-white/90 leading-relaxed font-['Lato',sans-serif]">
               Accepting enables optional, privacy-respecting analytics; declining keeps the
-              optional analytics service off. Necessary server-side logs may still be processed to
-              operate and secure this site. We <strong>do not sell
+              optional analytics service off. Necessary server-side logs and performance measurements
+              may still be processed to operate, secure, and improve this site. We <strong>do not sell
               or share your personal information</strong> with advertisers.{" "}
               <a
                 href="/privacy-policy"

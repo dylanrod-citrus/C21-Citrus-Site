@@ -141,4 +141,11 @@
 - [x] Provide the current Umami Cloud domain configuration steps for the C21 Citrus custom domains.
 - [x] Set www.c21citrus.com as the Netlify primary domain and retain c21citrus.com as its secure redirecting alias.
 - [ ] Obtain the Google Workspace DKIM TXT host and value from the authorized administrator, publish it in GoDaddy, and have the administrator enable authentication.
+- [ ] Diagnose and resolve the Netlify certificate-renewal warning for c21citrus.com after the primary-domain change without disrupting live DNS or email records.
+- [x] Flush Google Public DNS cache for c21citrus.com and www.c21citrus.com, then retry Netlify verification without editing working DNS records.
+- [x] Submit a Netlify support request for an internal custom-domain verifier reset, with public DNS, HTTPS, DNSSEC, and inactive-zone checks attached.
+- [ ] Review Netlify’s support response and reverify the custom-domain renewal state after their corrective action.
+- [x] Verify whether the current deployed C21 Citrus pages still reference legacy `/manus-storage/` asset paths and explain their historical analytics entries.
+- [x] Explain Netlify Real User Monitoring, its relationship to Web Analytics, and its privacy-relevant behavior for the live site.
+- [x] Update the privacy banner to disclose necessary performance measurement while retaining the optional analytics choice.
 - [x] Verify and checkpoint the Relocation page copy update: “Certified Relocation Specialist” and Relocation Department inquiry language.
