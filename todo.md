@@ -157,5 +157,8 @@
 - [x] Add server-side Turnstile Siteverify, honeypot checks, concise payload limits, and short-lived request-throttling before contact or privacy emails are sent.
 - [x] Add a reusable Turnstile control and hidden honeypot to every public form that submits to the C21 server email routes, while preserving approved recipient routing.
 - [x] Add focused automated anti-spam regression coverage, run the full validation suite, visually review representative protected forms, and save a deployment-ready checkpoint.
-- [ ] Obtain explicit approval before pushing the anti-spam release, because the GitHub push will trigger a Netlify deployment.
-- [ ] Confirm the Cloudflare Turnstile widget allows both `www.c21citrus.com` and `c21citrus.com`, and confirm Netlify uses `TURNSTILE_SECRET_KEY` for Functions plus the public `VITE_TURNSTILE_SITE_KEY` for Build.
+- [x] Obtain explicit approval before pushing the anti-spam release, because the GitHub push will trigger a Netlify deployment.
+- [ ] Confirm the Cloudflare Turnstile widget allows both `www.c21citrus.com` and `c21citrus.com`, and confirm Netlify uses `TURNSTILE_SECRET_KEY` for Functions; the public `VITE_TURNSTILE_SITE_KEY` is no longer required.
+- [x] Replace the C21 browser widget’s build-time public-key lookup with the user-supplied public site key, matching the established implementation on the other site without exposing the server secret.
+- [x] Validate and checkpoint the public-key delivery correction, then obtain explicit approval before its follow-up GitHub-triggered deployment.
+- [ ] Obtain explicit approval before pushing the direct public-key correction, because the GitHub push will trigger a follow-up Netlify deployment.

@@ -11,6 +11,9 @@ declare global {
 
 const TURNSTILE_SCRIPT_ID = "c21-turnstile-script";
 const TURNSTILE_SCRIPT_URL = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+// A Turnstile site key is designed to be publicly visible in browser code. The
+// matching TURNSTILE_SECRET_KEY remains only in the server-side Netlify function.
+export const TURNSTILE_SITE_KEY = "0x4AAAAAAEjHiIqGr3Sk6b-o";
 
 function loadTurnstile(): Promise<void> {
   if (window.turnstile) return Promise.resolve();
@@ -56,17 +59,16 @@ export function FormSpamGuard() {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const [error, setError] = useState("");
-  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim();
 
   useEffect(() => {
-    if (!siteKey || !containerRef.current) return;
+    if (!containerRef.current) return;
     let active = true;
 
     loadTurnstile()
       .then(() => {
         if (!active || !containerRef.current || !window.turnstile) return;
         widgetIdRef.current = window.turnstile.render(containerRef.current, {
-          sitekey: siteKey,
+          sitekey: TURNSTILE_SITE_KEY,
           theme: "auto",
           responseField: true,
           responseFieldName: "turnstileToken",
@@ -83,11 +85,7 @@ export function FormSpamGuard() {
       active = false;
       if (widgetIdRef.current && window.turnstile) window.turnstile.remove(widgetIdRef.current);
     };
-  }, [siteKey]);
-
-  if (!siteKey) {
-    return <p role="alert" style={{ color: "#b42318", fontSize: "0.82rem", lineHeight: 1.5 }}>Form verification is not configured. Please call us at 909.592.8500.</p>;
-  }
+  }, []);
 
   return (
     <div>
