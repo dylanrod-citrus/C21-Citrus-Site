@@ -5,7 +5,7 @@ export const C21_ASSET_PATHS = {
   homeHero: `${C21_ASSET_RELEASE_BASE}/c21-citrus-hero-estate.jpg`,
   interiorHero: `${C21_ASSET_RELEASE_BASE}/c21-citrus-interior.jpg`,
   neighborhoodHero: `${C21_ASSET_RELEASE_BASE}/c21-citrus-neighborhood.jpg`,
-  seal: `${C21_ASSET_RELEASE_BASE}/c21-citrus-symbol.png`,
+  seal: `${C21_ASSET_RELEASE_BASE}/c21citrus-official-c21-seal.png`,
   schoolPortraits: {
     aaron: `${C21_ASSET_RELEASE_BASE}/aaron-school-portrait.webp`,
     denise: `${C21_ASSET_RELEASE_BASE}/denise-school-portrait.webp`,

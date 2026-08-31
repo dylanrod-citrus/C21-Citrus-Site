@@ -170,3 +170,7 @@
 - [x] Revalidate and checkpoint the combined image repair and permanent-asset safeguard before requesting deployment approval.
 - [x] Correct the Netlify production 404s for the newly uploaded shared-image paths by moving the approved assets to a delivery method that is publicly reachable from the live site.
 - [x] Validate the corrective image delivery on a live-equivalent build and save a new checkpoint before requesting approval for another GitHub-triggered deployment.
+- [x] Verify the reported mobile C21 Citrus Realty wordmark clipping at a narrow 375-pixel viewport; the full wordmark and correctly loaded centered gold C21 seal are visible, so no layout change is needed.
+- [x] Verify the mobile header presentation and public certificate health without introducing an unnecessary deployment; the active certificate covers both public domains through November 26, 2026.
+- [x] Replace the incorrect circular symbol with the user-supplied official C21 seal on the homepage and Real Estate School/Get Licensed page, preserving the requested centered hero placement.
+- [x] Validate the official C21 seal at desktop and mobile sizes, save a checkpoint, and obtain explicit approval before its GitHub-triggered deployment.

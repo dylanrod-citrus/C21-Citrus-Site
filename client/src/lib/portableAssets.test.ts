@@ -11,6 +11,11 @@ describe("portable C21 assets", () => {
     expect(portableAssetFor("/manus-storage/c21-citrus-realty-gold-logo_c9c0b17e.png")).toBe(C21_ASSET_PATHS.logo);
   });
 
+  it("uses the user-supplied official C21 seal rather than the unrelated circular symbol", () => {
+    expect(C21_ASSET_PATHS.seal).toContain("c21citrus-official-c21-seal.png");
+    expect(C21_ASSET_PATHS.seal).not.toContain("c21-citrus-symbol.png");
+  });
+
   it("uses public release assets rather than the expired session host or internal Netlify path", () => {
     const assets = Object.values(C21_ASSET_PATHS).flatMap((asset) => typeof asset === "string" ? [asset] : Object.values(asset));
     expect(assets).toEqual(expect.arrayContaining([
