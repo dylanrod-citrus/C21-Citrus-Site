@@ -29,14 +29,15 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { LocationSuggestion } from "@shared/locationSearch";
 import { trackSelectedLocation } from "../lib/searchAnalytics";
+import { C21_ASSET_PATHS } from "../lib/portableAssets";
 import SiteNav from "../components/SiteNav";
 
 /* ── Asset URLs ─────────────────────────────────────────────── */
-const logoUrl = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
-const heroImageUrl = "/manus-storage/hero-luxury-home_04c4fbf5.jpg";
-const interiorImageUrl = "/manus-storage/hero-luxury-interior_f79432c6.jpg";
-const neighborhoodImageUrl = "/manus-storage/hero-neighborhood_4a38234b.jpg";
-const c21SealImageUrl = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/CxthhmtiPvidFKwc.png";
+const logoUrl = C21_ASSET_PATHS.logo;
+const heroImageUrl = C21_ASSET_PATHS.homeHero;
+const interiorImageUrl = C21_ASSET_PATHS.interiorHero;
+const neighborhoodImageUrl = C21_ASSET_PATHS.neighborhoodHero;
+const c21SealImageUrl = C21_ASSET_PATHS.seal;
 
 /* ── External links ─────────────────────────────────────────── */
 const idxSearchUrl = "https://c21citrus.com/search/";

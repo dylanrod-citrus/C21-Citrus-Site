@@ -9,9 +9,10 @@
 */
 import { Heart, Menu, Phone, Search, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { C21_ASSET_PATHS } from "../lib/portableAssets";
 
 /* ── Asset URLs ─────────────────────────────────────────────── */
-const logoUrl = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/FmgRAuAhcizSMKMD.png";
+const logoUrl = C21_ASSET_PATHS.logo;
 
 /* ── External links ─────────────────────────────────────────── */
 const idxSearchUrl = "https://c21citrus.com/search/";

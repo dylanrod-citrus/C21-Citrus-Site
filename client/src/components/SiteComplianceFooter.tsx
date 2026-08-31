@@ -11,8 +11,9 @@
 
 import { Link } from "wouter";
 import { triggerDoNotSellOptOut } from "./CookieConsent";
+import { C21_ASSET_PATHS } from "../lib/portableAssets";
 
-const LOGO_URL = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/FmgRAuAhcizSMKMD.png";
+const LOGO_URL = C21_ASSET_PATHS.logo;
 
 export default function SiteComplianceFooter() {
   return (

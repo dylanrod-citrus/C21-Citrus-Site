@@ -26,26 +26,17 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { FormSpamGuard, readFormSpamPayload } from "../components/FormSpamGuard";
 import SiteNav from "../components/SiteNav";
+import { C21_ASSET_PATHS } from "../lib/portableAssets";
 
-const heroImage = "/manus-storage/hero-luxury-interior_f79432c6.jpg";
-const c21SealImageUrl = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/CxthhmtiPvidFKwc.png";
+const heroImage = C21_ASSET_PATHS.interiorHero;
+const c21SealImageUrl = C21_ASSET_PATHS.seal;
 const JANETH_EMAIL = "janeth@c21citrus.com";
 
 // Dark charcoal color used throughout, matching c21realtyschool.com
 const CHARCOAL = "#252526";       // Obsessed Grey
 const CHARCOAL_LIGHT = "#2e2e2f"; // Slightly lighter Obsessed Grey
 const CHARCOAL_DARK = "#121212";  // Digital Black
-const SCHOOL_PORTRAITS = {
-  mireya: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/gFBFhIRYgINMPIoN.webp",
-  denise: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/rHZoCHuPriXOvBDP.webp",
-  michelle: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/JEDfRNhlWWHntqxb.webp",
-  stella: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/MOAWoQFvivUAmaDn.webp",
-  sharyn: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/HztxOEJXvgfTwJVu.webp",
-  kimberly: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/XVkpkRlHEnzVdFkZ.webp",
-  gabriela: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/DFHKLTItGwaBJqzC.webp",
-  aaron: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/HBnsAHzUYCTpxqcS.webp",
-  janeth: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663548398310/DWhxZLoHqXXeleBP.webp",
-} as const;
+const SCHOOL_PORTRAITS = C21_ASSET_PATHS.schoolPortraits;
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 

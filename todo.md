@@ -158,7 +158,11 @@
 - [x] Add a reusable Turnstile control and hidden honeypot to every public form that submits to the C21 server email routes, while preserving approved recipient routing.
 - [x] Add focused automated anti-spam regression coverage, run the full validation suite, visually review representative protected forms, and save a deployment-ready checkpoint.
 - [x] Obtain explicit approval before pushing the anti-spam release, because the GitHub push will trigger a Netlify deployment.
-- [ ] Confirm the Cloudflare Turnstile widget allows both `www.c21citrus.com` and `c21citrus.com`, and confirm Netlify uses `TURNSTILE_SECRET_KEY` for Functions; the public `VITE_TURNSTILE_SITE_KEY` is no longer required.
+- [x] Confirm the Cloudflare Turnstile widget allows both `www.c21citrus.com` and `c21citrus.com`, and confirm Netlify uses `TURNSTILE_SECRET_KEY` for Functions; the public `VITE_TURNSTILE_SITE_KEY` is no longer required.
 - [x] Replace the C21 browser widget’s build-time public-key lookup with the user-supplied public site key, matching the established implementation on the other site without exposing the server secret.
 - [x] Validate and checkpoint the public-key delivery correction, then obtain explicit approval before its follow-up GitHub-triggered deployment.
-- [ ] Obtain explicit approval before pushing the direct public-key correction, because the GitHub push will trigger a follow-up Netlify deployment.
+- [x] Obtain explicit approval before pushing the direct public-key correction, because the GitHub push will trigger a follow-up Netlify deployment.
+- [x] Re-audit the re-uploaded Agent Image DNS export against current public GoDaddy DNS and provide a no-change preserve-or-retire recommendation for management.
+- [x] Review the current C21 Citrus BIMI prerequisite status and provide a plain-language, no-change setup checklist for management and the Google Workspace administrator.
+- [x] Diagnose and repair the broken shared logo, homepage hero, Real Estate School hero, and Janeth portrait asset references reported on the live website.
+- [x] Validate the repaired asset references locally and save a checkpoint before requesting explicit approval for the GitHub-triggered image-repair deployment.
