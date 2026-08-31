@@ -168,3 +168,5 @@
 - [x] Validate the repaired asset references locally and save a checkpoint before requesting explicit approval for the GitHub-triggered image-repair deployment.
 - [x] Add a release regression check that fails if active browser code or the production build contains a temporary session-scoped image host, preventing this class of broken image from reaching future deployments.
 - [x] Revalidate and checkpoint the combined image repair and permanent-asset safeguard before requesting deployment approval.
+- [x] Correct the Netlify production 404s for the newly uploaded shared-image paths by moving the approved assets to a delivery method that is publicly reachable from the live site.
+- [x] Validate the corrective image delivery on a live-equivalent build and save a new checkpoint before requesting approval for another GitHub-triggered deployment.
