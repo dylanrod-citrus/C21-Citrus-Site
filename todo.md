@@ -166,3 +166,5 @@
 - [x] Review the current C21 Citrus BIMI prerequisite status and provide a plain-language, no-change setup checklist for management and the Google Workspace administrator.
 - [x] Diagnose and repair the broken shared logo, homepage hero, Real Estate School hero, and Janeth portrait asset references reported on the live website.
 - [x] Validate the repaired asset references locally and save a checkpoint before requesting explicit approval for the GitHub-triggered image-repair deployment.
+- [x] Add a release regression check that fails if active browser code or the production build contains a temporary session-scoped image host, preventing this class of broken image from reaching future deployments.
+- [x] Revalidate and checkpoint the combined image repair and permanent-asset safeguard before requesting deployment approval.
