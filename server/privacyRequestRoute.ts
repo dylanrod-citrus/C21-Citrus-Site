@@ -1,6 +1,7 @@
 import { Router, type Express, type Request, type Response } from "express";
 import nodemailer from "nodemailer";
 import { recordPrivacyOptOut, recordPrivacyRequest } from "./db";
+import { allowPrivacyOptOutAttempt, validateEmailFormSubmission } from "./formSecurity";
 
 const privacyRecipients = ["oj@c21citrus.com", "gabi@c21citrus.com"];
 const requestLabels: Record<string, string> = { know: "Right to Know", delete: "Right to Delete", correct: "Right to Correct", optout: "Right to Opt-Out", limit: "Limit Use of Sensitive Information", nondiscrimination: "Right to Non-Discrimination" };
@@ -27,6 +28,9 @@ function privacyTransport() {
 export function registerPrivacyRequestRoute(app: Express): void {
   const router = Router();
   router.post("/api/privacy-opt-out", async (req: Request, res: Response) => {
+    if (!allowPrivacyOptOutAttempt(req)) {
+      return res.status(429).json({ error: "Please wait a few minutes before trying again." });
+    }
     const source = req.body?.source;
     if (source !== "banner" && source !== "footer" && source !== "gpc") {
       return res.status(400).json({ error: "Invalid opt-out source." });
@@ -37,9 +41,18 @@ export function registerPrivacyRequestRoute(app: Express): void {
 
   router.post("/api/privacy-request", async (req: Request, res: Response) => {
     try {
+      const formSecurity = await validateEmailFormSubmission(req, "privacy-request");
+      if (!formSecurity.allowed) {
+        if (formSecurity.trap) return res.json({ ok: true });
+        return res.status(formSecurity.status).json({ error: formSecurity.error });
+      }
+
       const { requestType, firstName, lastName, email, phone = "", relationship = "consumer", description = "", agentName = "", verified } = req.body as Record<string, string>;
       const validationError = validatePrivacyRequest({ requestType, firstName, lastName, email, verified });
       if (validationError) return res.status(400).json({ error: validationError });
+      if (firstName.length > 100 || lastName.length > 100 || email.length > 254 || phone.length > 50 || relationship.length > 80 || description.length > 5_000 || agentName.length > 160) {
+        return res.status(400).json({ error: "One or more fields are too long. Please shorten your request and try again." });
+      }
 
       const label = requestLabels[requestType] ?? requestType;
       await recordPrivacyRequest({

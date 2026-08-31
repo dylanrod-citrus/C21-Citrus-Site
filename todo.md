@@ -150,4 +150,12 @@
 - [x] Update the privacy banner to disclose necessary performance measurement while retaining the optional analytics choice.
 - [x] Push the user-approved necessary-performance privacy-banner disclosure and verify the deployed notice without altering custom-domain DNS or certificate settings.
 - [x] Draft a management-friendly email summarizing the C21 Citrus launch, restored services, analytics, privacy controls, and remaining routine follow-ups.
+- [x] Confirm the current recipient routing for the Get Licensed free information-session form without submitting a live inquiry.
 - [x] Verify and checkpoint the Relocation page copy update: “Certified Relocation Specialist” and Relocation Department inquiry language.
+- [x] Review the active C21 Citrus contact and privacy form routes for automated-submission exposure and prepare layered Turnstile, honeypot, validation, and rate-limit protections.
+- [x] Compare the Agent Image DNS export with the active GoDaddy DNS records and identify any missing custom records without changing working DNS.
+- [x] Add server-side Turnstile Siteverify, honeypot checks, concise payload limits, and short-lived request-throttling before contact or privacy emails are sent.
+- [x] Add a reusable Turnstile control and hidden honeypot to every public form that submits to the C21 server email routes, while preserving approved recipient routing.
+- [x] Add focused automated anti-spam regression coverage, run the full validation suite, visually review representative protected forms, and save a deployment-ready checkpoint.
+- [ ] Obtain explicit approval before pushing the anti-spam release, because the GitHub push will trigger a Netlify deployment.
+- [ ] Confirm the Cloudflare Turnstile widget allows both `www.c21citrus.com` and `c21citrus.com`, and confirm Netlify uses `TURNSTILE_SECRET_KEY` for Functions plus the public `VITE_TURNSTILE_SITE_KEY` for Build.

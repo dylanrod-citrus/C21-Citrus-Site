@@ -24,6 +24,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { FormSpamGuard, readFormSpamPayload } from "../components/FormSpamGuard";
 import SiteNav from "../components/SiteNav";
 
 const heroImage = "/manus-storage/hero-luxury-interior_f79432c6.jpg";
@@ -277,6 +278,11 @@ function InfoSessionForm() {
       setSubmitError("Please enter your phone number.");
       return;
     }
+    const protection = readFormSpamPayload(e.currentTarget as HTMLFormElement);
+    if (!protection.turnstileToken) {
+      setSubmitError("Please complete the verification before submitting your request.");
+      return;
+    }
     setSubmitting(true);
     setSubmitError("");
     try {
@@ -290,6 +296,7 @@ function InfoSessionForm() {
           subject: "Free Info Session Request - Real Estate Licensing Course",
           message: form.message.trim() || "I would like to sign up for a free info session about starting my real estate career at Century 21 Citrus Realty.",
           recipientOverride: "andrew@c21citrus.com,janeth@c21citrus.com",
+          ...protection,
         }),
       });
       if (!res.ok) throw new Error("Server error");
@@ -369,6 +376,7 @@ function InfoSessionForm() {
                 <label style={{ display: "block", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#666", marginBottom: "0.4rem" }}>Questions or Comments</label>
                 <textarea rows={3} placeholder="Tell us a little about yourself or any questions you have..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} style={{ ...inputStyle, resize: "vertical" }} onFocus={(e) => { e.currentTarget.style.borderColor = "var(--c21-gold-dark)"; }} onBlur={(e) => { e.currentTarget.style.borderColor = "#d8d4cc"; }} />
               </div>
+              <FormSpamGuard />
               {submitError && <p style={{ fontSize: "0.82rem", color: "#c0392b", marginTop: "0.25rem" }}>{submitError}</p>}
               <button type="submit" disabled={submitting} className="c21-btn-gold" style={{ width: "100%", justifyContent: "center", marginTop: "0.25rem", opacity: submitting ? 0.7 : 1, cursor: submitting ? "not-allowed" : "pointer" }}>
                 <CalendarCheck size={15} /> Request My Free Info Session
@@ -403,6 +411,11 @@ function JanethModal({ onClose }: { onClose: () => void }) {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    const protection = readFormSpamPayload(e.currentTarget as HTMLFormElement);
+    if (!protection.turnstileToken) {
+      setSubmitError("Please complete the verification before sending your message.");
+      return;
+    }
     setSubmitting(true);
     setSubmitError("");
     try {
@@ -416,6 +429,7 @@ function JanethModal({ onClose }: { onClose: () => void }) {
           subject: "License Inquiry via Get Licensed Page",
           message: form.message.trim(),
           recipientOverride: JANETH_EMAIL,
+          ...protection,
         }),
       });
       const json = await res.json();
@@ -476,6 +490,7 @@ function JanethModal({ onClose }: { onClose: () => void }) {
               <textarea rows={4} placeholder="Tell us about yourself and your interest in real estate..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} style={{ ...inputStyle, resize: "vertical", borderColor: errors.message ? "#c0392b" : "#d8d4cc" }} />
               {errors.message && <p style={{ fontSize: "0.78rem", color: "#c0392b", marginTop: "0.3rem" }}>{errors.message}</p>}
             </div>
+            <FormSpamGuard />
             {submitError && <p style={{ fontSize: "0.85rem", color: "#c0392b", background: "#fdf2f2", padding: "0.75rem", borderRadius: "2px" }}>{submitError}</p>}
             <button type="submit" disabled={submitting} className="c21-btn-gold" style={{ width: "100%", justifyContent: "center", opacity: submitting ? 0.7 : 1 }}>
               <Mail size={15} /> {submitting ? "Sending..." : "Send Message"}

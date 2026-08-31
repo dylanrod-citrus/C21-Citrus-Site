@@ -6,6 +6,7 @@
 */
 import { CheckCircle, Clock, Mail, MapPin, Phone, Send, User } from "lucide-react";
 import { useState } from "react";
+import { FormSpamGuard, readFormSpamPayload } from "../components/FormSpamGuard";
 import SiteNav from "../components/SiteNav";
 
 const logoUrl = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
@@ -82,6 +83,11 @@ export default function Contact() {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    const protection = readFormSpamPayload(e.currentTarget as HTMLFormElement);
+    if (!protection.turnstileToken) {
+      setSubmitError("Please complete the verification before sending your message.");
+      return;
+    }
     setSubmitting(true);
     setSubmitError("");
     try {
@@ -94,6 +100,7 @@ export default function Contact() {
           phone: form.phone || undefined,
           subject: form.subject || undefined,
           message: form.message,
+          ...protection,
         }),
       });
       const data = await res.json() as { success: boolean; error?: string };
@@ -228,6 +235,8 @@ export default function Contact() {
                     style={{ ...inputStyle, resize: "vertical", minHeight: "140px", borderColor: errors.message ? "#c0392b" : "#e0dbd0" }} />
                   {errors.message && <p style={errorStyle}>{errors.message}</p>}
                 </div>
+
+                <div style={{ marginBottom: "1.25rem" }}><FormSpamGuard /></div>
 
                 <button type="submit" disabled={submitting} style={{
                   display: "inline-flex", alignItems: "center", gap: "0.5rem",

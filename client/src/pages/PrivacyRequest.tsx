@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FormSpamGuard, readFormSpamPayload } from "../components/FormSpamGuard";
 import SiteNav from "../components/SiteNav";
 import { Link } from "wouter";
 
@@ -97,6 +98,11 @@ export default function PrivacyRequest() {
       setErrorMsg("Please confirm your identity by checking the verification box.");
       return;
     }
+    const protection = readFormSpamPayload(e.currentTarget as HTMLFormElement);
+    if (!protection.turnstileToken) {
+      setErrorMsg("Please complete the verification before submitting your request.");
+      return;
+    }
     setStatus("loading");
     setErrorMsg("");
 
@@ -104,7 +110,7 @@ export default function PrivacyRequest() {
       const res = await fetch("/api/privacy-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, ...protection }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -441,6 +447,8 @@ export default function PrivacyRequest() {
                     I confirm that the information provided in this form is accurate and that I am the consumer whose personal information is the subject of this request, or I am authorized to submit this request on behalf of that consumer. I understand that Century 21 Citrus Realty may need to verify my identity before processing this request.
                   </span>
                 </label>}
+
+                <div className="mb-6"><FormSpamGuard /></div>
 
                 {errorMsg && (
                   <div className="mb-5 p-4 bg-red-50 border border-red-200 rounded-sm">

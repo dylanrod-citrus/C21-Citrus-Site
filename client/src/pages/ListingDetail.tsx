@@ -11,6 +11,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "wouter";
 import { toast as sonnerToast } from "sonner";
+import { FormSpamGuard, readFormSpamPayload } from "../components/FormSpamGuard";
 import SiteNav from "../components/SiteNav";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -90,6 +91,7 @@ export default function ListingDetail() {
   const [contactMessage, setContactMessage] = useState("");
   const [contactSent, setContactSent] = useState(false);
   const [contactSending, setContactSending] = useState(false);
+  const [contactError, setContactError] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -116,9 +118,15 @@ export default function ListingDetail() {
     async (e: React.FormEvent) => {
       e.preventDefault();
       if (!listing) return;
+      const protection = readFormSpamPayload(e.currentTarget as HTMLFormElement);
+      if (!protection.turnstileToken) {
+        setContactError("Please complete the verification before sending your request.");
+        return;
+      }
       setContactSending(true);
+      setContactError("");
       try {
-        await fetch("/api/contact", {
+        const response = await fetch("/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -128,18 +136,21 @@ export default function ListingDetail() {
             message: `Showing request for listing ${listing.listingId} - ${listing.address}, ${listing.city}, ${listing.state} ${listing.zip}\nListing Agent: ${listing.agentName || 'N/A'}\n\n${contactMessage}`,
             subject: `Showing Request: ${listing.address}, ${listing.city}`,
             recipientOverride: "frontdesk@c21citrus.com",
+            ...protection,
           }),
         });
+        const body = await response.json().catch(() => ({})) as { success?: boolean; error?: string };
+        if (!response.ok || !body.success) throw new Error(body.error || "Unable to send your request.");
         setContactSent(true);
         sonnerToast.success("Request Sent!", {
           description: "We'll be in touch shortly to confirm your showing.",
           duration: 6000,
         });
-      } catch {
-        // silently fail — form still shows confirmation
-        setContactSent(true);
-        sonnerToast.success("Request Sent!", {
-          description: "We'll be in touch shortly to confirm your showing.",
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Unable to send your request. Please call us at 909.592.8500.";
+        setContactError(message);
+        sonnerToast.error("Unable to send request", {
+          description: message,
           duration: 6000,
         });
       } finally {
@@ -534,6 +545,8 @@ export default function ListingDetail() {
                   onChange={(e) => setContactMessage(e.target.value)}
                   style={{ ...inputStyle, resize: "vertical" }}
                 />
+                <FormSpamGuard />
+                {contactError && <p role="alert" style={{ color: "#f3b4ad", fontSize: "0.82rem", lineHeight: 1.5, margin: 0 }}>{contactError}</p>}
                 <button
                   type="submit" disabled={contactSending}
                   style={{

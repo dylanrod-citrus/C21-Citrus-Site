@@ -17,6 +17,7 @@ import {
   Phone,
   X,
 } from "lucide-react";
+import { FormSpamGuard, readFormSpamPayload } from "../components/FormSpamGuard";
 import SiteNav from "../components/SiteNav";
 
 const heroImage = "/manus-storage/hero-luxury-interior_f79432c6.jpg";
@@ -136,6 +137,11 @@ export default function GetYourLicense() {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    const protection = readFormSpamPayload(e.currentTarget as HTMLFormElement);
+    if (!protection.turnstileToken) {
+      setSubmitError("Please complete the verification before sending your message.");
+      return;
+    }
     setSubmitting(true);
     setSubmitError("");
     try {
@@ -149,6 +155,7 @@ export default function GetYourLicense() {
           subject: "License Inquiry via Get Your License Page",
           message: form.message.trim(),
           recipientOverride: JANETH_EMAIL,
+          ...protection,
         }),
       });
       const json = await res.json();
@@ -378,6 +385,8 @@ export default function GetYourLicense() {
                   />
                   {errors.message && <p style={{ color: "#c0392b", fontSize: "0.78rem", marginTop: "0.25rem" }}>{errors.message}</p>}
                 </div>
+
+                <div style={{ marginBottom: "1rem" }}><FormSpamGuard /></div>
 
                 {submitError && (
                   <p style={{ color: "#c0392b", fontSize: "0.85rem", marginBottom: "1rem", padding: "0.75rem", background: "#fdf0f0", borderRadius: "2px", border: "1px solid #f5c6c6" }}>{submitError}</p>

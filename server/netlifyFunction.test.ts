@@ -1,5 +1,7 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { handler } from "../netlify/functions/api";
+
+const originalTurnstileSecret = process.env.TURNSTILE_SECRET_KEY;
 
 function makeEvent(overrides: Partial<Parameters<typeof handler>[0]> = {}) {
   return {
@@ -15,7 +17,15 @@ function makeEvent(overrides: Partial<Parameters<typeof handler>[0]> = {}) {
   } as Parameters<typeof handler>[0];
 }
 
-afterEach(() => vi.restoreAllMocks());
+beforeEach(() => {
+  process.env.TURNSTILE_SECRET_KEY = "test-secret";
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+  if (originalTurnstileSecret === undefined) delete process.env.TURNSTILE_SECRET_KEY;
+  else process.env.TURNSTILE_SECRET_KEY = originalTurnstileSecret;
+});
 
 describe("Netlify API function", () => {
   it("serves the health route through the serverless adapter", async () => {
@@ -44,9 +54,9 @@ describe("Netlify API function", () => {
     expect(testimonials.statusCode).toBe(200);
     expect(testimonials.body).toContain("Verified Client");
     expect(contact.statusCode).toBe(400);
-    expect(contact.body).toContain("Name is required");
+    expect(contact.body).toContain("Please complete the verification");
     expect(privacy.statusCode).toBe(400);
-    expect(privacy.body).toContain("Missing required fields");
+    expect(privacy.body).toContain("Please complete the verification");
     expect(trpc.statusCode).toBe(200);
     expect(trpc.body).toContain('"json":null');
   });

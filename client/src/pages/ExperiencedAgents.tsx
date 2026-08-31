@@ -18,6 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useState } from "react";
+import { FormSpamGuard, readFormSpamPayload } from "../components/FormSpamGuard";
 import SiteNav from "../components/SiteNav";
 
 const JANETH_EMAIL = "janeth@c21citrus.com";
@@ -41,6 +42,11 @@ function JanethModal({ onClose }: { onClose: () => void }) {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    const protection = readFormSpamPayload(e.currentTarget as HTMLFormElement);
+    if (!protection.turnstileToken) {
+      setSubmitError("Please complete the verification before sending your message.");
+      return;
+    }
     setSubmitting(true);
     setSubmitError("");
     try {
@@ -54,6 +60,7 @@ function JanethModal({ onClose }: { onClose: () => void }) {
           subject: "Experienced Agent Inquiry",
           message: form.message.trim(),
           recipientOverride: JANETH_EMAIL,
+          ...protection,
         }),
       });
       const json = await res.json();
@@ -113,6 +120,7 @@ function JanethModal({ onClose }: { onClose: () => void }) {
               <textarea rows={4} placeholder="Tell us about yourself and your interest in joining Century 21 Citrus Realty..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} style={{ ...inputStyle, resize: "vertical", borderColor: errors.message ? "#c0392b" : "#d8d4cc" }} />
               {errors.message && <p style={{ fontSize: "0.78rem", color: "#c0392b", marginTop: "0.3rem" }}>{errors.message}</p>}
             </div>
+            <FormSpamGuard />
             {submitError && <p style={{ fontSize: "0.85rem", color: "#c0392b", background: "#fdf2f2", padding: "0.75rem", borderRadius: "2px" }}>{submitError}</p>}
             <button type="submit" disabled={submitting} className="c21-btn-gold" style={{ width: "100%", justifyContent: "center", opacity: submitting ? 0.7 : 1 }}>
               <Mail size={15} /> {submitting ? "Sending…" : "Send Message"}

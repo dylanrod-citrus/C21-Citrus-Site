@@ -21,6 +21,7 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { FormSpamGuard, readFormSpamPayload } from "../components/FormSpamGuard";
 import SiteNav from "../components/SiteNav";
 
 const ANDREW_EMAIL = "andrew@c21citrus.com";
@@ -45,6 +46,11 @@ function AndrewInquiryForm() {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
+    const protection = readFormSpamPayload(e.currentTarget as HTMLFormElement);
+    if (!protection.turnstileToken) {
+      setSubmitError("Please complete the verification before sending your inquiry.");
+      return;
+    }
     setErrors({});
     setSubmitting(true);
     setSubmitError("");
@@ -52,7 +58,7 @@ function AndrewInquiryForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, recipientOverride: ANDREW_EMAIL }),
+        body: JSON.stringify({ ...form, recipientOverride: ANDREW_EMAIL, ...protection }),
       });
       if (!res.ok) throw new Error("Server error");
       setSent(true);
@@ -102,6 +108,7 @@ function AndrewInquiryForm() {
         <textarea id="andrew-message" rows={5} value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} style={{ ...inputStyle, resize: "vertical" }} placeholder="Tell Andrew about your relocation timeline, destination, and any questions you have…" />
         {errors.message && <p style={errStyle}>{errors.message}</p>}
       </div>
+      <FormSpamGuard />
       {submitError && <p style={{ ...errStyle, fontSize: "0.85rem" }}>{submitError}</p>}
       <button
         type="submit"
