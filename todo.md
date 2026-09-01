@@ -174,3 +174,9 @@
 - [x] Verify the mobile header presentation and public certificate health without introducing an unnecessary deployment; the active certificate covers both public domains through November 26, 2026.
 - [x] Replace the incorrect circular symbol with the user-supplied official C21 seal on the homepage and Real Estate School/Get Licensed page, preserving the requested centered hero placement.
 - [x] Validate the official C21 seal at desktop and mobile sizes, save a checkpoint, and obtain explicit approval before its GitHub-triggered deployment.
+- [x] Diagnose and repair the Get Licensed / Real Estate School form state error where a completed Turnstile challenge is not recognized by the submit handler.
+- [x] Validate the repaired protected form without submitting a live email or visitor inquiry.
+- [ ] Obtain the PPC provider’s Google Tag Manager container ID, conversion event details, and consent expectations before restoring privacy-aware campaign tracking on the Get Licensed page.
+- [ ] Confirm the appropriate disclosure and consent treatment for PPC Google Tag Manager conversion tracking before implementation; do not describe it as a strictly necessary site-security function without legal review.
+- [x] Define a safe C21 pre-production testing workflow for website updates, Cloudflare Turnstile, form delivery, and PPC tracking before changes are released to the live domain.
+- [x] Deliver a plain-language, step-by-step C21 staging setup guide for the user to follow and an updated reply for the PPC provider that requests the needed conversion-tracking details.

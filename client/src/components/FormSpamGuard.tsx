@@ -42,10 +42,18 @@ export type FormSpamPayload = {
   website: string;
 };
 
+export function readTurnstileToken(data: FormData): string {
+  for (const fieldName of ["turnstileToken", "cf-turnstile-response"]) {
+    const value = data.get(fieldName);
+    if (typeof value === "string" && value.trim()) return value.trim();
+  }
+  return "";
+}
+
 export function readFormSpamPayload(form: HTMLFormElement): FormSpamPayload {
   const data = new FormData(form);
   return {
-    turnstileToken: String(data.get("turnstileToken") ?? "").trim(),
+    turnstileToken: readTurnstileToken(data),
     website: String(data.get("website") ?? "").trim(),
   };
 }
@@ -70,8 +78,8 @@ export function FormSpamGuard() {
         widgetIdRef.current = window.turnstile.render(containerRef.current, {
           sitekey: TURNSTILE_SITE_KEY,
           theme: "auto",
-          responseField: true,
-          responseFieldName: "turnstileToken",
+          "response-field": true,
+          "response-field-name": "turnstileToken",
           "expired-callback": () => setError("Verification expired. Please complete it again."),
           "error-callback": () => setError("Verification could not be completed. Please try again."),
           callback: () => setError(""),
