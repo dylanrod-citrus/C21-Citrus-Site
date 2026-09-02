@@ -1981,13 +1981,21 @@
     font-family: "Lato", sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--c21-black);
+    color: rgba(255,255,255,0.92);
     padding: 0.9rem 0;
-    border-bottom: 1px solid var(--c21-light-gray);
+    border-bottom: 1px solid rgba(255,255,255,0.72);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.2s, background-color 0.2s;
   }
-  .c21-mobile-nav-links a:hover { color: var(--c21-gold); }
+  .c21-mobile-nav-links a:hover,
+  .c21-mobile-nav-links a:focus-visible,
+  .c21-mobile-nav-links a.active {
+    color: var(--c21-gold-light);
+  }
+  .c21-mobile-nav-links a:focus-visible {
+    outline: 2px solid var(--c21-gold);
+    outline-offset: 4px;
+  }
 }
 
 /* Shared compliance footer: preserve readable privacy choices at every zoom level. */

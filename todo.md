@@ -140,7 +140,7 @@
 - [x] Provide the current Google Workspace DKIM generation and GoDaddy DNS publication steps.
 - [x] Provide the current Umami Cloud domain configuration steps for the C21 Citrus custom domains.
 - [x] Set www.c21citrus.com as the Netlify primary domain and retain c21citrus.com as its secure redirecting alias.
-- [ ] Obtain the Google Workspace DKIM TXT host and value from the authorized administrator, publish it in GoDaddy, and have the administrator enable authentication.
+- [ ] Publish the received Google Workspace DKIM TXT record in GoDaddy, verify it publicly, and have the authorized administrator enable authentication.
 - [ ] Diagnose and resolve the Netlify certificate-renewal warning for c21citrus.com after the primary-domain change without disrupting live DNS or email records.
 - [x] Flush Google Public DNS cache for c21citrus.com and www.c21citrus.com, then retry Netlify verification without editing working DNS records.
 - [x] Submit a Netlify support request for an internal custom-domain verifier reset, with public DNS, HTTPS, DNSSEC, and inactive-zone checks attached.
@@ -180,3 +180,5 @@
 - [ ] Confirm the appropriate disclosure and consent treatment for PPC Google Tag Manager conversion tracking before implementation; do not describe it as a strictly necessary site-security function without legal review.
 - [x] Define a safe C21 pre-production testing workflow for website updates, Cloudflare Turnstile, form delivery, and PPC tracking before changes are released to the live domain.
 - [x] Deliver a plain-language, step-by-step C21 staging setup guide for the user to follow and an updated reply for the PPC provider that requests the needed conversion-tracking details.
+- [x] Repair the mobile navigation drawer so every menu label has readable default, hover, focus, and active contrast against its dark background.
+- [x] Validate the repaired mobile navigation at a phone viewport, save a checkpoint, and obtain explicit approval before its GitHub-triggered deployment.
