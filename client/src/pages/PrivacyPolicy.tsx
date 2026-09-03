@@ -79,6 +79,16 @@ export default function PrivacyPolicy() {
               server-side measurement. Netlify’s processing is described in its own privacy and
               data-processing documentation.
             </p>
+            <h3 className="text-xl font-bold text-[#121212] mt-6 mb-3">
+              Advertising Measurement
+            </h3>
+            <p>
+              We use a Google Ads base tag to measure the performance of our advertising campaigns and
+              understand visits that may follow an ad click. This technology may process technical browser
+              information, page addresses, and advertising click information in accordance with Google’s
+              applicable settings and policies. The current site implementation does not send a completed
+              form-submission conversion event.
+            </p>
 
             <h2 className="font-['Playfair_Display',serif] text-2xl font-bold text-[#121212] mt-10 mb-4">
               3. How We Use Your Information
@@ -95,9 +105,9 @@ export default function PrivacyPolicy() {
               4. Third-Party Sharing
             </h2>
             <p>
-              We do <strong>not</strong> sell, rent, or share your personal information with
-              third parties for their marketing purposes. We do not use advertising pixels,
-              retargeting tags, or behavioral tracking technologies.
+              We do <strong>not</strong> sell your personal information. We use service providers for
+              hosting, email delivery, analytics, and advertising measurement in connection with the
+              services described in this policy.
             </p>
             <p>
               We may share information with service providers who assist us in operating our
@@ -109,10 +119,8 @@ export default function PrivacyPolicy() {
               5. Cookies and Tracking Technologies
             </h2>
             <p>
-              Our website uses only essential, first-party cookies required for basic
-              functionality (such as remembering your consent preference). We do not use
-              third-party advertising cookies, tracking pixels, or cross-site tracking
-              technologies.
+              Our website uses essential first-party storage for basic functionality, such as remembering
+              your consent preference, and may use Google Ads technology to measure advertising performance.
             </p>
             <p>
               Umami is the optional browser-based analytics tool used on this site and it is loaded

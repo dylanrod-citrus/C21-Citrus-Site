@@ -1,12 +1,10 @@
 import { useEffect } from "react";
 
 /**
- * Prepared Google Ads base-tag loader. It intentionally does not hardcode an
- * account ID and it intentionally does not emit a conversion event. A future
- * staging or production environment must explicitly set this public build
- * variable after the conversion label and disclosure treatment are approved.
+ * The public Google Ads account tag supplied by the C21 PPC provider. This
+ * base tag is intentionally separate from a completed-form conversion event.
  */
-export const GOOGLE_ADS_TAG_ENV = "VITE_GOOGLE_ADS_TAG_ID";
+export const GOOGLE_ADS_TAG_ID = "AW-1066815413";
 
 type GoogleAdsWindow = Window & {
   dataLayer?: unknown[][];
@@ -37,17 +35,10 @@ function installGoogleAdsBaseTag(tagId: string): void {
   googleWindow.gtag("config", tagId);
 }
 
-/**
- * Loads only the supplied Google Ads base tag. Conversion events are purposely
- * excluded until the PPC provider supplies the new conversion label and the
- * server-confirmed Get Licensed success flow is tested in staging.
- */
+/** Loads the approved Google Ads base tag only; no conversion event is emitted. */
 export function GoogleAdsBaseTag() {
   useEffect(() => {
-    const tagId = import.meta.env.VITE_GOOGLE_ADS_TAG_ID?.trim();
-    if (!isGoogleAdsTagId(tagId)) return;
-
-    installGoogleAdsBaseTag(tagId);
+    installGoogleAdsBaseTag(GOOGLE_ADS_TAG_ID);
   }, []);
 
   return null;

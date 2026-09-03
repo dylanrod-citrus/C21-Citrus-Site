@@ -147,10 +147,10 @@ export function CookieConsent() {
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex-1">
             <p className="text-sm text-white/90 leading-relaxed font-['Lato',sans-serif]">
-              Accepting enables optional, privacy-respecting analytics; declining keeps the
-              optional analytics service off. Necessary server-side logs and performance measurements
-              may still be processed to operate, secure, and improve this site. We <strong>do not sell
-              or share your personal information</strong> with advertisers.{" "}
+              We use site technology to operate, secure, and improve this site and to measure the
+              performance of our advertising. Accepting enables optional, privacy-respecting site
+              analytics; declining keeps that optional analytics service off. Necessary server-side logs
+              and performance measurements may still be processed. We do not sell your personal information.{" "}
               <a
                 href="/privacy-policy"
                 className="text-[#BEAF88] underline underline-offset-2 hover:text-[#e0c36a] transition-colors"

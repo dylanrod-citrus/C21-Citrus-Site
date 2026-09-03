@@ -176,11 +176,13 @@
 - [x] Validate the official C21 seal at desktop and mobile sizes, save a checkpoint, and obtain explicit approval before its GitHub-triggered deployment.
 - [x] Diagnose and repair the Get Licensed / Real Estate School form state error where a completed Turnstile challenge is not recognized by the submit handler.
 - [x] Validate the repaired protected form without submitting a live email or visitor inquiry.
-- [ ] Obtain the new Google Ads conversion action’s conversion label and direct event snippet for the Get Licensed form; do not recover the unavailable legacy GTM container.
-- [ ] Install the direct Google Ads tag and fire its conversion only after a server-confirmed successful Get Licensed submission, first validating the event in staging.
+- [x] Defer the new Google Ads conversion action label and direct completed-submission event until management separately requests it; do not recover the unavailable legacy GTM container.
+- [x] Prepare and validate the direct Google Ads base tag `AW-1066815413` without a completed-form conversion event; it remains pending user-approved production deployment.
 - [x] Prepare and validate a configuration-controlled, non-live Google Ads base-tag integration for `AW-1066815413`; it remains inert without a future staging/production environment value and emits no conversion event.
 - [ ] Verify the public outcome of the user’s one-time Netlify certificate-renewal attempt and retain the Netlify Support case if the renewal warning persists.
+- [ ] Send Netlify Support the post-renewal evidence showing both domains verified and the renewal warning still present, then await their corrective dashboard-state action.
 - [ ] Confirm the appropriate disclosure and consent treatment for direct Google Ads conversion tracking before implementation; do not describe it as a strictly necessary site-security function without legal review.
+- [x] Update the public privacy disclosure to accurately describe the approved Google Ads base tag before activating it; do not characterize advertising measurement as a strictly necessary security function.
 - [x] Define a safe C21 pre-production testing workflow for website updates, Cloudflare Turnstile, form delivery, and PPC tracking before changes are released to the live domain.
 - [x] Deliver a plain-language, step-by-step C21 staging setup guide for the user to follow and an updated reply for the PPC provider that requests the needed conversion-tracking details.
 - [x] Repair the mobile navigation drawer so every menu label has readable default, hover, focus, and active contrast against its dark background.
