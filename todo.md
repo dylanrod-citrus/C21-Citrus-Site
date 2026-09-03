@@ -140,7 +140,7 @@
 - [x] Provide the current Google Workspace DKIM generation and GoDaddy DNS publication steps.
 - [x] Provide the current Umami Cloud domain configuration steps for the C21 Citrus custom domains.
 - [x] Set www.c21citrus.com as the Netlify primary domain and retain c21citrus.com as its secure redirecting alias.
-- [ ] Publish the received Google Workspace DKIM TXT record in GoDaddy, verify it publicly, and have the authorized administrator enable authentication.
+- [x] Publish the received Google Workspace DKIM TXT record in GoDaddy, verify it publicly, and have the authorized Super Admin enable authentication.
 - [ ] Diagnose and resolve the Netlify certificate-renewal warning for c21citrus.com after the primary-domain change without disrupting live DNS or email records.
 - [x] Flush Google Public DNS cache for c21citrus.com and www.c21citrus.com, then retry Netlify verification without editing working DNS records.
 - [x] Submit a Netlify support request for an internal custom-domain verifier reset, with public DNS, HTTPS, DNSSEC, and inactive-zone checks attached.
@@ -176,8 +176,11 @@
 - [x] Validate the official C21 seal at desktop and mobile sizes, save a checkpoint, and obtain explicit approval before its GitHub-triggered deployment.
 - [x] Diagnose and repair the Get Licensed / Real Estate School form state error where a completed Turnstile challenge is not recognized by the submit handler.
 - [x] Validate the repaired protected form without submitting a live email or visitor inquiry.
-- [ ] Obtain the PPC provider’s Google Tag Manager container ID, conversion event details, and consent expectations before restoring privacy-aware campaign tracking on the Get Licensed page.
-- [ ] Confirm the appropriate disclosure and consent treatment for PPC Google Tag Manager conversion tracking before implementation; do not describe it as a strictly necessary site-security function without legal review.
+- [ ] Obtain the new Google Ads conversion action’s conversion label and direct event snippet for the Get Licensed form; do not recover the unavailable legacy GTM container.
+- [ ] Install the direct Google Ads tag and fire its conversion only after a server-confirmed successful Get Licensed submission, first validating the event in staging.
+- [x] Prepare and validate a configuration-controlled, non-live Google Ads base-tag integration for `AW-1066815413`; it remains inert without a future staging/production environment value and emits no conversion event.
+- [ ] Verify the public outcome of the user’s one-time Netlify certificate-renewal attempt and retain the Netlify Support case if the renewal warning persists.
+- [ ] Confirm the appropriate disclosure and consent treatment for direct Google Ads conversion tracking before implementation; do not describe it as a strictly necessary site-security function without legal review.
 - [x] Define a safe C21 pre-production testing workflow for website updates, Cloudflare Turnstile, form delivery, and PPC tracking before changes are released to the live domain.
 - [x] Deliver a plain-language, step-by-step C21 staging setup guide for the user to follow and an updated reply for the PPC provider that requests the needed conversion-tracking details.
 - [x] Repair the mobile navigation drawer so every menu label has readable default, hover, focus, and active contrast against its dark background.
