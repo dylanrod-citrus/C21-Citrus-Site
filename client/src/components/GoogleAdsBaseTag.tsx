@@ -5,6 +5,8 @@ import { useEffect } from "react";
  * base tag is intentionally separate from a completed-form conversion event.
  */
 export const GOOGLE_ADS_TAG_ID = "AW-1066815413";
+export const GOOGLE_ADS_LEAD_CONVERSION_DESTINATION =
+  "AW-1066815413/A3eGCMLtl-wCELWf2fwD";
 
 type GoogleAdsWindow = Window & {
   dataLayer?: unknown[][];
@@ -35,7 +37,22 @@ function installGoogleAdsBaseTag(tagId: string): void {
   googleWindow.gtag("config", tagId);
 }
 
-/** Loads the approved Google Ads base tag only; no conversion event is emitted. */
+/**
+ * Reports the PPC team's lead conversion only after the calling form has
+ * received a successful response from the C21 server. The base-tag component
+ * creates the queueing `gtag` function before this helper can run.
+ */
+export function trackGoogleAdsLeadConversion(): void {
+  const googleWindow = window as GoogleAdsWindow;
+
+  if (typeof googleWindow.gtag !== "function") return;
+
+  googleWindow.gtag("event", "conversion", {
+    send_to: GOOGLE_ADS_LEAD_CONVERSION_DESTINATION,
+  });
+}
+
+/** Loads the approved Google Ads base tag across the public website. */
 export function GoogleAdsBaseTag() {
   useEffect(() => {
     installGoogleAdsBaseTag(GOOGLE_ADS_TAG_ID);

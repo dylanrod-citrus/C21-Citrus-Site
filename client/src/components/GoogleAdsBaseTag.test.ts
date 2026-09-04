@@ -1,6 +1,10 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { GOOGLE_ADS_TAG_ID, isGoogleAdsTagId } from "./GoogleAdsBaseTag";
+import {
+  GOOGLE_ADS_LEAD_CONVERSION_DESTINATION,
+  GOOGLE_ADS_TAG_ID,
+  isGoogleAdsTagId,
+} from "./GoogleAdsBaseTag";
 
 describe("GoogleAdsBaseTag", () => {
   it("uses the public Google Ads tag ID supplied by the PPC provider", () => {
@@ -10,10 +14,12 @@ describe("GoogleAdsBaseTag", () => {
     expect(isGoogleAdsTagId(undefined)).toBe(false);
   });
 
-  it("loads only the base tag and does not emit a conversion before the label is supplied", () => {
+  it("keeps the PPC provider's base tag and lead-conversion destination distinct", () => {
     const source = readFileSync(new URL("./GoogleAdsBaseTag.tsx", import.meta.url), "utf8");
 
+    expect(GOOGLE_ADS_LEAD_CONVERSION_DESTINATION).toBe("AW-1066815413/A3eGCMLtl-wCELWf2fwD");
     expect(source).toContain("https://www.googletagmanager.com/gtag/js?id=");
-    expect(source).not.toMatch(/gtag\(\s*["']event["']\s*,\s*["']conversion["']/);
+    expect(source).toMatch(/gtag\(\s*["']event["']\s*,\s*["']conversion["']/);
+    expect(source).toContain("send_to: GOOGLE_ADS_LEAD_CONVERSION_DESTINATION");
   });
 });
