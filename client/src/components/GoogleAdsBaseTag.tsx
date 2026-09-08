@@ -6,7 +6,7 @@ import { useEffect } from "react";
  */
 export const GOOGLE_ADS_TAG_ID = "AW-1066815413";
 export const GOOGLE_ADS_LEAD_CONVERSION_DESTINATION =
-  "AW-1066815413/A3eGCMLtl-wCELWf2fwD";
+  "AW-1066815413/mo1kCOqUwMkZELWf2fwD";
 
 type GoogleAdsWindow = Window & {
   dataLayer?: unknown[][];

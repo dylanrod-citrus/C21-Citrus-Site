@@ -176,9 +176,9 @@
 - [x] Validate the official C21 seal at desktop and mobile sizes, save a checkpoint, and obtain explicit approval before its GitHub-triggered deployment.
 - [x] Diagnose and repair the Get Licensed / Real Estate School form state error where a completed Turnstile challenge is not recognized by the submit handler.
 - [x] Validate the repaired protected form without submitting a live email or visitor inquiry.
-- [x] Receive the Google Ads conversion label `A3eGCMLtl-wCELWf2fwD` for the Free Info Session lead action; do not recover the unavailable legacy GTM container.
-- [x] Add and locally validate the direct Google Ads completed-lead event `AW-1066815413/A3eGCMLtl-wCELWf2fwD` only after a server-confirmed successful Free Info Session submission.
-- [ ] Validate the prepared completed-lead event in the C21 staging environment before requesting a production deployment.
+- [x] Receive the PPC team's historical Google Ads conversion destination `AW-1066815413/mo1kCOqUwMkZELWf2fwD` for the Free Info Session lead action; do not recover the unavailable legacy GTM container.
+- [x] Replace and locally validate the direct Google Ads completed-lead event with historical destination `AW-1066815413/mo1kCOqUwMkZELWf2fwD`, firing only after a server-confirmed successful Free Info Session submission.
+- [ ] Validate the corrected historical completed-lead event in the C21 staging environment before requesting a production deployment.
 - [x] Prepare and validate a configuration-controlled, non-live Google Ads base-tag integration for `AW-1066815413`; it remains inert without a future staging/production environment value and emits no conversion event.
 - [ ] Verify the public outcome of the user’s one-time Netlify certificate-renewal attempt and retain the Netlify Support case if the renewal warning persists.
 - [ ] Send Netlify Support the post-renewal evidence showing both domains verified and the renewal warning still present, then await their corrective dashboard-state action.
