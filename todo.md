@@ -192,3 +192,4 @@
 - [x] Stage targeted performance improvements without altering working listings, testimonials, forms, anti-spam protections, Google Ads behavior, or the approved C21 visual design.
 - [x] Validate the staged performance improvements with automated tests, type checking, production build and asset guards, browser resource timing, and desktop/mobile visual checks.
 - [x] Save the staged performance checkpoint; await explicit approval before any GitHub push that would trigger a Netlify production deployment.
+- [ ] Push the user-approved performance release to GitHub, then verify the resulting Netlify deployment and public homepage behavior.
