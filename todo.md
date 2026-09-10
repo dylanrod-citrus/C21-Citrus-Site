@@ -177,8 +177,8 @@
 - [x] Diagnose and repair the Get Licensed / Real Estate School form state error where a completed Turnstile challenge is not recognized by the submit handler.
 - [x] Validate the repaired protected form without submitting a live email or visitor inquiry.
 - [x] Receive the PPC team's historical Google Ads conversion destination `AW-1066815413/mo1kCOqUwMkZELWf2fwD` for the Free Info Session lead action; do not recover the unavailable legacy GTM container.
-- [x] Replace and locally validate the direct Google Ads completed-lead event with historical destination `AW-1066815413/mo1kCOqUwMkZELWf2fwD`, firing only after a server-confirmed successful Free Info Session submission.
-- [ ] Validate the corrected historical completed-lead event in the C21 staging environment before requesting a production deployment.
+- [x] Replace, locally validate, and deploy the direct Google Ads completed-lead event with historical destination `AW-1066815413/mo1kCOqUwMkZELWf2fwD`, firing only after a server-confirmed successful Free Info Session submission.
+- [ ] Receive PPC confirmation that their controlled test detects the live historical completed-lead event; retain staging validation as the standard path for future releases.
 - [x] Prepare and validate a configuration-controlled, non-live Google Ads base-tag integration for `AW-1066815413`; it remains inert without a future staging/production environment value and emits no conversion event.
 - [ ] Verify the public outcome of the user’s one-time Netlify certificate-renewal attempt and retain the Netlify Support case if the renewal warning persists.
 - [ ] Send Netlify Support the post-renewal evidence showing both domains verified and the renewal warning still present, then await their corrective dashboard-state action.
@@ -188,3 +188,7 @@
 - [x] Deliver a plain-language, step-by-step C21 staging setup guide for the user to follow and an updated reply for the PPC provider that requests the needed conversion-tracking details.
 - [x] Repair the mobile navigation drawer so every menu label has readable default, hover, focus, and active contrast against its dark background.
 - [x] Validate the repaired mobile navigation at a phone viewport, save a checkpoint, and obtain explicit approval before its GitHub-triggered deployment.
+- [x] Measure the live homepage critical path and identify the specific JavaScript, hero-image, main-thread, and below-fold API contributors to poor Netlify RUM signals.
+- [x] Stage targeted performance improvements without altering working listings, testimonials, forms, anti-spam protections, Google Ads behavior, or the approved C21 visual design.
+- [x] Validate the staged performance improvements with automated tests, type checking, production build and asset guards, browser resource timing, and desktop/mobile visual checks.
+- [x] Save the staged performance checkpoint; await explicit approval before any GitHub push that would trigger a Netlify production deployment.

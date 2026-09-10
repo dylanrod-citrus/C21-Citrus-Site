@@ -282,6 +282,17 @@
     object-fit: cover;
     object-position: center 30%;
   }
+
+  /* Below-the-fold editorial sections do not need to compete with the hero
+     for initial layout and paint work. Their intrinsic sizes preserve scroll
+     geometry while the browser defers rendering until they approach view. */
+  .c21-testimonials-section,
+  .c21-about-section,
+  .c21-resources-section,
+  .c21-cta-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 860px;
+  }
   .c21-hero-overlay {
     position: absolute;
     inset: 0;

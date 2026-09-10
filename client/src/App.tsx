@@ -3,105 +3,104 @@ Sunlit Citrus Atlas direction for Century 21 Citrus Realty: immersive Southern C
 */
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
+import { lazy, Suspense } from "react";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Agents from "./pages/Agents";
-import Careers from "./pages/Careers";
-import Contact from "./pages/Contact";
-import HomeValue from "./pages/HomeValue";
-import MLSSearch from "./pages/MLSSearch";
-import ContactAgent from "./pages/ContactAgent";
-import OpenHouses from "./pages/OpenHouses";
-import Relocation from "./pages/Relocation";
-import Home from "./pages/Home";
-import HomeBuyingProcess from "./pages/HomeBuyingProcess";
-import HomeSellingProcess from "./pages/HomeSellingProcess";
-import OurListings from "./pages/OurListings";
-import Resources from "./pages/Resources";
-import MyFavorites from "./pages/MyFavorites";
-import GetYourLicense from "./pages/GetYourLicense";
-import NewAgents from "./pages/NewAgents";
-import RealEstateSchool from "./pages/RealEstateSchool";
-import ExperiencedAgents from "./pages/ExperiencedAgents";
-import About from "./pages/About";
-import SearchResults from "./pages/SearchResults";
-import ListingDetail from "./pages/ListingDetail";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import PrivacyRequest from "./pages/PrivacyRequest";
-import TermsOfUse from "./pages/TermsOfUse";
 import { CookieConsent } from "./components/CookieConsent";
 import { GoogleAdsBaseTag } from "./components/GoogleAdsBaseTag";
 import SiteComplianceFooter from "./components/SiteComplianceFooter";
-function Router() {
-  // make sure to consider if you need authentication for certain routes
-  return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/home-buying-process"} component={HomeBuyingProcess} />
-      <Route path={"/home-buying-process/"} component={HomeBuyingProcess} />
-      <Route path={"/home-selling-process"} component={HomeSellingProcess} />
-      <Route path={"/home-selling-process/"} component={HomeSellingProcess} />
-      <Route path={"/our-listings"} component={OurListings} />
-      <Route path={"/our-listings/"} component={OurListings} />
-      <Route path={"/open-houses"} component={OpenHouses} />
-      <Route path={"/open-houses/"} component={OpenHouses} />
-      <Route path={"/relocation"} component={Relocation} />
-      <Route path={"/relocation/"} component={Relocation} />
-      <Route path={"/agents"} component={Agents} />
-      <Route path={"/agents/"} component={Agents} />
-      <Route path={"/careers"} component={Careers} />
-      <Route path={"/careers/"} component={Careers} />
-      <Route path={"/contact"} component={Contact} />
-      <Route path={"/contact/"} component={Contact} />
-      <Route path={"/home-value"} component={HomeValue} />
-      <Route path={"/home-value/"} component={HomeValue} />
-      <Route path={"/mls-search"} component={MLSSearch} />
-      <Route path={"/mls-search/"} component={MLSSearch} />
-      <Route path={"/contact-agent"} component={ContactAgent} />
-      <Route path={"/contact-agent/"} component={ContactAgent} />
-      <Route path={"/resources"} component={Resources} />
-      <Route path={"/resources/"} component={Resources} />
-      <Route path={"/favorites"} component={MyFavorites} />
-      <Route path={"/favorites/"} component={MyFavorites} />
-      <Route path={"/careers/real-estate-school"} component={RealEstateSchool} />
-      <Route path={"/careers/real-estate-school/"} component={RealEstateSchool} />
-      {/* Legacy redirects — old URLs now point to Real Estate School */}
-      <Route path={"/careers/get-your-license"} component={RealEstateSchool} />
-      <Route path={"/careers/get-your-license/"} component={RealEstateSchool} />
-      <Route path={"/careers/new-agents"} component={RealEstateSchool} />
-      <Route path={"/careers/new-agents/"} component={RealEstateSchool} />
-      <Route path={"/careers/experienced-agents"} component={ExperiencedAgents} />
-      <Route path={"/careers/experienced-agents/"} component={ExperiencedAgents} />
-      <Route path={"/about"} component={About} />
-      <Route path={"/about/"} component={About} />
-      <Route path={"/search-results"} component={SearchResults} />
-      <Route path={"/search-results/"} component={SearchResults} />
-      <Route path={"/listing/:mlsId"} component={ListingDetail} />
-      <Route path={"/listing/:mlsId/"} component={ListingDetail} />
-      <Route path={"/privacy-policy"} component={PrivacyPolicy} />
-      <Route path={"/privacy-policy/"} component={PrivacyPolicy} />
-      <Route path={"/privacy-request"} component={PrivacyRequest} />
-      <Route path={"/privacy-request/"} component={PrivacyRequest} />
-      <Route path={"/terms-of-use"} component={TermsOfUse} />
-      <Route path={"/terms-of-use/"} component={TermsOfUse} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
-  );
+
+const Agents = lazy(() => import("./pages/Agents"));
+const Careers = lazy(() => import("./pages/Careers"));
+const Contact = lazy(() => import("./pages/Contact"));
+const HomeValue = lazy(() => import("./pages/HomeValue"));
+const MLSSearch = lazy(() => import("./pages/MLSSearch"));
+const ContactAgent = lazy(() => import("./pages/ContactAgent"));
+const OpenHouses = lazy(() => import("./pages/OpenHouses"));
+const Relocation = lazy(() => import("./pages/Relocation"));
+const Home = lazy(() => import("./pages/Home"));
+const HomeBuyingProcess = lazy(() => import("./pages/HomeBuyingProcess"));
+const HomeSellingProcess = lazy(() => import("./pages/HomeSellingProcess"));
+const OurListings = lazy(() => import("./pages/OurListings"));
+const Resources = lazy(() => import("./pages/Resources"));
+const MyFavorites = lazy(() => import("./pages/MyFavorites"));
+const RealEstateSchool = lazy(() => import("./pages/RealEstateSchool"));
+const ExperiencedAgents = lazy(() => import("./pages/ExperiencedAgents"));
+const About = lazy(() => import("./pages/About"));
+const SearchResults = lazy(() => import("./pages/SearchResults"));
+const ListingDetail = lazy(() => import("./pages/ListingDetail"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const PrivacyRequest = lazy(() => import("./pages/PrivacyRequest"));
+const TermsOfUse = lazy(() => import("./pages/TermsOfUse"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+function RouteLoadingFallback() {
+  return <main aria-busy="true" style={{ minHeight: "100vh", background: "#fff" }} />;
 }
 
-// DESIGN NOTE: Citrus Flow MLS Studio uses a warm light default theme with immersive glass navigation, scroll-led content blocks, featured listing CTAs, and persistent IDX/MLS access. Keep future routes and components aligned with this premium single-page real estate journey instead of old-style page-hopping.
+function Router() {
+  return (
+    <Suspense fallback={<RouteLoadingFallback />}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/home-buying-process" component={HomeBuyingProcess} />
+        <Route path="/home-buying-process/" component={HomeBuyingProcess} />
+        <Route path="/home-selling-process" component={HomeSellingProcess} />
+        <Route path="/home-selling-process/" component={HomeSellingProcess} />
+        <Route path="/our-listings" component={OurListings} />
+        <Route path="/our-listings/" component={OurListings} />
+        <Route path="/open-houses" component={OpenHouses} />
+        <Route path="/open-houses/" component={OpenHouses} />
+        <Route path="/relocation" component={Relocation} />
+        <Route path="/relocation/" component={Relocation} />
+        <Route path="/agents" component={Agents} />
+        <Route path="/agents/" component={Agents} />
+        <Route path="/careers" component={Careers} />
+        <Route path="/careers/" component={Careers} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/contact/" component={Contact} />
+        <Route path="/home-value" component={HomeValue} />
+        <Route path="/home-value/" component={HomeValue} />
+        <Route path="/mls-search" component={MLSSearch} />
+        <Route path="/mls-search/" component={MLSSearch} />
+        <Route path="/contact-agent" component={ContactAgent} />
+        <Route path="/contact-agent/" component={ContactAgent} />
+        <Route path="/resources" component={Resources} />
+        <Route path="/resources/" component={Resources} />
+        <Route path="/favorites" component={MyFavorites} />
+        <Route path="/favorites/" component={MyFavorites} />
+        <Route path="/careers/real-estate-school" component={RealEstateSchool} />
+        <Route path="/careers/real-estate-school/" component={RealEstateSchool} />
+        <Route path="/careers/get-your-license" component={RealEstateSchool} />
+        <Route path="/careers/get-your-license/" component={RealEstateSchool} />
+        <Route path="/careers/new-agents" component={RealEstateSchool} />
+        <Route path="/careers/new-agents/" component={RealEstateSchool} />
+        <Route path="/careers/experienced-agents" component={ExperiencedAgents} />
+        <Route path="/careers/experienced-agents/" component={ExperiencedAgents} />
+        <Route path="/about" component={About} />
+        <Route path="/about/" component={About} />
+        <Route path="/search-results" component={SearchResults} />
+        <Route path="/search-results/" component={SearchResults} />
+        <Route path="/listing/:mlsId" component={ListingDetail} />
+        <Route path="/listing/:mlsId/" component={ListingDetail} />
+        <Route path="/privacy-policy" component={PrivacyPolicy} />
+        <Route path="/privacy-policy/" component={PrivacyPolicy} />
+        <Route path="/privacy-request" component={PrivacyRequest} />
+        <Route path="/privacy-request/" component={PrivacyRequest} />
+        <Route path="/terms-of-use" component={TermsOfUse} />
+        <Route path="/terms-of-use/" component={TermsOfUse} />
+        <Route path="/404" component={NotFound} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
+  );
+}
 
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
           <GoogleAdsBaseTag />

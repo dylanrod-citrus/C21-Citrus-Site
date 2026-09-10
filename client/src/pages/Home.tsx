@@ -178,6 +178,33 @@ const footerCols = [
   },
 ];
 
+function useNearViewport<T extends Element>(rootMargin: string) {
+  const targetRef = useRef<T>(null);
+  const [isNearViewport, setIsNearViewport] = useState(false);
+
+  useEffect(() => {
+    const target = targetRef.current;
+    if (!target || !("IntersectionObserver" in window)) {
+      setIsNearViewport(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsNearViewport(true);
+        observer.disconnect();
+      },
+      { rootMargin },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [rootMargin]);
+
+  return [targetRef, isNearViewport] as const;
+}
+
 /* ── RealSatisfied Testimonials Sub-component ───────────────── */
 interface Testimonial {
   id: string;
@@ -188,20 +215,32 @@ interface Testimonial {
   date: string | null;
 }
 
-function RealSatisfiedTestimonials() {
+function RealSatisfiedTestimonials({ shouldLoad }: { shouldLoad: boolean }) {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeIdx, setActiveIdx] = useState(0);
 
   useEffect(() => {
-    fetch("/api/realsatisfied/testimonials")
-      .then((r) => r.json())
-      .then((data: { testimonials?: Testimonial[] }) => {
-        setTestimonials(data.testimonials || []);
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
+    if (!shouldLoad) return;
+
+    let active = true;
+    const timer = window.setTimeout(() => {
+      fetch("/api/realsatisfied/testimonials")
+        .then((r) => r.json())
+        .then((data: { testimonials?: Testimonial[] }) => {
+          if (active) setTestimonials(data.testimonials || []);
+        })
+        .catch(() => {})
+        .finally(() => {
+          if (active) setLoading(false);
+        });
+    }, 200);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [shouldLoad]);
 
   // Auto-rotate
   useEffect(() => {
@@ -209,6 +248,10 @@ function RealSatisfiedTestimonials() {
     const t = setInterval(() => setActiveIdx((i) => (i + 1) % testimonials.length), 7000);
     return () => clearInterval(t);
   }, [testimonials.length]);
+
+  if (!shouldLoad) {
+    return <section className="c21-testimonials-section" aria-busy="true" aria-label="Client stories loading area" />;
+  }
 
   // Don't render the section at all if no testimonials and not loading
   if (!loading && testimonials.length === 0) return null;
@@ -284,6 +327,8 @@ export default function Home() {
   // Recent sales (live from MLS API)
   const [recentSales, setRecentSales] = useState<MlsListing[]>([]);
   const [salesLoading, setSalesLoading] = useState(true);
+  const [listingsRef, listingsNear] = useNearViewport<HTMLElement>("0px 0px -96px 0px");
+  const [testimonialsRef, testimonialsNear] = useNearViewport<HTMLDivElement>("0px 0px 320px 0px");
 
   // Search results dropdown
   const [searchResults, setSearchResults] = useState<MlsListing[]>([]);
@@ -300,16 +345,28 @@ export default function Home() {
   const [activePlaceSuggestion, setActivePlaceSuggestion] = useState(-1);
   const [locationSuggestionProvider, setLocationSuggestionProvider] = useState<"inventory" | "cache">("inventory");
 
-  /* Load recent sales on mount */
+  /* Load recent sales only as the featured listing block approaches view. */
   useEffect(() => {
-    fetch("/api/mdm/recent-sales")
-      .then((r) => r.json())
-      .then((data) => {
-        setRecentSales((data.listings || []).slice(0, 4));
-      })
-      .catch(() => {})
-      .finally(() => setSalesLoading(false));
-  }, []);
+    if (!listingsNear) return;
+
+    let active = true;
+    const timer = window.setTimeout(() => {
+      fetch("/api/mdm/recent-sales")
+        .then((r) => r.json())
+        .then((data) => {
+          if (active) setRecentSales((data.listings || []).slice(0, 4));
+        })
+        .catch(() => {})
+        .finally(() => {
+          if (active) setSalesLoading(false);
+        });
+    }, 200);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [listingsNear]);
 
   /* Live MLS search + Places autocomplete as user types */
   const handleSearchInput = useCallback((value: string) => {
@@ -448,6 +505,10 @@ export default function Home() {
             src={heroImageUrl}
             alt="Luxury Southern California estate"
             className="c21-hero-bg"
+            width={2560}
+            height={1440}
+            fetchPriority="high"
+            decoding="async"
           />
           <div className="c21-hero-overlay" />
           <img
@@ -687,7 +748,7 @@ export default function Home() {
         </div>
 
         {/* ── Featured Listings ─────────────────────────────────── */}
-        <section className="c21-listings-section" id="listings">
+        <section ref={listingsRef} className="c21-listings-section" id="listings">
           <div className="c21-listings-header">
             <div>
               <p className="c21-section-eyebrow">From Our Office</p>
@@ -732,6 +793,7 @@ export default function Home() {
                       src={listing.photoUrl || fallbackListingImg}
                       alt={listing.address}
                       loading="lazy"
+                      decoding="async"
                       onError={(e) => { (e.target as HTMLImageElement).src = fallbackListingImg; }}
                     />
                     <span className="c21-listing-badge">Active</span>
@@ -801,13 +863,22 @@ export default function Home() {
         </section>
 
         {/* ── RealSatisfied Testimonials ────────────────────── */}
-        <RealSatisfiedTestimonials />
+        <div ref={testimonialsRef}>
+          <RealSatisfiedTestimonials shouldLoad={testimonialsNear} />
+        </div>
 
         {/* ── About / Stats ─────────────────────────────────────── */}
         <section className="c21-about-section" id="about">
           <div className="c21-about-inner">
             <div className="c21-about-image">
-              <img src={neighborhoodImageUrl} alt="Southern California neighborhood aerial view" />
+              <img
+                src={neighborhoodImageUrl}
+                alt="Southern California neighborhood aerial view"
+                width={2304}
+                height={1536}
+                loading="lazy"
+                decoding="async"
+              />
               <span className="c21-about-image-badge">
                 <Star size={12} style={{ display: "inline", marginRight: "0.3rem" }} />
                 Serving SoCal Since 1972

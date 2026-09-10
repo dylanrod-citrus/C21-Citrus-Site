@@ -35,14 +35,46 @@ function replacePortableAssetsIn(node: Node): void {
   node.querySelectorAll("img, [style*='/manus-storage/']").forEach(replacePortableAssetOnElement);
 }
 
-const portableAssetObserver = new MutationObserver((records) => {
-  records.forEach((record) => {
-    if (record.type === "attributes" && record.target instanceof Element) replacePortableAssetOnElement(record.target);
-    record.addedNodes.forEach(replacePortableAssetsIn);
-  });
-});
+/**
+ * Legacy pages can still contain original project-scoped asset paths. Start the
+ * compatibility fallback only after the primary page is loaded so it cannot
+ * compete with the first render or hero image for the browser's main thread.
+ */
+function startPortableAssetFallback() {
+  replacePortableAssetsIn(document.documentElement);
 
-portableAssetObserver.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ["src", "style"] });
+  const portableAssetObserver = new MutationObserver((records) => {
+    records.forEach((record) => {
+      if (record.type === "attributes" && record.target instanceof Element) replacePortableAssetOnElement(record.target);
+      record.addedNodes.forEach(replacePortableAssetsIn);
+    });
+  });
+
+  portableAssetObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["src", "style"],
+  });
+}
+
+function schedulePortableAssetFallback() {
+  const idleWindow = window as Window & {
+    requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+  };
+
+  if (idleWindow.requestIdleCallback) {
+    idleWindow.requestIdleCallback(startPortableAssetFallback, { timeout: 4_000 });
+  } else {
+    window.setTimeout(startPortableAssetFallback, 1_200);
+  }
+}
+
+if (document.readyState === "complete") {
+  schedulePortableAssetFallback();
+} else {
+  window.addEventListener("load", schedulePortableAssetFallback, { once: true });
+}
 
 document.addEventListener("error", (event) => {
   const target = event.target;
