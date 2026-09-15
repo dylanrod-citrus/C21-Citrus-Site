@@ -206,3 +206,7 @@
 - [x] Create, optimize, and visually quality-check the first 57 available agent portraits; validate their centered square rendering in the staged directory with source-headshot fallbacks intact.
 - [ ] Produce the available agent portraits through individual likeness-preserving image edits using the shared approved visual anchor rather than a generic bulk conversion.
 - [ ] Keep profiles without a current usable MDM headshot as initials and separately request a replacement source photo for Gabriela Sandoval, whose listed image URL returns unavailable.
+- [x] Create a GitHub `staging` branch that management can use for pre-production website reviews.
+- [x] Configure and verify a Netlify branch-deploy preview link for the `staging` branch without affecting the production `main` deployment.
+- [x] Document the review-and-approval workflow for promoting approved staging changes to production.
+- [x] Change only Netlify’s non-production staging/deploy-preview visibility to public-by-link so management can open the review URL without a Netlify account.
