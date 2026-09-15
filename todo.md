@@ -200,3 +200,9 @@
 - [ ] Migrate C21 PPC tracking from the current direct Google Ads tag to the PPC-provided Google Tag Manager container once its ID and ownership/access path are supplied.
 - [x] Stage the exact PPC-supplied CallRail script on the Real Estate School page and validate its route scope without submitting a lead.
 - [ ] Remove the duplicate direct Google Ads tag only after GTM is configured and verified, preventing double conversion counting.
+- [x] Inventory the existing C21 agent profile images and identify the Agents directory as the sole client-side consumer of agent profile photos; 103 retrievable headshots are ready for production, 55 profiles currently have no MDM photo, and Gabriela Sandoval’s listed source URL is unavailable.
+- [ ] Create one consistent illustrated, face-centered square portrait for each C21 agent from the approved existing headshots.
+- [ ] Integrate and validate the all-agent illustrated portraits in the staged site before requesting explicit deployment approval.
+- [x] Create, optimize, and visually quality-check the first 57 available agent portraits; validate their centered square rendering in the staged directory with source-headshot fallbacks intact.
+- [ ] Produce the available agent portraits through individual likeness-preserving image edits using the shared approved visual anchor rather than a generic bulk conversion.
+- [ ] Keep profiles without a current usable MDM headshot as initials and separately request a replacement source photo for Gabriela Sandoval, whose listed image URL returns unavailable.
