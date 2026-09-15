@@ -16,6 +16,8 @@ const idxSearchUrl = "https://c21citrus.com/search/";
 const logoUrl = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
 const phoneUrl = "tel:19095928500";
 const emailUrl = "mailto:oj@c21citrus.com";
+const C21_AGENT_PORTRAIT_RELEASE_BASE =
+  "https://github.com/dylanrod-citrus/C21-Citrus-Site/releases/download/c21-agent-portraits-20260915";
 
 interface MdmAgent {
   agentMasterId: string;
@@ -29,6 +31,26 @@ interface MdmAgent {
   title: string | null;
   officeName: string | null;
   isActive: boolean;
+}
+
+function portraitSlug(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function illustratedPortraitUrl(agent: MdmAgent): string | undefined {
+  if (!agent.photoUrl) return undefined;
+
+  const filename = `agent-portrait-${portraitSlug(agent.displayName)}-${agent.agentMasterId.slice(-8)}.webp`;
+  if (import.meta.env.DEV) {
+    return `/__c21-agent-portraits/${filename}`;
+  }
+
+  return `${C21_AGENT_PORTRAIT_RELEASE_BASE}/${filename}`;
 }
 
 /* Generate initials avatar background colors from name */
@@ -300,6 +322,7 @@ export default function Agents() {
                     {agentsInGroup.map((agent) => {
                       const formattedPhone = formatPhone(agent.phone);
                       const telDigits = phoneForLink(agent.phone);
+                      const illustratedPhotoUrl = illustratedPortraitUrl(agent);
                       return (
                         <div
                           key={agent.agentMasterId}
@@ -323,14 +346,30 @@ export default function Agents() {
                         >
                           {/* Photo or initials avatar */}
                           {agent.photoUrl ? (
-                            <div style={{ height: "200px", overflow: "hidden", background: "#f0ece4" }}>
+                            <div style={{ aspectRatio: "1 / 1", minHeight: "200px", overflow: "hidden", background: "#f0ece4" }}>
                               <img
-                                src={agent.photoUrl}
+                                src={illustratedPhotoUrl || agent.photoUrl}
                                 alt={agent.displayName}
+                                loading="lazy"
+                                decoding="async"
+                                data-original-photo={agent.photoUrl}
+                                data-illustrated-portrait={illustratedPhotoUrl ? "true" : "false"}
                                 style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center" }}
                                 onError={(e) => {
-                                  // Fall back to initials avatar on image load error
-                                  const parent = (e.currentTarget as HTMLImageElement).parentElement;
+                                  const image = e.currentTarget as HTMLImageElement;
+                                  const originalPhoto = image.dataset.originalPhoto;
+
+                                  // Release imagery is staged separately. Until its durable GitHub release
+                                  // exists, preserve the current approved MDM headshot instead of showing
+                                  // an avoidable broken-image state.
+                                  if (image.dataset.illustratedPortrait === "true" && originalPhoto) {
+                                    image.dataset.illustratedPortrait = "false";
+                                    image.src = originalPhoto;
+                                    return;
+                                  }
+
+                                  // Fall back to initials avatar only if the source headshot also fails.
+                                  const parent = image.parentElement;
                                   if (parent) {
                                     parent.style.background = getAvatarColor(agent.displayName);
                                     parent.innerHTML = `<span style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:rgba(255,255,255,0.9);letter-spacing:0.05em;display:flex;align-items:center;justify-content:center;height:100%">${getInitials(agent.displayName)}</span>`;

@@ -56,6 +56,16 @@ async function startServer() {
   );
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
+    // Portrait source files are intentionally outside the project and never ship
+    // with the production bundle. This explicit dev-only route supports visual
+    // review of staged agent illustrations before their durable release upload.
+    app.use(
+      "/__c21-agent-portraits",
+      express.static("/home/ubuntu/webdev-static-assets/c21-agent-portraits/release-package", {
+        fallthrough: true,
+        maxAge: 0,
+      })
+    );
     await setupVite(app, server);
   } else {
     serveStatic(app);

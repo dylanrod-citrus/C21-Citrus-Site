@@ -192,4 +192,21 @@
 - [x] Stage targeted performance improvements without altering working listings, testimonials, forms, anti-spam protections, Google Ads behavior, or the approved C21 visual design.
 - [x] Validate the staged performance improvements with automated tests, type checking, production build and asset guards, browser resource timing, and desktop/mobile visual checks.
 - [x] Save the staged performance checkpoint; await explicit approval before any GitHub push that would trigger a Netlify production deployment.
-- [ ] Push the user-approved performance release to GitHub, then verify the resulting Netlify deployment and public homepage behavior.
+- [x] Push the user-approved performance release to GitHub, then verify the resulting Netlify deployment and public homepage behavior.
+- [x] Investigate PPC’s report that the Google Ads Free Info Session conversion hit did not fire after their successful form submission test.
+- [x] Verify the supplied CallRail number-swapping script against official requirements and prepare a separately approved, page-scoped integration plan without deploying it.
+- [ ] Obtain PPC’s post-success Tag Assistant debug session or network evidence and confirmation that the historical Google Ads conversion action remains active before changing the direct conversion implementation.
+- [ ] Obtain PPC/CallRail confirmation of the intended tracking scope, swap target, destination number, and website-pool/source configuration before staging any CallRail code.
+- [ ] Migrate C21 PPC tracking from the current direct Google Ads tag to the PPC-provided Google Tag Manager container once its ID and ownership/access path are supplied.
+- [x] Stage the exact PPC-supplied CallRail script on the Real Estate School page and validate its route scope without submitting a lead.
+- [ ] Remove the duplicate direct Google Ads tag only after GTM is configured and verified, preventing double conversion counting.
+- [x] Inventory the existing C21 agent profile images and identify the Agents directory as the sole client-side consumer of agent profile photos; 103 retrievable headshots are ready for production, 55 profiles currently have no MDM photo, and Gabriela Sandoval’s listed source URL is unavailable.
+- [ ] Create one consistent illustrated, face-centered square portrait for each C21 agent from the approved existing headshots.
+- [ ] Integrate and validate the all-agent illustrated portraits in the staged site before requesting explicit deployment approval.
+- [x] Create, optimize, and visually quality-check the first 57 available agent portraits; validate their centered square rendering in the staged directory with source-headshot fallbacks intact.
+- [ ] Produce the available agent portraits through individual likeness-preserving image edits using the shared approved visual anchor rather than a generic bulk conversion.
+- [ ] Keep profiles without a current usable MDM headshot as initials and separately request a replacement source photo for Gabriela Sandoval, whose listed image URL returns unavailable.
+- [x] Create a GitHub `staging` branch that management can use for pre-production website reviews.
+- [x] Configure and verify a Netlify branch-deploy preview link for the `staging` branch without affecting the production `main` deployment.
+- [x] Document the review-and-approval workflow for promoting approved staging changes to production.
+- [x] Change only Netlify’s non-production staging/deploy-preview visibility to public-by-link so management can open the review URL without a Netlify account.
