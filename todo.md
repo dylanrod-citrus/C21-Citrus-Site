@@ -204,6 +204,7 @@
 - [ ] Create one consistent illustrated, face-centered square portrait for each C21 agent from the approved existing headshots.
 - [ ] Integrate and validate the all-agent illustrated portraits in the staged site before requesting explicit deployment approval.
 - [x] Create, optimize, and visually quality-check the first 57 available agent portraits; validate their centered square rendering in the staged directory with source-headshot fallbacks intact.
+- [x] Complete, optimize, and package 98 individual likeness-preserving agent portraits; retain the existing approved headshots for Carolina Santiago, Cecilia Cece Criscione, Lidia Roberson, Sarita Mendez, and Sharyn Jung after their illustration renders remained unavailable.
 - [ ] Produce the available agent portraits through individual likeness-preserving image edits using the shared approved visual anchor rather than a generic bulk conversion.
 - [ ] Keep profiles without a current usable MDM headshot as initials and separately request a replacement source photo for Gabriela Sandoval, whose listed image URL returns unavailable.
 - [x] Create a GitHub `staging` branch that management can use for pre-production website reviews.
