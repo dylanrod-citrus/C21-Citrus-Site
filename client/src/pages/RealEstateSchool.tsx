@@ -32,6 +32,25 @@ import { C21_ASSET_PATHS } from "../lib/portableAssets";
 const heroImage = C21_ASSET_PATHS.interiorHero;
 const c21SealImageUrl = C21_ASSET_PATHS.seal;
 const JANETH_EMAIL = "janeth@c21citrus.com";
+const CALLRAIL_REAL_ESTATE_SCHOOL_SCRIPT =
+  "https://cdn.callrail.com/companies/381101348/7855ac739bfadfa56926/12/swap.js";
+
+function CallRailRealEstateSchoolTracking() {
+  useEffect(() => {
+    const existing = document.querySelector<HTMLScriptElement>(
+      'script[data-callrail-c21-real-estate-school="true"]',
+    );
+    if (existing) return;
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = CALLRAIL_REAL_ESTATE_SCHOOL_SCRIPT;
+    script.dataset.callrailC21RealEstateSchool = "true";
+    document.body.appendChild(script);
+  }, []);
+
+  return null;
+}
 
 // Dark charcoal color used throughout, matching c21realtyschool.com
 const CHARCOAL = "#252526";       // Obsessed Grey
@@ -525,6 +544,7 @@ export default function RealEstateSchool() {
 
   return (
     <>
+      <CallRailRealEstateSchoolTracking />
       <div style={{ fontFamily: "'Lato', sans-serif", background: CHARCOAL }}>
         <SiteNav activeTab="Careers" />
 
