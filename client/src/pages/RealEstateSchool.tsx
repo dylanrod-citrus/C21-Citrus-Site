@@ -33,7 +33,7 @@ const heroImage = C21_ASSET_PATHS.interiorHero;
 const c21SealImageUrl = C21_ASSET_PATHS.seal;
 const JANETH_EMAIL = "janeth@c21citrus.com";
 const CALLRAIL_REAL_ESTATE_SCHOOL_SCRIPT =
-  "https://cdn.callrail.com/companies/381101348/7855ac739bfadfa56926/12/swap.js";
+  "https://cdn.callrail.com/companies/3811101348/7855ac739bfadfa56926/12/swap.js";
 
 function CallRailRealEstateSchoolTracking() {
   useEffect(() => {

@@ -6,8 +6,9 @@ describe("RealEstateSchool CallRail integration", () => {
     const source = await readFile(new URL("./RealEstateSchool.tsx", import.meta.url), "utf8");
 
     expect(source).toContain(
-      "https://cdn.callrail.com/companies/381101348/7855ac739bfadfa56926/12/swap.js",
+      "https://cdn.callrail.com/companies/3811101348/7855ac739bfadfa56926/12/swap.js",
     );
+    expect(source).not.toContain("companies/381101348/");
     expect(source).toContain("function CallRailRealEstateSchoolTracking()");
     expect(source).toContain('script.dataset.callrailC21RealEstateSchool = "true"');
     expect(source).toContain("document.body.appendChild(script)");
