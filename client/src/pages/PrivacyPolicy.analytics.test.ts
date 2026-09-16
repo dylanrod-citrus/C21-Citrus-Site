@@ -11,7 +11,7 @@ describe("PrivacyPolicy analytics disclosure", () => {
     expect(source).toContain("server-side request-log analytics");
     expect(source).toMatch(/does not\s+switch off Netlify’s server-side hosting analytics/);
     expect(source).toContain("Advertising Measurement");
-    expect(source).toContain("Google Ads base tag");
-    expect(source).toContain("does not send a completed\n              form-submission conversion event");
+    expect(source).toContain("Google Tag Manager");
+    expect(source).toContain("only after the website server has accepted the submitted request");
   });
 });

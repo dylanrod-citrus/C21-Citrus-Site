@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FormSpamGuard, readFormSpamPayload } from "../components/FormSpamGuard";
-import { trackGoogleAdsLeadConversion } from "../components/GoogleAdsBaseTag";
+import { trackGtmConfirmedLead } from "../components/GoogleAdsBaseTag";
 import SiteNav from "../components/SiteNav";
 import { C21_ASSET_PATHS } from "../lib/portableAssets";
 
@@ -311,7 +311,7 @@ function InfoSessionForm() {
         }),
       });
       if (!res.ok) throw new Error("Server error");
-      trackGoogleAdsLeadConversion();
+      trackGtmConfirmedLead();
       setSubmitted(true);
     } catch {
       setSubmitError("Something went wrong. Please try again or call us at 909.592.8500.");

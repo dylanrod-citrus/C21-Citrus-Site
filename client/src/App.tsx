@@ -8,7 +8,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { CookieConsent } from "./components/CookieConsent";
-import { GoogleAdsBaseTag } from "./components/GoogleAdsBaseTag";
+import { GoogleTagManager } from "./components/GoogleAdsBaseTag";
 import SiteComplianceFooter from "./components/SiteComplianceFooter";
 
 const Agents = lazy(() => import("./pages/Agents"));
@@ -103,7 +103,7 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <GoogleAdsBaseTag />
+          <GoogleTagManager />
           <Router />
           <SiteComplianceFooter />
           <CookieConsent />

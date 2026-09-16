@@ -83,11 +83,11 @@ export default function PrivacyPolicy() {
               Advertising Measurement
             </h3>
             <p>
-              We use a Google Ads base tag to measure the performance of our advertising campaigns and
+              We use Google Tag Manager to manage Google Ads measurement for the performance of our advertising campaigns and
               understand visits that may follow an ad click. This technology may process technical browser
               information, page addresses, and advertising click information in accordance with Google’s
-              applicable settings and policies. The current site implementation does not send a completed
-              form-submission conversion event.
+              applicable settings and policies. A completed Free Info Session conversion is intended to be
+              triggered only after the website server has accepted the submitted request.
             </p>
 
             <h2 className="font-['Playfair_Display',serif] text-2xl font-bold text-[#121212] mt-10 mb-4">
