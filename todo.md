@@ -211,3 +211,8 @@
 - [x] Configure and verify a Netlify branch-deploy preview link for the `staging` branch without affecting the production `main` deployment.
 - [x] Document the review-and-approval workflow for promoting approved staging changes to production.
 - [x] Change only Netlify’s non-production staging/deploy-preview visibility to public-by-link so management can open the review URL without a Netlify account.
+- [ ] Verify the Netlify staging deployment receives the required backend configuration and that the live-backed agents API loads for management review before relying on the preview link.
+- [ ] Configure the Netlify `staging` branch to use user-supplied Anywhere testing API credentials for agent and listing previews, without exposing or reusing production MDM credentials.
+- [x] Stage the PPC-provided GTM container `GTM-T42K949T` with the confirmed Google Ads base tag and historical Free Info Session action; remove the duplicate direct loader while retaining a server-success-only data-layer trigger for PPC configuration.
+- [ ] Configure the supplied CallRail forwarding-number scope for the Real Estate School preview after confirming the testing workflow does not send production lead emails.
+- [x] Prioritize the PPC migration: replace the direct Google Ads loader with GTM container `GTM-T42K949T`, preserve historical conversion `AW-1066815413/mo1kCOqUwMkZELWf2fwD` through GTM, and retain the confirmed CallRail 909-592-8500 forwarding configuration for staging validation.
