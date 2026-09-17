@@ -15,7 +15,7 @@ import { C21_ASSET_PATHS } from "../lib/portableAssets";
 const logoUrl = C21_ASSET_PATHS.logo;
 
 /* ── External links ─────────────────────────────────────────── */
-const idxSearchUrl = "https://c21citrus.com/search/";
+const idxSearchUrl = "/mls-search";
 const phoneUrl = "tel:19095928500";
 const emailUrl = "mailto:oj@c21citrus.com";
 

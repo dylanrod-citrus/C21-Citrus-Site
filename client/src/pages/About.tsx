@@ -13,7 +13,7 @@ const logoUrl = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
 const contactUrl = "/contact";
 const phoneUrl = "tel:19095928500";
 const emailUrl = "mailto:oj@c21citrus.com";
-const idxSearchUrl = "https://c21citrus.com/search/";
+const idxSearchUrl = "/mls-search";
 
 const awards = [
   {

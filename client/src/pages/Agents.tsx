@@ -12,7 +12,7 @@ import SiteNav from "../components/SiteNav";
 
 const heroImage = "/manus-storage/hero-neighborhood_4a38234b.jpg";
 const contactUrl = "/contact";
-const idxSearchUrl = "https://c21citrus.com/search/";
+const idxSearchUrl = "/mls-search";
 const logoUrl = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
 const phoneUrl = "tel:19095928500";
 const emailUrl = "mailto:oj@c21citrus.com";
@@ -51,17 +51,6 @@ function illustratedPortraitUrl(agent: MdmAgent): string | undefined {
   }
 
   return `${C21_AGENT_PORTRAIT_RELEASE_BASE}/${filename}`;
-}
-
-/* Generate initials avatar background colors from name */
-function getAvatarColor(name: string): string {
-  const colors = [
-    "#8B6914", "#6B4F12", "#5C4033", "#3D5A3E", "#2E4057",
-    "#4A3728", "#7A5C2E", "#3B5249", "#4E3B6E", "#5C3D3D",
-  ];
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  return colors[Math.abs(hash) % colors.length];
 }
 
 function getInitials(name: string): string {
@@ -371,15 +360,15 @@ export default function Agents() {
                                   // Fall back to initials avatar only if the source headshot also fails.
                                   const parent = image.parentElement;
                                   if (parent) {
-                                    parent.style.background = getAvatarColor(agent.displayName);
-                                    parent.innerHTML = `<span style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:rgba(255,255,255,0.9);letter-spacing:0.05em;display:flex;align-items:center;justify-content:center;height:100%">${getInitials(agent.displayName)}</span>`;
+                                  parent.style.background = "var(--c21-black)";
+                                  parent.innerHTML = `<span style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--c21-gold);letter-spacing:0.05em;display:flex;align-items:center;justify-content:center;height:100%">${getInitials(agent.displayName)}</span>`;
                                   }
                                 }}
                               />
                             </div>
                           ) : (
-                            <div style={{ background: getAvatarColor(agent.displayName), height: "120px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", fontWeight: 700, color: "rgba(255,255,255,0.9)", letterSpacing: "0.05em" }}>
+                            <div style={{ aspectRatio: "1 / 1", minHeight: "200px", background: "var(--c21-black)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.5rem", fontWeight: 700, color: "var(--c21-gold)", letterSpacing: "0.05em" }}>
                                 {getInitials(agent.displayName)}
                               </span>
                             </div>
