@@ -233,10 +233,10 @@ export default function OurListings() {
           <img src={heroImage} alt="Our Listings" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.45)" }} />
           <div style={{ position: "relative", zIndex: 1, textAlign: "center", color: "#fff", padding: "0 1.5rem" }}>
             <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, margin: 0, lineHeight: 1.2 }}>
-              Featured Listings
+              Office Listings
             </p>
             <p style={{ marginTop: "0.75rem", fontSize: "1.05rem", opacity: 0.88, maxWidth: "520px", margin: "0.75rem auto 0" }}>
-              Active properties listed by our office - updated from the MLS in real time.
+              Current active properties associated with our office listing feed.
             </p>
           </div>
         </section>
@@ -434,8 +434,7 @@ export default function OurListings() {
                         {typeIcons[type]}
                         {type}
                       </span>
-                      {/* Status badge */}
-                      <span className="c21-listing-status-badge">Active</span>
+                      <span className="c21-listing-status-badge">{listing.status}</span>
                     </div>
                     <div className="c21-listing-card-body">
                       <div className="c21-listing-price">{priceDisplay}</div>

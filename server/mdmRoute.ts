@@ -1,6 +1,6 @@
 /** Public REST routes preserved for the uploaded C21 Citrus frontend. */
 import type { Express, Request, Response } from "express";
-import { fetchCitrusAgents, fetchCitrusRecentSales } from "./mdmService";
+import { fetchCitrusAgents, fetchCitrusRecentSales, filterPublishedOfficeListings } from "./mdmService";
 import { getCachedActiveListings, replaceCachedActiveListings } from "./db";
 
 interface CacheEntry<T> { data: T; cachedAt: number; }
@@ -16,11 +16,11 @@ function apiError(res: Response, error: unknown, fallback: string) {
 }
 
 export async function getActiveListings(): Promise<Awaited<ReturnType<typeof fetchCitrusRecentSales>>> {
-  if (listingCache && Date.now() - listingCache.cachedAt < listingsTtl) return listingCache.data;
+  if (listingCache && Date.now() - listingCache.cachedAt < listingsTtl) return filterPublishedOfficeListings(listingCache.data);
   const persisted = await getCachedActiveListings();
   if (persisted) {
     listingCache = { data: persisted.listings, cachedAt: persisted.refreshedAt.getTime() };
-    return persisted.listings;
+    return filterPublishedOfficeListings(persisted.listings);
   }
   if (process.env.NETLIFY_DB_URL) {
     throw new Error("Active listing cache is not ready; run the scheduled inventory refresh before serving production search traffic");
