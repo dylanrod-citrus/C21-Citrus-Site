@@ -6,7 +6,11 @@ const replaceCachedActiveListings = vi.fn();
 const fetchCitrusRecentSales = vi.fn();
 
 vi.mock("./db", () => ({ getCachedActiveListings, replaceCachedActiveListings }));
-vi.mock("./mdmService", () => ({ fetchCitrusAgents: vi.fn(), fetchCitrusRecentSales }));
+vi.mock("./mdmService", () => ({
+  fetchCitrusAgents: vi.fn(),
+  fetchCitrusRecentSales,
+  filterPublishedOfficeListings: (listings: MdmListing[]) => listings,
+}));
 
 const originalNetlifyDbUrl = process.env.NETLIFY_DB_URL;
 

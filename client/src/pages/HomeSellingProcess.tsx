@@ -33,7 +33,7 @@ const logoUrl = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
 const heroImage = "/manus-storage/hero-luxury-interior_f79432c6.jpg";
 const communityImage = "/manus-storage/hero-neighborhood_4a38234b.jpg";
 
-const idxSearchUrl = "https://c21citrus.com/search/";
+const idxSearchUrl = "/mls-search";
 const officeListingsUrl = "/our-listings";
 const valuationUrl = "https://cloudattract.com/7442b3";
 const contactUrl = "/contact";

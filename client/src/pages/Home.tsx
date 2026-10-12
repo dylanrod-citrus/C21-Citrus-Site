@@ -40,7 +40,7 @@ const neighborhoodImageUrl = C21_ASSET_PATHS.neighborhoodHero;
 const c21SealImageUrl = C21_ASSET_PATHS.seal;
 
 /* ── External links ─────────────────────────────────────────── */
-const idxSearchUrl = "https://c21citrus.com/search/";
+const idxSearchUrl = "/mls-search";
 const officeListingsUrl = "/our-listings";
 const valuationUrl = "https://cloudattract.com/7442b3";
 const contactUrl = "/contact";

@@ -27,7 +27,7 @@ import SiteNav from "../components/SiteNav";
 const logoUrl = "/manus-storage/century21-citrus-realty-gold-logo_f3913815.png";
 const heroImage = "/manus-storage/hero-luxury-home_04c4fbf5.jpg";
 
-const idxSearchUrl = "https://c21citrus.com/search/";
+const idxSearchUrl = "/mls-search";
 const officeListingsUrl = "/our-listings";
 const valuationUrl = "https://cloudattract.com/7442b3";
 const contactUrl = "/contact";
@@ -233,10 +233,10 @@ export default function OurListings() {
           <img src={heroImage} alt="Our Listings" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.45)" }} />
           <div style={{ position: "relative", zIndex: 1, textAlign: "center", color: "#fff", padding: "0 1.5rem" }}>
             <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, margin: 0, lineHeight: 1.2 }}>
-              Featured Listings
+              Office Listings
             </p>
             <p style={{ marginTop: "0.75rem", fontSize: "1.05rem", opacity: 0.88, maxWidth: "520px", margin: "0.75rem auto 0" }}>
-              Active properties listed by our office - updated from the MLS in real time.
+              Current active properties associated with our office listing feed.
             </p>
           </div>
         </section>
@@ -434,8 +434,7 @@ export default function OurListings() {
                         {typeIcons[type]}
                         {type}
                       </span>
-                      {/* Status badge */}
-                      <span className="c21-listing-status-badge">Active</span>
+                      <span className="c21-listing-status-badge">{listing.status}</span>
                     </div>
                     <div className="c21-listing-card-body">
                       <div className="c21-listing-price">{priceDisplay}</div>

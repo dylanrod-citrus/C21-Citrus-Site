@@ -92,7 +92,7 @@ async function geocodeAddress(
 
 // ─── Listing Card ─────────────────────────────────────────────────────────────
 
-function ListingCard({ listing }: { listing: GeoListing }) {
+function ListingCard({ listing }: { listing: ApiListing }) {
   const type = formatType(listing.propertyType);
   const detailUrl = buildDetailUrl(listing);
 
@@ -318,9 +318,11 @@ export default function MLSSearch() {
     }
   }, [geoListings]);
 
+  // Listing cards must not depend on optional map geocoding. Geocoding only
+  // supplies map pins, while the MDM response remains the source for city results.
   const filteredListings = useMemo(() =>
-    selectedCity ? geoListings.filter((l) => l.city === selectedCity) : [],
-    [selectedCity, geoListings]
+    selectedCity ? listings.filter((listing) => listing.city === selectedCity) : [],
+    [selectedCity, listings]
   );
 
   const totalCount = geoListings.length || listings.length;
@@ -405,9 +407,7 @@ export default function MLSSearch() {
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "0.85rem", marginBottom: "2.5rem" }}>
               {cities.map((city) => {
-                const count = geoListings.filter((l) => l.city === city).length;
-                const rawCount = listings.filter((l) => l.city === city).length;
-                const displayCount = count || rawCount;
+                const displayCount = listings.filter((listing) => listing.city === city).length;
                 const isActive = selectedCity === city;
                 return (
                   <button

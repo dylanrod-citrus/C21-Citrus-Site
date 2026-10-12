@@ -4,7 +4,7 @@ Sunlit Citrus Atlas direction for Century 21 Citrus Realty: immersive Southern C
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense } from "react";
-import { Route, Switch } from "wouter";
+import { Redirect, Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { CookieConsent } from "./components/CookieConsent";
@@ -64,6 +64,8 @@ function Router() {
         <Route path="/home-value/" component={HomeValue} />
         <Route path="/mls-search" component={MLSSearch} />
         <Route path="/mls-search/" component={MLSSearch} />
+        <Route path="/search" component={() => <Redirect to="/mls-search" replace />} />
+        <Route path="/search/" component={() => <Redirect to="/mls-search" replace />} />
         <Route path="/contact-agent" component={ContactAgent} />
         <Route path="/contact-agent/" component={ContactAgent} />
         <Route path="/resources" component={Resources} />

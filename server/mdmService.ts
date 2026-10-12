@@ -189,6 +189,73 @@ async function fetchListingById(listingId: string): Promise<MdmListing | null> {
   } catch { return null; }
 }
 
+function isPublishedOfficeListing(status: string): boolean {
+  // This page is an office-listing showcase, not a sold-history or rental
+  // search. Normalize whitespace so provider display variants do not create a
+  // false match such as "INACTIVE" containing the word "ACTIVE".
+  return status.trim().replace(/\s+/g, " ").toUpperCase() === "ACTIVE";
+}
+
+function normalizedListingAddress(listing: MdmListing): string {
+  return [listing.address, listing.city, listing.state, listing.zip]
+    .join(" ")
+    .trim()
+    .toUpperCase()
+    .replace(/[^A-Z0-9]+/g, " ")
+    .replace(/\s+/g, " ");
+}
+
+function listingRecency(listing: MdmListing): number {
+  const timestamp = listing.listingDate ? Date.parse(listing.listingDate) : Number.NaN;
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function listingCompleteness(listing: MdmListing): number {
+  return listing.photos.length * 10
+    + Number(Boolean(listing.photoUrl))
+    + Number(Boolean(listing.description))
+    + Number(Boolean(listing.agentName))
+    + Number(Boolean(listing.beds))
+    + Number(Boolean(listing.baths))
+    + Number(Boolean(listing.sqft));
+}
+
+function isPreferredOfficeListing(candidate: MdmListing, existing: MdmListing): boolean {
+  const candidateRank = [listingRecency(candidate), listingCompleteness(candidate), candidate.price];
+  const existingRank = [listingRecency(existing), listingCompleteness(existing), existing.price];
+
+  for (let index = 0; index < candidateRank.length; index += 1) {
+    if (candidateRank[index] !== existingRank[index]) return candidateRank[index] > existingRank[index];
+  }
+  return candidate.listingId.localeCompare(existing.listingId) > 0;
+}
+
+export function filterPublishedOfficeListings(listings: MdmListing[]): MdmListing[] {
+  const seenListingIds = new Set<string>();
+  const byAddress = new Map<string, MdmListing>();
+
+  for (const listing of listings
+    .filter((listing) => {
+      const listingId = listing.listingId.trim().toUpperCase();
+      if (!listingId || seenListingIds.has(listingId) || !isPublishedOfficeListing(listing.status)) return false;
+      seenListingIds.add(listingId);
+      return true;
+    })) {
+    const address = normalizedListingAddress(listing);
+    const existing = byAddress.get(address);
+    if (!existing) {
+      byAddress.set(address, listing);
+      continue;
+    }
+
+    if (isPreferredOfficeListing(listing, existing)) {
+      byAddress.set(address, listing);
+    }
+  }
+
+  return Array.from(byAddress.values()).sort((a, b) => b.price - a.price);
+}
+
 export async function fetchCitrusRecentSales(): Promise<MdmListing[]> {
   const listings: MdmListing[] = [];
   const batchSize = 30;
@@ -196,7 +263,7 @@ export async function fetchCitrusRecentSales(): Promise<MdmListing[]> {
     const batch = await Promise.all(activeListingIds.slice(start, start + batchSize).map(fetchListingById));
     listings.push(...batch.filter((listing): listing is MdmListing => Boolean(listing)));
   }
-  return listings.filter((listing) => /active/i.test(listing.status)).sort((a, b) => b.price - a.price);
+  return filterPublishedOfficeListings(listings);
 }
 
 export async function fetchMlsSearch(query: string): Promise<MdmListing[]> {
