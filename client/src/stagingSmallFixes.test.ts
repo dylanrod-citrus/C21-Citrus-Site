@@ -37,12 +37,14 @@ describe("staging small repair batch", () => {
     expect(source).toContain('<Route path="/search/" component={() => <Redirect to="/mls-search" replace />} />');
   });
 
-  it("does not require map geocoding before city listing cards can render", () => {
+  it("embeds the broker-generated full CRMLS search while retaining office listings access", () => {
     const source = readSource("client/src/pages/MLSSearch.tsx");
 
-    expect(source).toContain("function ListingCard({ listing }: { listing: ApiListing })");
-    expect(source).toContain("selectedCity ? listings.filter((listing) => listing.city === selectedCity) : []");
-    expect(source).toContain("const displayCount = listings.filter((listing) => listing.city === city).length;");
+    expect(source).toContain('"https://matrix.crmls.org/Matrix/public/IDX.aspx?idx=5aca3921"');
+    expect(source).toContain('title="Century 21 Citrus Realty CRMLS home search"');
+    expect(source).toContain('aria-label="CRMLS property search"');
+    expect(source).toContain('href="/our-listings"');
+    expect(source).toContain("Search Homes Across Southern California");
   });
 
   it("uses a matching gold-and-black square frame for initials-only cards", () => {
